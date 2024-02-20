@@ -14,17 +14,27 @@
       <div class="grid-item__art"></div>
     </div>
   </div>
-  <div class="item-container">
-    <!-- <a href={link}>UI Lab 1 -->
+  <div class="info-container">
+    <a class="info__link" href={link}>
       <h2>{name}</h2>
       <p>{description}</p>
-    <!-- </a> -->
+    </a>
   </div>
 </div>
 
 <style>
-  .graphic-container {
-    margin-bottom: 20px;
+  .info-container {
+    margin-top: 10px;
+    margin-right: 20px;
+    background-color: #323288;
+    color: white;
+  }
+
+  .info__link {
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+    color: white;
   }
 
   .grid-item.grid-item:nth-of-type(1) {
@@ -34,14 +44,25 @@
 
   .grid-item.grid-item:nth-of-type(1) .grid-item__art {
     position: absolute;
-    height: 20px;
-    width: 50px;
-    background-color: #323288;
+    height: 100%;
+    width: 110%;
+    right: 20px;
+    bottom: 0;
+    z-index: -1;
+    color: #323288;
+    background: repeating-linear-gradient(
+      #323288,
+      #323288 10px,
+      rgba(0,0,0,0) 10px,
+      rgba(0,0,0,0) 20px
+    );
   }
 
   .grid-item:nth-of-type(1) .grid-item__bg {
     background-color: #e38895;
     height: 100%;
+    position: relative;
+    z-index: 1;
   }
 
   .grid-item:nth-of-type(1) .project-image {
@@ -75,6 +96,8 @@
   .grid-item:nth-of-type(3) .grid-item__bg {
     margin-right: 20px;
     background-color: #e38895;
+    position: relative;
+    z-index: 1;
   }
 
   .grid-item:nth-of-type(3) .project-image {
@@ -82,10 +105,20 @@
     padding-right: 20px;
   }
 
-  .item-container {
-    background-color: #323288;
-    padding: 20px;
-    margin-right: 20px;
-    color: white;
+  .grid-item:nth-of-type(3) .grid-item__art {
+    color: #323288;
+    background: repeating-linear-gradient(
+      #323288,
+      #323288 10px,
+      rgba(0,0,0,0) 10px,
+      rgba(0,0,0,0) 20px
+    );
+    height: 110%;
+    width: 110%;
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+    z-index: -1;
   }
+  
 </style>

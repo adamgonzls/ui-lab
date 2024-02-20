@@ -1,9 +1,6 @@
 <script>
   export const name = "Adam"
   import ProjectTile from "../components/home/ProjectTile.svelte"
-  import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
-  import purse from "$lib/assets/images/purse-640w.jpg"
-  import jacket from "$lib/assets/images/jacket-640w.jpg"
   export let data
 </script>
 

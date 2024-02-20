@@ -26,13 +26,14 @@
 <style>
   main {
     background-color: #fff0a0;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   .grid-container {
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* gap: 20px; */
+    row-gap: 40px;
     align-items: end;
   }
 </style>

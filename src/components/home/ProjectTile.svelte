@@ -120,5 +120,18 @@
     bottom: 0;
     z-index: -1;
   }
+
+  .grid-item:nth-of-type(4) .graphic-container {
+    position: relative;
+  }
+
+  .grid-item:nth-of-type(4) .grid-item__bg {
+    background-color: #e38895;
+  }
+
+  .grid-item:nth-of-type(4) .project-image {
+    padding-top: 20px;
+    padding-right: 20px;
+  }
   
 </style>

@@ -7,7 +7,7 @@ console.log(dogBeanie)
 export const projects = [
   {
     src: dogBeanie,
-    link: "/ui-lab/1",
+    link: "/01-sign-up",
     name: "Sign Up Page",
     description: "A sign up page for a website",
   },

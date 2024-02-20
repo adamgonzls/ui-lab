@@ -3,8 +3,6 @@
   export let name: string
   export let description: string
   export let src: string
-  const theme_pink = "#e38895"
-  const theme_purple = "#323288"
 </script>
 
 <div class="grid-item">
@@ -23,11 +21,14 @@
 </div>
 
 <style>
+  h2 {
+    font-family: var(--header-font);
+  }
+  
   .info-container {
     margin-top: 10px;
     margin-right: 20px;
-    background-color: #323288;
-    color: white;
+    background-color: var(--deep-purple);
   }
 
   .info__link {
@@ -49,17 +50,17 @@
     right: 20px;
     bottom: 0;
     z-index: -1;
-    color: #323288;
+    color: var(--deep-purple);
     background: repeating-linear-gradient(
-      #323288,
-      #323288 10px,
+      var(--deep-purple),
+      var(--deep-purple) 10px,
       rgba(0,0,0,0) 10px,
       rgba(0,0,0,0) 20px
     );
   }
 
   .grid-item:nth-of-type(1) .grid-item__bg {
-    background-color: #e38895;
+    background-color: var(--deep-blush);
     height: 100%;
     position: relative;
     z-index: 1;
@@ -72,10 +73,11 @@
   }
 
   .grid-item:nth-of-type(2) .grid-item__bg {
-    color: #e38895;
+    color: var(--deep-blush);
     background: repeating-linear-gradient(
-      #e38895,
-      #e38895 10px,
+      to top,
+    var(--deep-blush),
+      var(--deep-blush) 10px,
       rgba(0,0,0,0) 10px,
       rgba(0,0,0,0) 20px
     );
@@ -95,7 +97,7 @@
 
   .grid-item:nth-of-type(3) .grid-item__bg {
     margin-right: 20px;
-    background-color: #e38895;
+    background-color: var(--deep-blush);
     position: relative;
     z-index: 1;
   }
@@ -106,10 +108,10 @@
   }
 
   .grid-item:nth-of-type(3) .grid-item__art {
-    color: #323288;
+    color: var(--deep-purple);
     background: repeating-linear-gradient(
-      #323288,
-      #323288 10px,
+      var(--deep-purple),
+      var(--deep-purple) 10px,
       rgba(0,0,0,0) 10px,
       rgba(0,0,0,0) 20px
     );
@@ -126,7 +128,7 @@
   }
 
   .grid-item:nth-of-type(4) .grid-item__bg {
-    background-color: #e38895;
+    background-color: var(--deep-blush);
   }
 
   .grid-item:nth-of-type(4) .project-image {

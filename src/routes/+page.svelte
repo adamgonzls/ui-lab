@@ -1,6 +1,7 @@
 <script>
-  export const name = "Adam"
+  import "$lib/assets/fonts/stylesheet.css"
   import ProjectTile from "../components/home/ProjectTile.svelte"
+  export const name = "Adam"
   export let data
 </script>
 
@@ -21,9 +22,18 @@
 </main>
 
 <style>
+  h1 {
+    font-family: 'Playfair Display';
+  }
+
   main {
-    background-color: #fff0a0;
-    font-family: Arial, Helvetica, sans-serif;
+    --bg-yellow: #fff0a0;
+    --deep-blush: #e38895;
+    --deep-purple: #323288;
+    --header-font: 'Playfair Display';
+    --body-font: 'Open Sans';
+    background-color: var(--bg-yellow);
+    font-family: var(--body-font);
   }
 
   .grid-container {

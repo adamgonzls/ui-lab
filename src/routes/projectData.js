@@ -14,7 +14,7 @@ export const projects = [
   },
   {
     src: purse,
-    link: "/ui-lab/2",
+    link: "",
     name: "Credit Card Checkout",
     description: "Some important words about this project",
   },

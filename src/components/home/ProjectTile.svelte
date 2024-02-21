@@ -22,9 +22,10 @@
 
 <style>
   h2 {
+    font-size: 1.25rem;
     font-family: var(--header-font);
   }
-  
+
   .info-container {
     margin-top: 10px;
     margin-right: 20px;
@@ -124,16 +125,19 @@
   }
 
   .grid-item:nth-of-type(4) .graphic-container {
+    margin-right: 20px;
+    padding-bottom: 40px;
+    padding-left: 40px;
     position: relative;
   }
 
-  .grid-item:nth-of-type(4) .grid-item__bg {
-    background-color: var(--deep-blush);
+  .grid-item:nth-of-type(4) .project-image {
+    box-shadow: 20px -20px 0 var(--deep-blush); 
+    margin-right: 20px;
   }
 
-  .grid-item:nth-of-type(4) .project-image {
-    padding-top: 20px;
-    padding-right: 20px;
+  .grid-item:nth-of-type(5) .project-image {
+    padding: 20px;
   }
   
 </style>

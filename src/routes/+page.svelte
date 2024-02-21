@@ -38,10 +38,19 @@
   }
 
   .grid-container {
-    padding: 20px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 40px;
+    grid-template-columns: repeat(2, 1fr);
     align-items: end;
+    row-gap: 20px;
+    grid-auto-flow: dense;
   }
+
+  @media (min-width: 768px) {
+    .grid-container {
+      padding: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 40px;
+    }
+  }
+  
 </style>

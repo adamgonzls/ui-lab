@@ -34,6 +34,7 @@
     --body-font: 'Open Sans';
     background-color: var(--bg-yellow);
     font-family: var(--body-font);
+    font-size: .75rem;
   }
 
   .grid-container {

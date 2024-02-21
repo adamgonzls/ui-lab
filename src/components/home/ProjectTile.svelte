@@ -7,10 +7,12 @@
 
 <div class="grid-item">
   <div class="graphic-container">
-    <div class="grid-item__bg">
-      <img class="project-image" src={src} alt="">
-      <div class="grid-item__art"></div>
-    </div>
+    <a href={link}>
+      <div class="grid-item__bg">
+        <img class="project-image" src={src} alt="">
+        <div class="grid-item__art"></div>
+      </div>
+    </a>
   </div>
   <div class="info-container">
     <a class="info__link" href={link}>
@@ -37,6 +39,18 @@
     padding: 20px;
     text-decoration: none;
     color: white;
+  }
+
+  .grid-item:nth-child(3n+2) {
+    /* border: 2px solid cyan; */
+    grid-column: 1/-1;
+  }
+
+  @media (min-width: 768px) {
+    .grid-item:nth-child(3n+2) {
+      /* border: none; */
+      grid-column: auto;
+    }
   }
 
   .grid-item.grid-item:nth-of-type(1) {
@@ -135,9 +149,14 @@
     box-shadow: 20px -20px 0 var(--deep-blush); 
     margin-right: 20px;
   }
-
-  .grid-item:nth-of-type(5) .project-image {
-    padding: 20px;
-  }
   
+  .grid-item:nth-of-type(5) .project-image {
+    margin: 20px auto 20px;
+    border-radius: 50%;
+    padding: 0;
+    height: 210px;
+    width: 210px;
+    object-fit: cover;
+    object-position: center;
+  }
 </style>

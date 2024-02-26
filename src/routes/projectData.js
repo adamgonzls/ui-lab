@@ -17,6 +17,8 @@ export const projects = [
     link: "",
     name: "Credit Card Checkout",
     description: "Some important words about this project",
+    mockup:
+      "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
   {
     src: jacket,

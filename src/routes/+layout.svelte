@@ -3,5 +3,13 @@
   import MainNav from "../components/MainNav.svelte";
 </script>
 
-<MainNav />
-<slot />
+<div class="page-container">
+  <MainNav />
+  <slot />
+</div>
+
+<style>
+  .page-container {
+    height: 100vh;
+  }
+</style>

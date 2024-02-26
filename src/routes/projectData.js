@@ -20,9 +20,9 @@ export const projects = [
   },
   {
     src: jacket,
-    link: "/ui-lab/3",
-    name: "Landing Page",
-    description: "This is a something something",
+    link: "/12-ecommerce-shop",
+    name: "Ecommerce Shop",
+    description: "An ecommerce shop with state",
   },
   {
     src: shoes,

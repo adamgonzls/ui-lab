@@ -93,7 +93,7 @@
     bottom: -10%;
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .related-image {
     width: 80px;
@@ -101,7 +101,7 @@
     object-fit: contain;
   }
   .related-image:hover {
-    transform: scale(1.1);
+    transform: scale(1.25);
   }
   .img--rotate {
     transform: rotate(-30deg);

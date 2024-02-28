@@ -1,4 +1,7 @@
 <script>
+  import CartFlyoutToggle from '../../components/ecommerce-shop/CartFlyoutToggle.svelte'
+  import CartFlyout from '../../components/ecommerce-shop/CartFlyout.svelte'
+  import AddToCartForm from '../../components/ecommerce-shop/AddToCartForm.svelte'
   import fabricChair from "$lib/assets/images/fabric-armchair-610w.png"
   import armchair from "$lib/assets/images/modern-living-room-wooden-armchair-308w.png"
   import rockingChair from "$lib/assets/images/rocking-chair-315w.png"
@@ -21,6 +24,7 @@
         <a href="#">Blog</a>
         <a href="#">Contact</a>
         <a class="cart" href="#"><img class="cart__image" src={shoppingBag} alt=""></a>
+        <CartFlyoutToggle client:load/>
       </nav>
       <div class="product__container">
         <div class="product__info">
@@ -44,6 +48,8 @@
       </div>
     </div>
   </div>
+  <AddToCartForm client:load></AddToCartForm>
+  <CartFlyout client:load />
 </div>
 
 <style>

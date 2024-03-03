@@ -14,6 +14,14 @@ export const projects = [
   },
   {
     src: purse,
+    link: "/06-user-profile",
+    name: "User Profile",
+    description: "GitHub User Profile",
+    mockup:
+      "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
+  },
+  {
+    src: purse,
     link: "",
     name: "Credit Card Checkout",
     description: "Some important words about this project",

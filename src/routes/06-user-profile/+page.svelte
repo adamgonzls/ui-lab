@@ -1,5 +1,7 @@
 <script lang="ts">
   import {gitHubUser} from "../../stores.js"
+  import "$lib/assets/fonts/06-user-profile/stylesheet.css"
+  import "../../styles.css"
   import Compass from "$lib/assets/images/compass.svelte"
   import GithubIcon from "$lib/assets/images/github-icon.svelte"
   import DocumentIcon from "$lib/assets/images/document-icon.svelte";
@@ -41,9 +43,13 @@
 <div class="main-container">
   <main>
     <form class="form" action="" on:submit|preventDefault={handleSubmit}>
-      <label for="username">Enter a username to search for user profile</label>
-      <input required type="text" name="username" id="username">
-      <button>Submit</button>
+      <div>
+        <label for="username">Enter a GitHub username to view user profile:</label>
+        <div>
+          <input required type="text" name="username" id="username">
+          <button>Submit</button>
+        </div>
+      </div>
     </form>
     <!-- <div class="banner"></div> -->
     <div class="content__container">
@@ -64,7 +70,7 @@
               <li class="repo__details">
                 <h3>{(repo.name).replace("-", " ")}</h3>
                 {#if repo.description}
-                  <p>{repo.description}</p>
+                  <p class="repo__description">{repo.description}</p>
                 {/if}
                 <span class="repo__language">{repo.language}</span>
               </li>
@@ -82,7 +88,11 @@
 
 <style>
 * {
+  --body-font: 'Open Sans';
   --caribbeanGreen: #15D9B6;
+  --submarine: #b7c2c2;
+  --sahara: #C1A717;
+  --white: #fff;
 }
 .main-container {
   padding-top: 2rem;
@@ -91,49 +101,47 @@
   min-height: 100vh;
 }
 main {
-  /* border: 1px solid red; */
   margin: 0 auto;
+  padding: 2rem;
   width: 90%;
   max-width: 1200px;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 25px;
+  font-family: var(--body-font);
 }
 button {
   border-radius: 5px;
-  color: #fff;
+  color: var(--white);
   background-color: var(--caribbeanGreen);
   border: none;
+}
+label {
+  font-size: .9rem;
+  font-weight: bold;
 }
 input {
   border-radius: 5px;
   border: none;
+  padding: .5rem;
   background-color: #f1f4f4;
-}
-svg {
-  display: inline-block;
-  background-color: #000;
-  padding: .25rem;
-}
-.form {
-  padding: 1rem;
 }
 .banner {
   background-image: url($lib/assets/images/06-github-background-1200w.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-color: #fff;
+  background-color: var(--white);
   height: 125px;
 }
 .content__container {
-  /* background-color: #fff; */
+  /* background-color: var(--white); */
 }
 .content {
-  padding: 0 1rem 1rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
 .user__avatar {
-  border: 5px solid #fff;
+  margin-top: 1rem;
+  border: 5px solid var(--white);
   border-radius: 50%;
   width: 200px;
 }
@@ -154,7 +162,7 @@ svg {
 }
 .repos__container {
   margin-top: 1rem;
-  border-top: 1px solid #f3f5f5;
+  border-top: 1px solid var(--submarine);
   padding-top: 1rem;
 }
 .repo__list {
@@ -164,9 +172,20 @@ svg {
 }
 .repo__details {
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid var(--submarine);
   padding: 1rem;
   margin-top: 1rem;
+}
+.repo__description {
+  padding-top: .25rem;
+  font-size: .75rem;
+}
+.repo__language {
+  border-radius: 5px;
+  padding: .25em .75em;
+  background-color: var(--sahara);
+  color: var(--white);
+  font-size: .75rem;
 }
 @media screen and (min-width: 600px) {
   .repo__list {
@@ -177,12 +196,5 @@ svg {
   .repo__details {
     margin-top: 0;
   }
-}
-.repo__language {
-  border-radius: 5px;
-  padding: .25em .75em;
-  background-color: #C1A717;
-  color: #fff;
-  font-size: .75rem;
 }
 </style>

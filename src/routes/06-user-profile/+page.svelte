@@ -6,7 +6,7 @@
   import GithubIcon from "$lib/assets/images/github-icon.svelte"
   import DocumentIcon from "$lib/assets/images/document-icon.svelte";
 
-  let gitHubUser_value
+  let gitHubUser_value:{avatar_url:string; name:string}
 
   gitHubUser.subscribe((value) => {
     console.log(value)
@@ -18,14 +18,10 @@
   async function handleSubmit() {
     const queryInput = document.getElementById('username')
     const queryValue = queryInput.value
-    // console.log(queryValue)
     const response = await fetch(`https://api.github.com/users/${queryValue}`)
     data = await response.json()
     gitHubUser.set(data)
-    // console.log(gitHubUser)
-
     getRepos(queryValue)
-    // return data
   }
 
   async function getRepos(queryValue: String) {
@@ -33,34 +29,30 @@
     const response = await fetch(`https://api.github.com/users/${queryValue}/repos?sort=updated&per_page=10`)
     repoData = await response.json()
     gitHubUser.update(gitHubUser => gitHubUser = {...gitHubUser, repoData})
-    // console.log(repoData)
-    // return repoData
   }
-  
-  // console.log(gitHubUser)
 </script>
 
 <div class="main-container">
   <main>
     <form class="form" action="" on:submit|preventDefault={handleSubmit}>
-      <div>
-        <label for="username">Enter a GitHub username to view user profile:</label>
-        <div>
-          <input required type="text" name="username" id="username">
-          <button>Submit</button>
-        </div>
-      </div>
+      <label class="form__label" for="username">Enter a GitHub username to view user profile:</label>
+      <input required type="text" name="username" id="username">
+      <button class="form__submit">Submit</button>
     </form>
     <!-- <div class="banner"></div> -->
     <div class="content__container">
       <div class="content">
-      {#if (!(Object.keys(gitHubUser_value).length === 0)) }
+      {#if (Object.keys(gitHubUser_value).length !== 0) }
         <img class="user__avatar" src={gitHubUser_value.avatar_url} alt={gitHubUser_value.name} />
         <h1 class="user__fullname">{gitHubUser_value.name}</h1>
         <ul class="user__demographics">
-          <li><span class="user__text-logo-row"><Compass/>{gitHubUser_value.location}</span></li>
+          {#if gitHubUser_value.location }
+            <li><span class="user__text-logo-row"><Compass/>{gitHubUser_value.location}</span></li>
+          {/if}
+          {#if gitHubUser_value.bio}
           <li><p class="user__text-logo-row"><DocumentIcon/>{gitHubUser_value.bio}</p></li>
-          <li><a class="user__text-logo-row" href={gitHubUser_value.html_url}><GithubIcon/>GitHub profile</a></li>
+          {/if}
+          <li><a class="user__text-logo-row link--brand" href={gitHubUser_value.html_url}><GithubIcon/>GitHub profile</a></li>
         </ul>
         {#if gitHubUser_value.repoData}
           <div class="repos__container">
@@ -72,6 +64,7 @@
                 {#if repo.description}
                   <p class="repo__description">{repo.description}</p>
                 {/if}
+                <a class="link--brand repo__link" href={repo.html_url}>View on GitHub</a><br>
                 <span class="repo__language">{repo.language}</span>
               </li>
             {/each}
@@ -89,7 +82,7 @@
 <style>
 * {
   --body-font: 'Open Sans';
-  --caribbeanGreen: #15D9B6;
+  --caribbeanGreen: #038b72;
   --submarine: #b7c2c2;
   --sahara: #C1A717;
   --white: #fff;
@@ -115,15 +108,24 @@ button {
   background-color: var(--caribbeanGreen);
   border: none;
 }
-label {
-  font-size: .9rem;
-  font-weight: bold;
-}
 input {
   border-radius: 5px;
   border: none;
   padding: .5rem;
   background-color: #f1f4f4;
+}
+.form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.form__label {
+  font-size: .9rem;
+  font-weight: bold;
+  grid-column: 1/-1;
+}
+.form__submit {
+  font-weight: bold;
 }
 .banner {
   background-image: url($lib/assets/images/06-github-background-1200w.jpg);
@@ -180,6 +182,12 @@ input {
   padding-top: .25rem;
   font-size: .75rem;
 }
+.link--brand {
+  color: var(--caribbeanGreen);
+}
+.repo__link {
+  font-size: .75rem;
+}
 .repo__language {
   border-radius: 5px;
   padding: .25em .75em;
@@ -187,7 +195,7 @@ input {
   color: var(--white);
   font-size: .75rem;
 }
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 800px) {
   .repo__list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

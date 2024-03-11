@@ -17,8 +17,7 @@ export const projects = [
     link: "/06-user-profile",
     name: "User Profile",
     description: "GitHub User Profile",
-    mockup:
-      "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
+    mockup: "https://dribbble.com/shots/16979679-User-Profiles",
   },
   {
     src: purse,

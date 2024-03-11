@@ -7,6 +7,9 @@
   import GithubIcon from "$lib/assets/images/github-icon.svelte"
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
 
+  let usernameQuery = ""
+  let hasSubmitted = false
+
   let gitHubUser_value: {
     avatar_url: string
     name: string
@@ -24,25 +27,32 @@
   } = {}
 
   const unsubscribe = gitHubUser.subscribe((value) => {
-    console.log(value)
     gitHubUser_value = value
   })
 
-  let data = ""
-
-  async function handleSubmit() {
-    const queryInput = document.getElementById("username")
-    const queryValue = queryInput.value
-    const response = await fetch(`https://api.github.com/users/${queryValue}`)
-    data = await response.json()
-    gitHubUser.set(data)
-    getRepos(queryValue)
+  function handleChange() {
+    hasSubmitted = false
   }
 
-  async function getRepos(queryValue: String) {
+  async function handleSubmit() {
+    const response = await fetch(
+      `https://api.github.com/users/${usernameQuery}`
+    )
+    if (response.ok) {
+      const data = await response.json()
+      gitHubUser.set(data)
+      getRepos(usernameQuery)
+      hasSubmitted = true
+    } else {
+      gitHubUser.set({})
+      hasSubmitted = true
+    }
+  }
+
+  async function getRepos(usernameQuery: String) {
     let repoData = ""
     const response = await fetch(
-      `https://api.github.com/users/${queryValue}/repos?sort=updated&per_page=10`
+      `https://api.github.com/users/${usernameQuery}/repos?sort=updated&per_page=10`
     )
     repoData = await response.json()
     gitHubUser.update(
@@ -54,11 +64,19 @@
 
 <div class="main-container">
   <main>
-    <form class="form" action="" on:submit|preventDefault={handleSubmit}>
+    <form class="form" on:submit={handleSubmit}>
       <label class="form__label" for="username"
         >Enter a GitHub username to view user profile:</label
       >
-      <input required type="text" name="username" id="username" />
+      <input
+        required
+        type="text"
+        name="username"
+        id="username"
+        bind:value={usernameQuery}
+        on:input={handleChange}
+        placeholder="Please enter a GitHub username"
+      />
       <button class="form__submit">Submit</button>
     </form>
     <!-- <div class="banner"></div> -->
@@ -112,6 +130,11 @@
               </ul>
             </div>
           {/if}
+        {/if}
+        {#if usernameQuery !== "" && Object.keys(gitHubUser_value).length === 0 && hasSubmitted}
+          <p class="user--not-found">
+            Sorry, no user was found, please try again.
+          </p>
         {/if}
       </div>
     </div>
@@ -233,6 +256,9 @@
     background-color: var(--sahara);
     color: var(--white);
     font-size: 0.75rem;
+  }
+  .user--not-found {
+    padding-top: 1rem;
   }
   @media screen and (min-width: 800px) {
     .repo__list {

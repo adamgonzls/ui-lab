@@ -11,17 +11,17 @@
   let hasSubmitted = false
 
   let gitHubUser_value: {
-    avatar_url: string
-    name: string
-    location: string
-    bio: string
-    html_url: string
-    repoData: [
+    avatar_url?: string
+    name?: string
+    location?: string
+    bio?: string
+    html_url?: string
+    repoData?: [
       {
-        name: string
-        description: string
-        html_url: string
-        language: string
+        name?: string
+        description?: string
+        html_url?: string
+        language?: string
       },
     ]
   } = {}
@@ -46,6 +46,7 @@
     } else {
       gitHubUser.set({})
       hasSubmitted = true
+      console.error("Error:", response.status, response.statusText)
     }
   }
 

@@ -26,7 +26,21 @@
     ]
   } = {}
 
+  function checkLocalStorage() {
+    if (typeof localStorage !== "undefined") {
+      const localStorageGitHubUser = localStorage.getItem("gitHubUser")
+      if (localStorageGitHubUser) {
+        gitHubUser.set(JSON.parse(localStorageGitHubUser))
+      }
+    }
+  }
+
   const unsubscribe = gitHubUser.subscribe((value) => {
+    if (usernameQuery !== "") {
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem("gitHubUser", JSON.stringify(value))
+      }
+    }
     gitHubUser_value = value
   })
 
@@ -60,12 +74,13 @@
       (gitHubUser) => (gitHubUser = { ...gitHubUser, repoData })
     )
   }
+  checkLocalStorage()
   onDestroy(unsubscribe)
 </script>
 
 <div class="main-container">
   <main>
-    <form class="form" on:submit={handleSubmit}>
+    <form class="form" on:submit|preventDefault={handleSubmit}>
       <label class="form__label" for="username"
         >Enter a GitHub username to view user profile:</label
       >

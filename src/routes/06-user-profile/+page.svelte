@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from "svelte"
-  import { gitHubUser } from "../../stores.js"
+  import { gitHubUser, userList } from "../../stores.js"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "../../styles.css"
   import Compass from "$lib/assets/images/compass.svelte"
@@ -26,11 +26,17 @@
     ]
   } = {}
 
+  let userList_value = []
+
   function checkLocalStorage() {
     if (typeof localStorage !== "undefined") {
       const localStorageGitHubUser = localStorage.getItem("gitHubUser")
+      const localStorageUserList = localStorage.getItem("userList")
       if (localStorageGitHubUser) {
         gitHubUser.set(JSON.parse(localStorageGitHubUser))
+      }
+      if (localStorageUserList) {
+        userList.set(JSON.parse(localStorageUserList))
       }
     }
   }
@@ -44,6 +50,15 @@
     gitHubUser_value = value
   })
 
+  const unsubscribeUserList = userList.subscribe((value) => {
+    // if (usernameQuery !== "") {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("userList", JSON.stringify(value))
+    }
+    // }
+    userList_value = value
+  })
+
   function handleChange() {
     hasSubmitted = false
   }
@@ -55,7 +70,7 @@
     if (response.ok) {
       const data = await response.json()
       gitHubUser.set(data)
-      getRepos(usernameQuery)
+      getRepos(usernameQuery, data)
       hasSubmitted = true
     } else {
       gitHubUser.set({})
@@ -64,7 +79,7 @@
     }
   }
 
-  async function getRepos(usernameQuery: String) {
+  async function getRepos(usernameQuery: String, data: Object) {
     let repoData = ""
     const response = await fetch(
       `https://api.github.com/users/${usernameQuery}/repos?sort=updated&per_page=10`
@@ -73,9 +88,13 @@
     gitHubUser.update(
       (gitHubUser) => (gitHubUser = { ...gitHubUser, repoData })
     )
+    const combinedData = { ...data, repoData }
+    //
+    userList.update((userList) => (userList = [...userList, combinedData]))
   }
   checkLocalStorage()
   onDestroy(unsubscribe)
+  onDestroy(unsubscribeUserList)
 </script>
 
 <div class="main-container">
@@ -95,6 +114,18 @@
       />
       <button class="form__submit">Submit</button>
     </form>
+    {#if $userList.length > 0}
+      <div class="recently-viewed__container">
+        <h2>Previously viewed users</h2>
+        <ul>
+          {#each $userList as { login }, i}
+            <li>
+              {i + 1}: {login}
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
     <!-- <div class="banner"></div> -->
     <div class="content__container">
       <div class="content">
@@ -191,6 +222,9 @@
     border: none;
     padding: 0.5rem;
     background-color: #f1f4f4;
+  }
+  .recently-viewed__container {
+    padding-top: 1rem;
   }
   .form {
     display: grid;

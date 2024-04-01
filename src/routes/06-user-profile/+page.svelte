@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from "svelte"
-  import { gitHubUser, userList } from "../../stores"
+  import { userList } from "../../stores"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "../../styles.css"
   import Compass from "$lib/assets/images/compass.svelte"
@@ -30,26 +30,12 @@
 
   function checkLocalStorage() {
     if (typeof localStorage !== "undefined") {
-      const localStorageGitHubUser = localStorage.getItem("gitHubUser")
       const localStorageUserList = localStorage.getItem("userList")
-      if (localStorageGitHubUser) {
-        gitHubUser.set(JSON.parse(localStorageGitHubUser))
-      }
       if (localStorageUserList) {
         userList.set(JSON.parse(localStorageUserList))
       }
     }
   }
-
-  const unsubscribe = gitHubUser.subscribe((value) => {
-    if (usernameQuery !== "") {
-      if (typeof localStorage !== "undefined") {
-        console.log("setting user")
-        localStorage.setItem("gitHubUser", JSON.stringify(value))
-      }
-    }
-    gitHubUser_value = value
-  })
 
   const unsubscribeUserList = userList.subscribe((value) => {
     if (usernameQuery !== "") {
@@ -72,11 +58,11 @@
     )
     if (response.ok) {
       const data = await response.json()
-      gitHubUser.set(data)
+      // gitHubUser.set(data)
       getRepos(usernameQuery, data)
       hasSubmitted = true
     } else {
-      gitHubUser.set({})
+      // gitHubUser.set({})
       hasSubmitted = true
       console.error("Error:", response.status, response.statusText)
     }
@@ -88,15 +74,11 @@
       `https://api.github.com/users/${usernameQuery}/repos?sort=updated&per_page=10`
     )
     repoData = await response.json()
-    gitHubUser.update(
-      (gitHubUser) => (gitHubUser = { ...gitHubUser, repoData })
-    )
     const combinedData = { ...data, repoData }
     //
     userList.update((userList) => (userList = [combinedData, ...userList]))
   }
   checkLocalStorage()
-  onDestroy(unsubscribe)
   onDestroy(unsubscribeUserList)
 </script>
 
@@ -120,13 +102,14 @@
     {#if $userList.length > 0}
       <div class="recently-viewed__container">
         <h2>Previously viewed users</h2>
-        <ul>
-          {#each $userList as { login }, i}
-            <li>
-              {i}: {login}
+        <uln class="recently-viewed__list">
+          {#each $userList as { login, avatar_url, name }, i}
+            <li class="recently-viewed__item">
+              <img class="recently-viewed__img" src={avatar_url} alt={name} />
+              <span class="recently-viewed__login">{login}</span>
             </li>
           {/each}
-        </ul>
+        </uln>
       </div>
     {/if}
     <!-- <div class="banner"></div> -->
@@ -174,14 +157,16 @@
                     <a class="link--brand repo__link" href={html_url}
                       >View on GitHub</a
                     ><br />
-                    <span class="repo__language">{language}</span>
+                    {#if language}
+                      <span class="repo__language">{language}</span>
+                    {/if}
                   </li>
                 {/each}
               </ul>
             </div>
           {/if}
         {/if}
-        {#if usernameQuery !== "" && Object.keys(gitHubUser_value).length === 0 && hasSubmitted}
+        {#if usernameQuery !== "" && $userList.length === 0 && hasSubmitted}
           <p class="user--not-found">
             Sorry, no user was found, please try again.
           </p>
@@ -255,6 +240,24 @@
   .content {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+  }
+  .recently-viewed__list {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    gap: 1rem;
+  }
+  .recently-viewed__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .recently-viewed__img {
+    width: 60px;
+    border-radius: 50%;
+  }
+  .recently-viewed__login {
+    font-size: 0.75rem;
   }
   .user__avatar {
     margin-top: 1rem;

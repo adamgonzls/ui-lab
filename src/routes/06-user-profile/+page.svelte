@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy } from "svelte"
-  import { gitHubUser, userList } from "../../stores.js"
+  import { gitHubUser, userList } from "../../stores"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "../../styles.css"
   import Compass from "$lib/assets/images/compass.svelte"
@@ -44,6 +44,7 @@
   const unsubscribe = gitHubUser.subscribe((value) => {
     if (usernameQuery !== "") {
       if (typeof localStorage !== "undefined") {
+        console.log("setting user")
         localStorage.setItem("gitHubUser", JSON.stringify(value))
       }
     }
@@ -51,11 +52,13 @@
   })
 
   const unsubscribeUserList = userList.subscribe((value) => {
-    // if (usernameQuery !== "") {
-    if (typeof localStorage !== "undefined") {
-      localStorage.setItem("userList", JSON.stringify(value))
+    if (usernameQuery !== "") {
+      console.log(localStorage)
+      if (typeof localStorage !== "undefined") {
+        console.log("setting userlist")
+        localStorage.setItem("userList", JSON.stringify(value))
+      }
     }
-    // }
     userList_value = value
   })
 
@@ -90,7 +93,7 @@
     )
     const combinedData = { ...data, repoData }
     //
-    userList.update((userList) => (userList = [...userList, combinedData]))
+    userList.update((userList) => (userList = [combinedData, ...userList]))
   }
   checkLocalStorage()
   onDestroy(unsubscribe)
@@ -120,7 +123,7 @@
         <ul>
           {#each $userList as { login }, i}
             <li>
-              {i + 1}: {login}
+              {i}: {login}
             </li>
           {/each}
         </ul>
@@ -129,40 +132,40 @@
     <!-- <div class="banner"></div> -->
     <div class="content__container">
       <div class="content">
-        {#if Object.keys(gitHubUser_value).length !== 0}
+        {#if $userList.length !== 0}
           <img
             class="user__avatar"
-            src={gitHubUser_value.avatar_url}
-            alt={gitHubUser_value.name}
+            src={$userList[0].avatar_url}
+            alt={$userList[0].name}
           />
-          <h1 class="user__fullname">{gitHubUser_value.name}</h1>
+          <h1 class="user__fullname">{$userList[0].name}</h1>
           <ul class="user__demographics">
-            {#if gitHubUser_value.location}
+            {#if $userList[0].location}
               <li>
                 <span class="user__text-logo-row"
-                  ><Compass />{gitHubUser_value.location}</span
+                  ><Compass />{$userList[0].location}</span
                 >
               </li>
             {/if}
-            {#if gitHubUser_value.bio}
+            {#if $userList[0].bio}
               <li>
                 <p class="user__text-logo-row">
-                  <DocumentIcon />{gitHubUser_value.bio}
+                  <DocumentIcon />{$userList[0].bio}
                 </p>
               </li>
             {/if}
             <li>
               <a
                 class="user__text-logo-row link--brand"
-                href={gitHubUser_value.html_url}><GithubIcon />GitHub profile</a
+                href={$userList[0].html_url}><GithubIcon />GitHub profile</a
               >
             </li>
           </ul>
-          {#if gitHubUser_value.repoData}
+          {#if $userList[0].repoData}
             <div class="repos__container">
               <h2>Recent Repositories</h2>
               <ul class="repo__list">
-                {#each gitHubUser_value.repoData as { name, description, html_url, language }}
+                {#each $userList[0].repoData as { name, description, html_url, language }}
                   <li class="repo__details">
                     <h3>{name.replace("-", " ")}</h3>
                     {#if description}

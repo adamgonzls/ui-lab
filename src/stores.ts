@@ -1,7 +1,7 @@
 import { writable } from "svelte/store"
 import type { Writable } from "svelte/store"
 
-export const gitHubUser = writable({})
+// export const gitHubUser = writable({})
 export const userList: Writable<
   Array<{
     login: string

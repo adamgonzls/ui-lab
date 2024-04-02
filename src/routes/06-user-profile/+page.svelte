@@ -112,7 +112,6 @@
         </uln>
       </div>
     {/if}
-    <!-- <div class="banner"></div> -->
     <div class="content__container">
       <div class="content">
         {#if $userList.length !== 0}
@@ -212,6 +211,8 @@
     background-color: #f1f4f4;
   }
   .recently-viewed__container {
+    margin-top: 1rem;
+    border-top: 1px solid var(--submarine);
     padding-top: 1rem;
   }
   .form {
@@ -227,13 +228,6 @@
   .form__submit {
     font-weight: bold;
   }
-  .banner {
-    background-image: url($lib/assets/images/06-github-background-1200w.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: var(--white);
-    height: 125px;
-  }
   .content__container {
     /* background-color: var(--white); */
   }
@@ -243,6 +237,7 @@
   }
   .recently-viewed__list {
     list-style-type: none;
+    padding-top: 1rem;
     padding-left: 0;
     display: flex;
     gap: 1rem;

@@ -10,24 +10,22 @@
 
   let usernameQuery = ""
   let hasSubmitted = false
-
-  let gitHubUser_value: {
-    avatar_url?: string
-    name?: string
-    location?: string
-    bio?: string
-    html_url?: string
-    repoData?: [
-      {
-        name?: string
-        description?: string
-        html_url?: string
-        language?: string
-      },
-    ]
-  } = {}
-
   let userList_value = []
+  let currentUser:
+    | {
+        avatar_url?: string
+        name?: string
+        location?: string
+        bio?: string
+        html_url?: string
+        repoData?: {
+          name?: string
+          description?: string
+          html_url?: string
+          language?: string
+        }[]
+      }
+    | undefined = {}
 
   function checkLocalStorage() {
     if (typeof localStorage !== "undefined") {
@@ -44,12 +42,15 @@
       if (typeof localStorage !== "undefined") {
         console.log("setting userlist")
         localStorage.setItem("userList", JSON.stringify(value))
+        console.log("setting user")
+        currentUser = value[0]
       }
     }
+    currentUser = value[0]
     userList_value = value
   })
 
-  function handleChange() {
+  function handleInputChange() {
     hasSubmitted = false
   }
 
@@ -59,28 +60,51 @@
     )
     if (response.ok) {
       const data = await response.json()
-      // gitHubUser.set(data)
       getRepos(usernameQuery, data)
       hasSubmitted = true
     } else {
-      // gitHubUser.set({})
+      currentUser = {}
+      console.log(currentUser)
+      console.log(typeof currentUser)
       hasSubmitted = true
       console.error("Error:", response.status, response.statusText)
     }
   }
 
-  async function getRepos(usernameQuery: String, data: Object) {
-    let repoData = ""
+  async function getRepos(
+    usernameQuery: string,
+    data: {
+      login: string
+      avatar_url: string
+      name: string
+      location: string
+      bio: string
+      html_url: string
+    }
+  ) {
+    let repoData: {
+      name: string
+      description: string
+      html_url: string
+      language: string
+    }[] = []
     const response = await fetch(
       `https://api.github.com/users/${usernameQuery}/repos?sort=updated&per_page=10`
     )
     repoData = await response.json()
     const combinedData = { ...data, repoData }
-    //
     userList.update((userList) => (userList = [combinedData, ...userList]))
   }
+
+  function setCurrentUser() {
+    console.log(`the id is: ${this.id}`)
+    currentUser = $userList.find((user) => user.login === this.id)
+    console.log(currentUser)
+  }
+
   checkLocalStorage()
   onDestroy(unsubscribeUserList)
+  console.log("how often does this run?")
 </script>
 
 <div class="main-container">
@@ -96,52 +120,59 @@
         id="username"
         class="form__input--username"
         bind:value={usernameQuery}
-        on:input={handleChange}
+        on:input={handleInputChange}
         placeholder="Please enter a GitHub username"
       />
       <button class="form__submit">Submit</button>
     </form>
+    {#if usernameQuery !== "" && currentUser && Object.values(currentUser).length === 0 && hasSubmitted}
+      <p class="user--not-found">
+        Sorry, no user was found for {usernameQuery}, please try again.
+      </p>
+    {/if}
     {#if $userList.length > 0}
-      <RecentlyViewed {userList} />
+      <RecentlyViewed on:click={setCurrentUser} {userList} />
     {/if}
     <div class="content__container">
       <div class="content">
-        {#if $userList.length !== 0}
+        {#if $userList.length !== 0 && currentUser && Object.values(currentUser).length !== 0}
           <img
             class="user__avatar"
-            src={$userList[0].avatar_url}
-            alt={$userList[0].name}
+            src={currentUser?.avatar_url}
+            alt={currentUser?.name}
           />
-          <h1 class="user__fullname">{$userList[0].name}</h1>
+          {#if currentUser?.name}
+            <h1 class="user__fullname">{currentUser.name}</h1>
+          {/if}
           <ul class="user__demographics">
-            {#if $userList[0].location}
+            {#if currentUser?.location}
               <li>
                 <span class="user__text-logo-row"
-                  ><Compass />{$userList[0].location}</span
+                  ><Compass />{currentUser.location}</span
                 >
               </li>
             {/if}
-            {#if $userList[0].bio}
+            {#if currentUser?.bio}
               <li>
                 <p class="user__text-logo-row">
-                  <DocumentIcon />{$userList[0].bio}
+                  <DocumentIcon />{currentUser.bio}
                 </p>
               </li>
             {/if}
             <li>
               <a
                 class="user__text-logo-row link--brand"
-                href={$userList[0].html_url}><GithubIcon />GitHub profile</a
+                href={currentUser?.html_url}><GithubIcon />GitHub profile</a
               >
             </li>
           </ul>
-          {#if $userList[0].repoData}
+          {#if currentUser?.repoData}
             <div class="repos__container">
               <h2>Recent Repositories</h2>
               <ul class="repo__list">
-                {#each $userList[0].repoData as { name, description, html_url, language }}
+                {#each currentUser.repoData as { name, description, html_url, language }}
                   <li class="repo__details">
-                    <h3>{name.replace("-", " ")}</h3>
+                    <h3>{name}</h3>
                     {#if description}
                       <p class="repo__description">{description}</p>
                     {/if}
@@ -156,11 +187,6 @@
               </ul>
             </div>
           {/if}
-        {/if}
-        {#if usernameQuery !== "" && $userList.length === 0 && hasSubmitted}
-          <p class="user--not-found">
-            Sorry, no user was found, please try again.
-          </p>
         {/if}
       </div>
     </div>
@@ -219,12 +245,16 @@
   .form__submit {
     font-weight: bold;
   }
+  .content__container {
+    margin-top: 1rem;
+    border-top: 1px solid var(--submarine);
+    padding-top: 1rem;
+  }
   .content {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
   .user__avatar {
-    margin-top: 1rem;
     border: 5px solid var(--white);
     border-radius: 50%;
     width: 200px;

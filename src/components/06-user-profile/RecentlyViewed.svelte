@@ -3,15 +3,17 @@
 </script>
 
 <div class="recently-viewed__container">
-  <h2>Previously viewed users</h2>
-  <uln class="recently-viewed__list">
+  <h2 class="recently-viewed__header">Previously viewed users</h2>
+  <ul class="recently-viewed__list">
     {#each $userList as { login, avatar_url, name }, i}
       <li class="recently-viewed__item">
-        <img class="recently-viewed__img" src={avatar_url} alt={name} />
-        <span class="recently-viewed__login">{login}</span>
+        <button on:click id={login}>
+          <img class="recently-viewed__img" src={avatar_url} alt={name} />
+          <span class="recently-viewed__login">{login}</span>
+        </button>
       </li>
     {/each}
-  </uln>
+  </ul>
 </div>
 
 <style>
@@ -27,13 +29,17 @@
     display: flex;
     gap: 1rem;
   }
-  .recently-viewed__item {
+  .recently-viewed__item button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    /* border-radius: 50%; */
   }
   .recently-viewed__img {
-    width: 60px;
+    width: 50px;
     border-radius: 50%;
   }
   .recently-viewed__login {

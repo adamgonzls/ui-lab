@@ -28,6 +28,7 @@
     padding-left: 0;
     display: flex;
     gap: 1rem;
+    overflow: scroll;
   }
   .recently-viewed__item button {
     display: flex;
@@ -36,11 +37,11 @@
     cursor: pointer;
     border: none;
     background-color: transparent;
-    /* border-radius: 50%; */
   }
   .recently-viewed__img {
     width: 50px;
     border-radius: 50%;
+    max-width: unset;
   }
   .recently-viewed__login {
     font-size: 0.75rem;

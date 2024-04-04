@@ -3,7 +3,7 @@
 </script>
 
 <div class="recently-viewed__container">
-  <h2 class="recently-viewed__header">Previously viewed users</h2>
+  <h2 class="recently-viewed__header">Searched users</h2>
   <ul class="recently-viewed__list">
     {#each $userList as { login, avatar_url, name }, i}
       <li class="recently-viewed__item">

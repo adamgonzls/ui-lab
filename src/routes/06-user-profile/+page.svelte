@@ -11,6 +11,8 @@
   let usernameQuery = ""
   let hasSubmitted = false
   let userList_value = []
+  let clickedProfile = []
+  let foundProfile = []
   let currentUser:
     | {
         avatar_url?: string
@@ -25,7 +27,8 @@
           language?: string
         }[]
       }
-    | undefined = {}
+    | undefined
+    | null = {}
 
   function checkLocalStorage() {
     if (typeof localStorage !== "undefined") {
@@ -37,15 +40,24 @@
   }
 
   const unsubscribeUserList = userList.subscribe((value) => {
-    if (usernameQuery !== "") {
-      console.log(localStorage)
+    if (usernameQuery !== "" && hasSubmitted) {
+      console.log("usernameQuery is not empty and hasSubmitted is true")
       if (typeof localStorage !== "undefined") {
         console.log("setting userlist")
         localStorage.setItem("userList", JSON.stringify(value))
-        console.log("setting user")
-        currentUser = value[0]
       }
     }
+    if (
+      typeof localStorage !== "undefined" &&
+      clickedProfile.length > 0 &&
+      !hasSubmitted
+    ) {
+      console.log(
+        "local storage is defined and clickedProfile has a length and hasSubmitted is false"
+      )
+      localStorage.setItem("userList", JSON.stringify(value))
+    }
+    console.log("userlist subscribe stuff")
     currentUser = value[0]
     userList_value = value
   })
@@ -55,18 +67,23 @@
   }
 
   async function handleSubmit() {
+    hasSubmitted = true
+    if ($userList.some((user) => user.login === usernameQuery)) {
+      console.log("User already exists in list")
+      setCurrentUser(usernameQuery)
+      return
+    }
+
     const response = await fetch(
       `https://api.github.com/users/${usernameQuery}`
     )
     if (response.ok) {
       const data = await response.json()
       getRepos(usernameQuery, data)
-      hasSubmitted = true
+      // hasSubmitted = true
     } else {
-      currentUser = {}
-      console.log(currentUser)
-      console.log(typeof currentUser)
-      hasSubmitted = true
+      currentUser = null
+      // hasSubmitted = true
       console.error("Error:", response.status, response.statusText)
     }
   }
@@ -96,15 +113,36 @@
     userList.update((userList) => (userList = [combinedData, ...userList]))
   }
 
-  function setCurrentUser() {
-    console.log(`the id is: ${this.id}`)
-    currentUser = $userList.find((user) => user.login === this.id)
+  function setCurrentUser(usernameQuery: string) {
+    if (usernameQuery) {
+      console.log(usernameQuery)
+      const foundUserIndex = $userList.findIndex(
+        (user) => user.login === usernameQuery
+      )
+      if (foundUserIndex > 0) {
+        foundProfile = $userList.splice(foundUserIndex, 1)
+        console.log("this should be the found profile", foundProfile[0])
+        $userList = [foundProfile[0], ...$userList]
+      }
+    }
+
+    if (this !== undefined) {
+      if (this.id) {
+        console.log(`the id is: ${this.id}`)
+        const clickedUserIndex = $userList.findIndex(
+          (user) => user.login === this.id
+        )
+        if (clickedUserIndex > 0) {
+          clickedProfile = $userList.splice(clickedUserIndex, 1)
+          $userList = [clickedProfile[0], ...$userList]
+        }
+      }
+    }
     console.log(currentUser)
   }
 
   checkLocalStorage()
   onDestroy(unsubscribeUserList)
-  console.log("how often does this run?")
 </script>
 
 <div class="main-container">
@@ -125,7 +163,7 @@
       />
       <button class="form__submit">Submit</button>
     </form>
-    {#if usernameQuery !== "" && currentUser && Object.values(currentUser).length === 0 && hasSubmitted}
+    {#if usernameQuery !== "" && currentUser === null && hasSubmitted}
       <p class="user--not-found">
         Sorry, no user was found for {usernameQuery}, please try again.
       </p>
@@ -166,7 +204,7 @@
               >
             </li>
           </ul>
-          {#if currentUser?.repoData}
+          {#if currentUser?.repoData !== undefined && currentUser.repoData.length > 0}
             <div class="repos__container">
               <h2>Recent Repositories</h2>
               <ul class="repo__list">

@@ -1,81 +1,157 @@
 <script lang="ts">
   import { onDestroy } from "svelte"
-  import { gitHubUser } from "../../stores.js"
+  import { userList } from "../../stores"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "../../styles.css"
   import Compass from "$lib/assets/images/compass.svelte"
   import GithubIcon from "$lib/assets/images/github-icon.svelte"
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
+  import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
 
   let usernameQuery = ""
   let hasSubmitted = false
-
-  let gitHubUser_value: {
-    avatar_url?: string
-    name?: string
-    location?: string
-    bio?: string
-    html_url?: string
-    repoData?: [
-      {
+  let userList_value = []
+  let clickedProfile = []
+  let foundProfile = []
+  let currentUser:
+    | {
+        avatar_url?: string
         name?: string
-        description?: string
+        location?: string
+        bio?: string
         html_url?: string
-        language?: string
-      },
-    ]
-  } = {}
+        repoData?: {
+          name?: string
+          description?: string
+          html_url?: string
+          language?: string
+        }[]
+      }
+    | undefined
+    | null = {}
 
   function checkLocalStorage() {
     if (typeof localStorage !== "undefined") {
-      const localStorageGitHubUser = localStorage.getItem("gitHubUser")
-      if (localStorageGitHubUser) {
-        gitHubUser.set(JSON.parse(localStorageGitHubUser))
+      const localStorageUserList = localStorage.getItem("userList")
+      if (localStorageUserList) {
+        userList.set(JSON.parse(localStorageUserList))
       }
     }
   }
 
-  const unsubscribe = gitHubUser.subscribe((value) => {
-    if (usernameQuery !== "") {
+  const unsubscribeUserList = userList.subscribe((value) => {
+    if (usernameQuery !== "" && hasSubmitted) {
+      console.log("usernameQuery is not empty and hasSubmitted is true")
       if (typeof localStorage !== "undefined") {
-        localStorage.setItem("gitHubUser", JSON.stringify(value))
+        console.log("setting userlist")
+        localStorage.setItem("userList", JSON.stringify(value))
       }
     }
-    gitHubUser_value = value
+    if (
+      typeof localStorage !== "undefined" &&
+      clickedProfile.length > 0 &&
+      !hasSubmitted
+    ) {
+      console.log(
+        "local storage is defined and clickedProfile has a length and hasSubmitted is false"
+      )
+      localStorage.setItem("userList", JSON.stringify(value))
+    }
+    console.log("userlist subscribe stuff")
+    currentUser = value[0]
+    userList_value = value
   })
 
-  function handleChange() {
+  function handleInputChange() {
     hasSubmitted = false
   }
 
   async function handleSubmit() {
+    hasSubmitted = true
+    if ($userList.some((user) => user.login === usernameQuery)) {
+      console.log("User already exists in list")
+      setCurrentUser(usernameQuery)
+      return
+    }
+
     const response = await fetch(
       `https://api.github.com/users/${usernameQuery}`
     )
     if (response.ok) {
       const data = await response.json()
-      gitHubUser.set(data)
-      getRepos(usernameQuery)
-      hasSubmitted = true
+      getRepos(usernameQuery, data)
+      // hasSubmitted = true
     } else {
-      gitHubUser.set({})
-      hasSubmitted = true
+      currentUser = null
+      // hasSubmitted = true
       console.error("Error:", response.status, response.statusText)
     }
   }
 
-  async function getRepos(usernameQuery: String) {
-    let repoData = ""
+  async function getRepos(
+    usernameQuery: string,
+    data: {
+      login: string
+      avatar_url: string
+      name: string
+      location: string
+      bio: string
+      html_url: string
+    }
+  ) {
+    let repoData: {
+      name: string
+      description: string
+      html_url: string
+      language: string
+    }[] = []
     const response = await fetch(
       `https://api.github.com/users/${usernameQuery}/repos?sort=updated&per_page=10`
     )
     repoData = await response.json()
-    gitHubUser.update(
-      (gitHubUser) => (gitHubUser = { ...gitHubUser, repoData })
-    )
+    const combinedData = { ...data, repoData }
+    userList.update((userList) => (userList = [combinedData, ...userList]))
   }
+
+  function setCurrentUser(usernameQuery: string) {
+    if (usernameQuery) {
+      console.log(usernameQuery)
+      const foundUserIndex = $userList.findIndex(
+        (user) => user.login === usernameQuery
+      )
+      if (foundUserIndex > 0) {
+        foundProfile = $userList.splice(foundUserIndex, 1)
+        console.log("this should be the found profile", foundProfile[0])
+        $userList = [foundProfile[0], ...$userList]
+      }
+    }
+
+    if (this !== undefined) {
+      if (this.id) {
+        console.log(`the id is: ${this.id}`)
+        const clickedUserIndex = $userList.findIndex(
+          (user) => user.login === this.id
+        )
+        if (clickedUserIndex > 0) {
+          clickedProfile = $userList.splice(clickedUserIndex, 1)
+          $userList = [clickedProfile[0], ...$userList]
+        }
+      }
+    }
+    console.log(currentUser)
+  }
+
+  function removeUser(event: Event) {
+    event.stopPropagation()
+    const buttonId = event.target.id
+    const removeProfileIndex = buttonId.split("_")[0]
+    console.log(`remove user: ${removeProfileIndex}`)
+    $userList.splice(removeProfileIndex, 1)
+    $userList = $userList
+  }
+
   checkLocalStorage()
-  onDestroy(unsubscribe)
+  onDestroy(unsubscribeUserList)
 </script>
 
 <div class="main-container">
@@ -89,68 +165,75 @@
         type="text"
         name="username"
         id="username"
+        class="form__input--username"
         bind:value={usernameQuery}
-        on:input={handleChange}
+        on:input={handleInputChange}
         placeholder="Please enter a GitHub username"
       />
       <button class="form__submit">Submit</button>
     </form>
-    <!-- <div class="banner"></div> -->
+    {#if usernameQuery !== "" && currentUser === null && hasSubmitted}
+      <p class="user--not-found">
+        Sorry, no user was found for {usernameQuery}, please try again.
+      </p>
+    {/if}
+    {#if $userList.length > 0}
+      <RecentlyViewed on:click={setCurrentUser} {userList} {removeUser} />
+    {/if}
     <div class="content__container">
       <div class="content">
-        {#if Object.keys(gitHubUser_value).length !== 0}
+        {#if $userList.length !== 0 && currentUser && Object.values(currentUser).length !== 0}
           <img
             class="user__avatar"
-            src={gitHubUser_value.avatar_url}
-            alt={gitHubUser_value.name}
+            src={currentUser?.avatar_url}
+            alt={currentUser?.name}
           />
-          <h1 class="user__fullname">{gitHubUser_value.name}</h1>
+          {#if currentUser?.name}
+            <h1 class="user__fullname">{currentUser.name}</h1>
+          {/if}
           <ul class="user__demographics">
-            {#if gitHubUser_value.location}
+            {#if currentUser?.location}
               <li>
                 <span class="user__text-logo-row"
-                  ><Compass />{gitHubUser_value.location}</span
+                  ><Compass />{currentUser.location}</span
                 >
               </li>
             {/if}
-            {#if gitHubUser_value.bio}
+            {#if currentUser?.bio}
               <li>
                 <p class="user__text-logo-row">
-                  <DocumentIcon />{gitHubUser_value.bio}
+                  <DocumentIcon />{currentUser.bio}
                 </p>
               </li>
             {/if}
             <li>
               <a
                 class="user__text-logo-row link--brand"
-                href={gitHubUser_value.html_url}><GithubIcon />GitHub profile</a
+                href={currentUser?.html_url}><GithubIcon />GitHub profile</a
               >
             </li>
           </ul>
-          {#if gitHubUser_value.repoData}
+          {#if currentUser?.repoData !== undefined && currentUser.repoData.length > 0}
             <div class="repos__container">
               <h2>Recent Repositories</h2>
               <ul class="repo__list">
-                {#each gitHubUser_value.repoData as { name, description, html_url, language }}
+                {#each currentUser.repoData as { name, description, html_url, language }}
                   <li class="repo__details">
-                    <h3>{name.replace("-", " ")}</h3>
+                    <h3>{name}</h3>
                     {#if description}
                       <p class="repo__description">{description}</p>
                     {/if}
                     <a class="link--brand repo__link" href={html_url}
                       >View on GitHub</a
                     ><br />
-                    <span class="repo__language">{language}</span>
+                    {#if language}
+                      <span class="repo__language">{language}</span>
+                    {/if}
                   </li>
                 {/each}
               </ul>
             </div>
           {/if}
-        {/if}
-        {#if usernameQuery !== "" && Object.keys(gitHubUser_value).length === 0 && hasSubmitted}
-          <p class="user--not-found">
-            Sorry, no user was found, please try again.
-          </p>
         {/if}
       </div>
     </div>
@@ -202,25 +285,24 @@
     font-weight: bold;
     grid-column: 1/-1;
   }
+  .form__input--username {
+    grid-column: 1/3;
+    border: 1px solid var(--submarine);
+  }
   .form__submit {
     font-weight: bold;
-  }
-  .banner {
-    background-image: url($lib/assets/images/06-github-background-1200w.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: var(--white);
-    height: 125px;
+    cursor: pointer;
   }
   .content__container {
-    /* background-color: var(--white); */
+    margin-top: 1rem;
+    border-top: 1px solid var(--submarine);
+    padding-top: 1rem;
   }
   .content {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
   }
   .user__avatar {
-    margin-top: 1rem;
     border: 5px solid var(--white);
     border-radius: 50%;
     width: 200px;

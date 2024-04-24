@@ -141,6 +141,15 @@
     console.log(currentUser)
   }
 
+  function removeUser(event: Event) {
+    event.stopPropagation()
+    const buttonId = event.target.id
+    const removeProfileIndex = buttonId.split("_")[0]
+    console.log(`remove user: ${removeProfileIndex}`)
+    $userList.splice(removeProfileIndex, 1)
+    $userList = $userList
+  }
+
   checkLocalStorage()
   onDestroy(unsubscribeUserList)
 </script>
@@ -169,7 +178,7 @@
       </p>
     {/if}
     {#if $userList.length > 0}
-      <RecentlyViewed on:click={setCurrentUser} {userList} />
+      <RecentlyViewed on:click={setCurrentUser} {userList} {removeUser} />
     {/if}
     <div class="content__container">
       <div class="content">
@@ -282,6 +291,7 @@
   }
   .form__submit {
     font-weight: bold;
+    cursor: pointer;
   }
   .content__container {
     margin-top: 1rem;

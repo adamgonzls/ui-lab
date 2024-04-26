@@ -1,6 +1,6 @@
 <script>
-  import '../styles.css'
-  import MainNav from "../components/MainNav.svelte";
+  import "../styles.css"
+  import MainNav from "../components/MainNav.svelte"
 </script>
 
 <div class="page-container">
@@ -9,6 +9,10 @@
 </div>
 
 <style>
+  :root {
+    --black: #000;
+    --body-font: "Open Sans";
+  }
   .page-container {
     height: 100vh;
   }

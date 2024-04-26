@@ -4,7 +4,7 @@ export function load() {
   return {
     summaries: projects.map((project) => {
       return {
-        src: project.src,
+        imageSrc: project.imageSrc,
         link: project.link,
         name: project.name,
         description: project.description,

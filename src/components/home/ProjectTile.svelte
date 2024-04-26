@@ -1,162 +1,76 @@
 <script lang="ts">
+  import Triangle from "./Triangle.svelte"
+  import Circle from "./Circle.svelte"
   export let link: string
   export let name: string
   export let description: string
-  export let src: string
+  export let imageSrc: string
+  export let index: number
 </script>
 
-<div class="grid-item">
-  <div class="graphic-container">
-    <a href={link}>
-      <div class="grid-item__bg">
-        <img class="project-image" src={src} alt="">
-        <div class="grid-item__art"></div>
-      </div>
-    </a>
+<div class="project">
+  <div class="project__image-container">
+    <a href={link}><img class="project__image" src={imageSrc} alt="" /></a>
+    <div class="shape-grid">
+      <Triangle
+        color="var(--ocean-green)"
+        rotation="180deg"
+        verticalAlign="end"
+        size="50px"
+      />
+      <Circle color="var(--traffic-orange)" />
+      <Triangle
+        color="var(--light-purple)"
+        rotation="180deg"
+        verticalAlign="end"
+        size="50px"
+      />
+    </div>
   </div>
-  <div class="info-container">
-    <a class="info__link" href={link}>
-      <h2>{name}</h2>
-      <p>{description}</p>
-    </a>
-  </div>
+  <h2 class="project__name"><a class="project__link" href={link}>{name}</a></h2>
+  <p class="project__description">{description}</p>
+  <div>link: {link}</div>
 </div>
 
 <style>
-  h2 {
-    font-size: 1.25rem;
-    font-family: var(--header-font);
+  .project {
+    border-right: 2px solid var(--light-gray);
   }
 
-  .info-container {
-    margin-top: 10px;
-    margin-right: 20px;
-    background-color: var(--deep-purple);
+  .project:nth-of-type(3n) {
+    border-right: none;
   }
 
-  .info__link {
-    display: block;
-    padding: 20px;
-    text-decoration: none;
-    color: white;
+  .project__image-container {
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* position: relative; */
   }
 
-  .grid-item:nth-child(3n+2) {
-    /* border: 2px solid cyan; */
-    grid-column: 1/-1;
-  }
-
-  @media (min-width: 768px) {
-    .grid-item:nth-child(3n+2) {
-      /* border: none; */
-      grid-column: auto;
-    }
-  }
-
-  .grid-item.grid-item:nth-of-type(1) {
-    padding-right: 40px;
-    padding-left: 20px;
-  }
-
-  .grid-item.grid-item:nth-of-type(1) .grid-item__art {
-    position: absolute;
-    height: 100%;
-    width: 110%;
-    right: 20px;
-    bottom: 0;
-    z-index: -1;
-    color: var(--deep-purple);
-    background: repeating-linear-gradient(
-      var(--deep-purple),
-      var(--deep-purple) 10px,
-      rgba(0,0,0,0) 10px,
-      rgba(0,0,0,0) 20px
-    );
-  }
-
-  .grid-item:nth-of-type(1) .grid-item__bg {
-    background-color: var(--deep-blush);
-    height: 100%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .grid-item:nth-of-type(1) .project-image {
-    padding-top: 20px;
-    padding-right: 20px;
-    padding-left: 40px;
-  }
-
-  .grid-item:nth-of-type(2) .grid-item__bg {
-    color: var(--deep-blush);
-    background: repeating-linear-gradient(
-      to top,
-    var(--deep-blush),
-      var(--deep-blush) 10px,
-      rgba(0,0,0,0) 10px,
-      rgba(0,0,0,0) 20px
-    );
-  }
-
-  .grid-item:nth-of-type(2) .project-image {
-    padding: 20px;
-  }
-
-  .grid-item:nth-of-type(3) {
-    padding-left: 60px;
-  }
-
-  .grid-item:nth-of-type(3) .graphic-container {
-    margin-left: -20px;
-  }
-
-  .grid-item:nth-of-type(3) .grid-item__bg {
-    margin-right: 20px;
-    background-color: var(--deep-blush);
-    position: relative;
-    z-index: 1;
-  }
-
-  .grid-item:nth-of-type(3) .project-image {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .grid-item:nth-of-type(3) .grid-item__art {
-    color: var(--deep-purple);
-    background: repeating-linear-gradient(
-      var(--deep-purple),
-      var(--deep-purple) 10px,
-      rgba(0,0,0,0) 10px,
-      rgba(0,0,0,0) 20px
-    );
-    height: 110%;
-    width: 110%;
-    position: absolute;
-    left: 20px;
-    bottom: 0;
-    z-index: -1;
-  }
-
-  .grid-item:nth-of-type(4) .graphic-container {
-    margin-right: 20px;
-    padding-bottom: 40px;
-    padding-left: 40px;
-    position: relative;
-  }
-
-  .grid-item:nth-of-type(4) .project-image {
-    box-shadow: 20px -20px 0 var(--deep-blush); 
-    margin-right: 20px;
-  }
-  
-  .grid-item:nth-of-type(5) .project-image {
-    margin: 20px auto 20px;
-    border-radius: 50%;
-    padding: 0;
-    height: 210px;
-    width: 210px;
+  .project__image {
+    width: 100px;
+    height: 100px;
+    border-radius: 9999px;
     object-fit: cover;
-    object-position: center;
+  }
+
+  .shape-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project__name {
+    margin-top: 16px;
+    font-size: 0.75rem;
+  }
+
+  .project__link {
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  .project__description {
+    margin-top: 16px;
   }
 </style>

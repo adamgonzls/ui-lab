@@ -13,6 +13,12 @@ export const projects = [
     description: "A sign up page for a website",
   },
   {
+    imageSrc: dogBeanie,
+    link: "/03-landing-page",
+    name: "Landing Page",
+    description: "A landing page",
+  },
+  {
     imageSrc: purse,
     link: "/06-user-profile",
     name: "User Profile",

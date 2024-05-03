@@ -3,6 +3,9 @@
   import Square from "../../components/03-landing-page/Square.svelte"
   import Gear from "../../components/03-landing-page/Gear.svelte"
   import Eye from "../../components/03-landing-page/Eye.svelte"
+  import HowItWorks from "../../components/03-landing-page/HowItWorks.svelte"
+  const melrose = "#9d96fe"
+  const offWhite = "#f3f5fd"
 </script>
 
 <div class="main-container">
@@ -57,9 +60,7 @@
             </h3>
           </div>
         </div>
-        <div class="marquee__item">
-          <h3>How it works</h3>
-        </div>
+        <HowItWorks />
         <div class="marquee__item"><h3>Our blog</h3></div>
         <div class="marquee__item">(playing video)</div>
         <div class="marquee__item">
@@ -68,7 +69,6 @@
           </div>
           <h3>View updates</h3>
         </div>
-        <!-- <div class="marquee__item"><h3>Collaborative</h3></div> -->
       </div>
       <div class="marquee__content scroll">
         <div class="marquee__item marquee__item--trapezoid">
@@ -96,9 +96,7 @@
             </h3>
           </div>
         </div>
-        <div class="marquee__item">
-          <h3>How it works</h3>
-        </div>
+        <HowItWorks />
         <div class="marquee__item"><h3>Our blog</h3></div>
         <div class="marquee__item">(playing video)</div>
         <div class="marquee__item">
@@ -107,7 +105,6 @@
           </div>
           <h3>View updates</h3>
         </div>
-        <!-- <div class="marquee__item"><h3>Collaborative</h3></div> -->
       </div>
     </div>
   </main>
@@ -153,7 +150,7 @@
     /* animation: scroll 5s linear infinite; */
   }
   .scroll {
-    /* animation: scroll 15s linear infinite; */
+    animation: scroll 15s linear infinite;
   }
 
   @keyframes scroll {

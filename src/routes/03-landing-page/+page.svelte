@@ -1,4 +1,5 @@
 <script>
+  import "$lib/assets/fonts/stylesheet.css"
   import Collaborative from "../../components/03-landing-page/Collaborative.svelte"
   import ChoosePlan from "../../components/03-landing-page/ChoosePlan.svelte"
   import AboutCircleUp from "../../components/03-landing-page/AboutCircleUp.svelte"
@@ -9,6 +10,7 @@
   import Interview from "$lib/assets/images/interview.mp4"
   import VideoFeature from "../../components/03-landing-page/VideoFeature.svelte"
   import Header from "../../components/03-landing-page/Header.svelte"
+  import Hero from "../../components/03-landing-page/Hero.svelte"
   const melrose = "#9d96fe"
   const midnightBlue = "#3f3a72"
   const offWhite = "#f3f5fd"
@@ -17,24 +19,7 @@
 <div class="main-container">
   <main>
     <Header />
-    <div class="hero">
-      <div>
-        <h2>Connect</h2>
-        <img src="" alt="face" />
-        <h2>Create</h2>
-      </div>
-      <div>
-        <h2>Augment</h2>
-        <img src="" alt="face" />
-        <h2>Your</h2>
-      </div>
-      <div>
-        <img src="" alt="face" />
-        <h2>Reality</h2>
-        <img src="" alt="face" />
-      </div>
-    </div>
-
+    <Hero />
     <div class="marquee">
       <div class="marquee__content scroll">
         <Collaborative />
@@ -79,7 +64,7 @@
 </div>
 
 <style>
-  * {
+  :root {
     --body-font: "Open Sans";
     --selago: #f3f5fd;
     --blue-zodiac: #141054;
@@ -101,6 +86,7 @@
     font-family: var(--body-font);
   }
   .marquee {
+    margin-top: 50px;
     display: flex;
     gap: 1rem;
     overflow: hidden;

@@ -17,7 +17,6 @@
   .marquee__rectangle-container {
     width: 150px;
     height: 150px;
-    border: 2px solid red;
     position: relative;
   }
 

@@ -1,9 +1,10 @@
 <script>
   import "$lib/assets/fonts/stylesheet.css"
+  import "$lib/assets/fonts/03-landing-page/stylesheet.css"
   import Collaborative from "../../components/03-landing-page/Collaborative.svelte"
   import ChoosePlan from "../../components/03-landing-page/ChoosePlan.svelte"
   import AboutCircleUp from "../../components/03-landing-page/AboutCircleUp.svelte"
-  import ViewFeatureSet from "../../components/03-landing-page/ViewFeatureSet.svelte"
+  import ViewFeature from "../../components/03-landing-page/ViewFeature.svelte"
   import OurBlog from "../../components/03-landing-page/OurBlog.svelte"
   import HowItWorks from "../../components/03-landing-page/HowItWorks.svelte"
   import VideoConference from "$lib/assets/images/video-conference-1.mp4"
@@ -26,7 +27,7 @@
         <ChoosePlan />
         <VideoFeature videoSrc={VideoConference} />
         <AboutCircleUp />
-        <ViewFeatureSet
+        <ViewFeature
           marqueeText="View feature set"
           marqueeIcon="eye"
           bgColor={midnightBlue}
@@ -34,7 +35,7 @@
         <HowItWorks />
         <OurBlog />
         <VideoFeature videoSrc={Interview} />
-        <ViewFeatureSet
+        <ViewFeature
           marqueeText="View updates"
           marqueeIcon="clock"
           bgColor={melrose}
@@ -45,7 +46,7 @@
         <ChoosePlan />
         <VideoFeature videoSrc={VideoConference} />
         <AboutCircleUp />
-        <ViewFeatureSet
+        <ViewFeature
           marqueeText="View feature set"
           marqueeIcon="eye"
           bgColor={midnightBlue}
@@ -53,7 +54,7 @@
         <HowItWorks />
         <OurBlog />
         <VideoFeature videoSrc={Interview} />
-        <ViewFeatureSet
+        <ViewFeature
           marqueeText="View updates"
           marqueeIcon="clock"
           bgColor={melrose}
@@ -65,7 +66,8 @@
 
 <style>
   :root {
-    --body-font: "Open Sans";
+    --header-font: "Oleo Script", serif;
+    --body-font: "Open Sans", sans-serif;
     --selago: #f3f5fd;
     --blue-zodiac: #141054;
   }
@@ -76,19 +78,17 @@
     min-height: 100vh;
   }
   main {
-    margin: 0 auto;
+    margin: 2rem;
     border: 5px solid var(--blue-zodiac);
-    padding: 2rem;
-    /* width: 90%; */
     max-width: 1200px;
     background-color: var(--white);
     border-radius: 25px;
     font-family: var(--body-font);
   }
   .marquee {
-    margin-top: 50px;
+    margin-top: 40px;
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     overflow: hidden;
     position: relative;
   }
@@ -98,7 +98,7 @@
     justify-content: space-around;
     align-items: center;
     min-width: 100%;
-    gap: 1rem;
+    gap: 0.5rem;
     /* animation: scroll 5s linear infinite; */
   }
   .scroll {
@@ -110,7 +110,7 @@
       transform: translateX(0);
     }
     to {
-      transform: translateX(calc(-100% - 1rem));
+      transform: translateX(calc(-100% - 0.5rem));
     }
   }
 </style>

@@ -14,7 +14,7 @@
     <div class="spin">
       <Gear fillColor={bgColor} />
     </div>
-    <h3 class="spin__text">
+    <h3 class="marquee__text">
       <div class="eye__container"><Eye /></div>
       {marqueeText}
     </h3>
@@ -47,12 +47,13 @@
     width: 25px;
   }
 
-  .spin__text {
+  .marquee__text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
     text-align: center;
+    font-family: var(--header-font);
   }
 </style>

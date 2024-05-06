@@ -4,19 +4,19 @@
 </script>
 
 <div class="marqee__item">
-  <video loop muted autoplay class="marquee__item egg"
+  <video loop muted autoplay class="marquee__item marquee__item--mask"
     ><source src={videoSrc} type="video/mp4" /></video
   >
 </div>
 
 <style>
   .marquee__item {
-    width: 150px;
+    width: 250px;
     height: 150px;
     position: relative;
   }
 
-  .egg {
+  .marquee__item--mask {
     object-fit: cover;
     /* position: absolute; */
     /* top: 0;

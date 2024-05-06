@@ -6,7 +6,7 @@
 <div class="marquee__item">
   <div class="marquee__circle-container">
     <Circle />
-    <h3 class="marquee__circle-text">
+    <h3 class="marquee__text">
       <div class="marquee__circle-drop-pin">
         <DropPin />
       </div>
@@ -22,13 +22,14 @@
     position: relative;
   }
 
-  .marquee__circle-text {
+  .marquee__text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
     text-align: center;
+    font-family: var(--header-font);
   }
 
   .marquee__circle-drop-pin {

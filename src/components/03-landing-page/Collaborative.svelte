@@ -6,24 +6,22 @@
   <div class="accordion__container">
     <Accordion />
   </div>
-  <h3 class="accordion__text">Collaborative</h3>
+  <h3 class="marquee__text">Collaborative</h3>
 </div>
 
 <style>
   .marquee__item--accordion {
     position: relative;
-    height: 150px;
-    width: 150px;
+    height: 200px;
+    width: 200px;
   }
 
-  .accordion__container {
-  }
-
-  .accordion__text {
+  .marquee__text {
     position: absolute;
-    bottom: 20%;
+    bottom: 25%;
     left: 50%;
     transform: translateX(-50%);
     color: #3f3a72;
+    font-family: var(--header-font);
   }
 </style>

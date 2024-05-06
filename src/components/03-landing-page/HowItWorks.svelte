@@ -6,9 +6,9 @@
 <div class="marquee__item">
   <div class="marquee__rectangle-container">
     <Rectangle />
-    <h3 class="rectangle__text">How it works</h3>
-    <div class="rectangle__arrow-container">
-      <Arrow />
+    <h3 class="marquee__text">How it works</h3>
+    <div class="marquee__arrow-container">
+      <Arrow fillColor="#ffffff" />
     </div>
   </div>
 </div>
@@ -20,14 +20,15 @@
     position: relative;
   }
 
-  .rectangle__text {
+  .marquee__text {
     position: absolute;
-    bottom: 20%;
+    bottom: 25%;
     left: 5%;
     color: white;
+    font-family: var(--header-font);
   }
 
-  .rectangle__arrow-container {
+  .marquee__arrow-container {
     position: absolute;
     top: 20%;
     right: 5%;

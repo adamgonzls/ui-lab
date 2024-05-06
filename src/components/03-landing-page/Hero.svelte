@@ -27,6 +27,7 @@
     <span class="oval-image" style={`background-image: url(${SocialWoman2})`}
     ></span>
   </div>
+  <h3 class="hero__cta row">(Download now)</h3>
 </div>
 
 <style>
@@ -35,6 +36,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: var(--blue-zodiac);
   }
   .row {
     display: flex;
@@ -64,5 +66,13 @@
     font-weight: 600;
     text-transform: uppercase;
     line-height: 0.8em;
+  }
+  .hero__cta {
+    margin-top: 20px;
+    font-size: 5rem;
+    font-family: var(--header-font);
+    font-weight: 100;
+    line-height: 1;
+    color: #f5d7fe;
   }
 </style>

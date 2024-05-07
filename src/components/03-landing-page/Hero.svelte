@@ -50,9 +50,6 @@
   .row--top-margin {
     margin-top: 10px;
   }
-  .image {
-    background-image: url();
-  }
   .oval-image {
     width: 80px;
     height: 50px;
@@ -73,6 +70,6 @@
     font-family: var(--header-font);
     font-weight: 100;
     line-height: 1;
-    color: #f5d7fe;
+    color: var(--pepto);
   }
 </style>

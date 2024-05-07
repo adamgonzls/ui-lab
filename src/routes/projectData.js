@@ -1,4 +1,5 @@
 import woman from "$lib/assets/images/woman-500w.jpg"
+import LandingPageAvatar from "$lib/assets/images/03-landing-page-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
 import purse from "$lib/assets/images/purse-640w.jpg"
 import jacket from "$lib/assets/images/jacket-640w.jpg"
@@ -11,6 +12,12 @@ export const projects = [
     link: "/01-sign-up",
     name: "Sign Up Page",
     description: "A sign up page for a website",
+  },
+  {
+    imageSrc: LandingPageAvatar,
+    link: "/03-landing-page",
+    name: "Landing Page",
+    description: "A landing page",
   },
   {
     imageSrc: purse,

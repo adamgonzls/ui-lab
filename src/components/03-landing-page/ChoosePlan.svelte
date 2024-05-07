@@ -17,11 +17,10 @@
 
 <style>
   .marquee__circle-container {
-    width: 150px;
-    height: 150px;
+    width: 175px;
+    height: 175px;
     position: relative;
   }
-
   .marquee__text {
     position: absolute;
     top: 50%;
@@ -30,8 +29,8 @@
     color: white;
     text-align: center;
     font-family: var(--header-font);
+    line-height: 1;
   }
-
   .marquee__circle-drop-pin {
     margin-left: auto;
     margin-right: auto;

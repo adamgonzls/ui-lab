@@ -39,6 +39,9 @@
   .recently-viewed__item {
     position: relative;
   }
+  .recently-viewed__item:hover .recently-viewed__delete {
+    opacity: 1;
+  }
   .recently-viewed__select {
     display: flex;
     flex-direction: column;
@@ -60,8 +63,9 @@
     top: -10px;
     right: -10px;
     cursor: pointer;
-    border: 2px solid red;
-    border-radius: 9999px;
+    opacity: 0;
     background: none;
+    border: none;
+    transition: opacity 0.3s;
   }
 </style>

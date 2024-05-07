@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import posterImg from "$lib/assets/images/jacket-640w.jpg"
-  export let videoSrc
+  export let videoSrc: string
 </script>
 
 <div class="marqee__item">
@@ -15,14 +15,8 @@
     height: 150px;
     position: relative;
   }
-
   .marquee__item--mask {
     object-fit: cover;
-    /* position: absolute; */
-    /* top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; */
     clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
   }
 </style>

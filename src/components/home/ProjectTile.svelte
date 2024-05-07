@@ -6,46 +6,83 @@
   export let description: string
   export let imageSrc: string
   export let index: number
+  const rotationOptions = ["0deg", "90deg", "180deg", "270deg"]
+  const colorOptions = [
+    "var(--ocean-green)",
+    "var(--traffic-orange)",
+    "var(--light-purple)",
+    "var(--traffic-orange)",
+    "var(--school-bus)",
+    "var(--sky)",
+  ]
+  function getRandomElement(arr: string[]) {
+    return arr[Math.floor(Math.random() * arr.length)]
+  }
 </script>
 
 <div class="project">
   <div class="project__image-container">
-    <a href={link}><img class="project__image" src={imageSrc} alt="" /></a>
+    {#if link}
+      <a href={link}
+        ><img
+          class="project__image"
+          src={imageSrc}
+          alt="Avatar for project"
+          style="border: 2px solid {getRandomElement(colorOptions)}"
+        /></a
+      >
+    {:else}
+      <img
+        class="project__image"
+        src={imageSrc}
+        alt="Avatar for project"
+        style="border: 2px solid {getRandomElement(colorOptions)}"
+      />
+    {/if}
     <div class="shape-grid">
       <Triangle
-        color="var(--ocean-green)"
-        rotation="180deg"
+        color={getRandomElement(colorOptions)}
+        rotation={getRandomElement(rotationOptions)}
         verticalAlign="end"
         size="50px"
       />
-      <Circle color="var(--traffic-orange)" />
+      <Circle color={getRandomElement(colorOptions)} />
       <Triangle
-        color="var(--light-purple)"
-        rotation="180deg"
+        color={getRandomElement(colorOptions)}
+        rotation={getRandomElement(rotationOptions)}
         verticalAlign="end"
         size="50px"
       />
     </div>
   </div>
-  <h2 class="project__name"><a class="project__link" href={link}>{name}</a></h2>
-  <p class="project__description">{description}</p>
-  <div>link: {link}</div>
+  <div class="project__details">
+    {#if link}
+      <h2 class="project__name">
+        <a class="link" href={link}>{name}</a>
+      </h2>
+    {:else}
+      <h2 class="project__name">{name}</h2>
+    {/if}
+    <p class="project__description">{description}</p>
+    {#if link}
+      <div><a class="link project__link" href={link}>View Project</a></div>
+    {:else}
+      <div></div>
+    {/if}
+  </div>
 </div>
 
 <style>
   .project {
     border-right: 2px solid var(--light-gray);
-  }
-
-  .project:nth-of-type(3n) {
-    border-right: none;
+    /* display: flex; */
+    gap: 1rem;
   }
 
   .project__image-container {
+    /* flex: 1; */
     display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* position: relative; */
+    gap: 1rem;
   }
 
   .project__image {
@@ -55,22 +92,59 @@
     object-fit: cover;
   }
 
+  .project__details {
+    flex: 1;
+  }
+
   .shape-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: none;
   }
 
   .project__name {
-    margin-top: 16px;
+    margin-top: 1rem;
     font-size: 0.75rem;
   }
 
-  .project__link {
+  .link {
     text-decoration: none;
     color: var(--black);
   }
 
+  .project__link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-weight: 600;
+  }
+
   .project__description {
-    margin-top: 16px;
+    max-width: 100%;
+  }
+  @media (min-width: 410px) {
+    .shape-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-self: start;
+    }
+  }
+  @media (min-width: 540px) {
+    .project {
+      display: flex;
+    }
+    .project__name {
+      margin-top: 0;
+    }
+  }
+  @media (min-width: 680px) {
+    .project {
+      display: block;
+    }
+    .project__name {
+      margin-top: 1rem;
+    }
+  }
+  @media (min-width: 900px) {
+    .project:nth-of-type(3n) {
+      border-right: none;
+    }
   }
 </style>

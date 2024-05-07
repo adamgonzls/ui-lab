@@ -34,6 +34,8 @@
     --light-purple: #c282d1;
     --light-gray: #dedddd;
     --traffic-orange: #ff8144;
+    --sky: #4b90f1;
+    --school-bus: #ffba50;
     --bg-yellow: #fff0a0;
     --deep-blush: #e38895;
     --deep-purple: #323288;
@@ -58,15 +60,21 @@
 
   .projects {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 60px 60px;
+    /* grid-template-columns: repeat(2, 1fr); */
+    row-gap: 30px;
   }
 
-  @media (min-width: 768px) {
-    .grid-container {
-      padding: 20px;
+  @media (min-width: 680px) {
+    .projects {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 60px 60px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .projects {
       grid-template-columns: repeat(3, 1fr);
-      row-gap: 40px;
+      gap: 60px 60px;
     }
   }
 </style>

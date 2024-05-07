@@ -21,6 +21,7 @@
     --white: #ffffff;
     --selago: #f3f5fd;
     --pepto: #f5d7fe;
+    --slimer: #e5ffb5;
     --blue-zodiac: #141054;
   }
   .main-container {

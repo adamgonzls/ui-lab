@@ -43,12 +43,12 @@
     gap: 20px;
     border-radius: 40px;
     padding: 0.25rem 1rem;
-    background-color: #ffffff;
+    background-color: var(--white);
   }
   .nav__signup {
     padding: 0.25rem 1rem;
     border-radius: 40px;
     background-color: var(--blue-zodiac);
-    color: #ffffff;
+    color: var(--white);
   }
 </style>

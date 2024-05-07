@@ -1,5 +1,6 @@
 import woman from "$lib/assets/images/woman-500w.jpg"
-import LandingPageAvatar from "$lib/assets/images/03-landing-page-avatar.jpg"
+import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-avatar.jpg"
+import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
 import purse from "$lib/assets/images/purse-640w.jpg"
 import jacket from "$lib/assets/images/jacket-640w.jpg"
@@ -17,10 +18,11 @@ export const projects = [
     imageSrc: LandingPageAvatar,
     link: "/03-landing-page",
     name: "Landing Page",
-    description: "A landing page",
+    description:
+      "A brand landing page featuring a scrolling marquee, css animations, and video played behind a clip path.",
   },
   {
-    imageSrc: purse,
+    imageSrc: UserProfilePageAvatar,
     link: "/06-user-profile",
     name: "User Profile",
     description: "GitHub User Profile",
@@ -42,55 +44,55 @@ export const projects = [
   },
   {
     imageSrc: shoes,
-    link: "/ui-lab/4",
+    link: "",
     name: "Calculator",
     description: "This is a very complicated something or other",
   },
   {
     imageSrc: dogBeanie,
-    link: "/05",
+    link: "",
     name: "App Icon",
     description: "A sign up page for a website",
   },
   {
     imageSrc: purse,
-    link: "/06",
+    link: "",
     name: "User Profile",
     description: "Some important words about this project",
   },
   {
     imageSrc: jacket,
-    link: "/07",
+    link: "",
     name: "Settings",
     description: "This is a something something",
   },
   {
     imageSrc: shoes,
-    link: "/08",
+    link: "",
     name: "404 Page",
     description: "This is a very complicated something or other",
   },
   {
     imageSrc: dogBeanie,
-    link: "/09",
+    link: "",
     name: "Music Player",
     description: "This is a very complicated something or other",
   },
   {
     imageSrc: purse,
-    link: "/10",
+    link: "",
     name: "Social Share",
     description: "Some important words about this project",
   },
   {
     imageSrc: jacket,
-    link: "/11",
+    link: "",
     name: "Flash Message",
     description: "This is a something something",
   },
   {
     imageSrc: shoes,
-    link: "/#",
+    link: "",
     name: "E-Commerce Shop",
     description: "This is a very complicated something or other",
   },

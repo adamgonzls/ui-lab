@@ -1,6 +1,7 @@
 <nav>
   <a href="/">Home</a>
   <a href="/01-sign-up">Sign Up</a>
+  <a href="/03-landing-page">Landing Page</a>
   <a href="/06-user-profile">User Profile</a>
 </nav>
 

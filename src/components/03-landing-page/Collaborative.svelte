@@ -15,7 +15,6 @@
     height: 200px;
     width: 200px;
   }
-
   .marquee__text {
     position: absolute;
     bottom: 25%;
@@ -23,5 +22,6 @@
     transform: translateX(-50%);
     color: #3f3a72;
     font-family: var(--header-font);
+    line-height: 1;
   }
 </style>

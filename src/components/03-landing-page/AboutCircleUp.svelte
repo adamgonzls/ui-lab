@@ -26,6 +26,7 @@
     width: 50%;
     color: var(--blue-zodiac);
     font-family: var(--header-font);
+    line-height: 1;
   }
   .marquee__arrow-container {
     position: absolute;

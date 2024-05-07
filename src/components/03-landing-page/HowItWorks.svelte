@@ -19,15 +19,14 @@
     height: 150px;
     position: relative;
   }
-
   .marquee__text {
     position: absolute;
     bottom: 25%;
     left: 5%;
-    color: white;
+    color: var(--white);
     font-family: var(--header-font);
+    line-height: 1;
   }
-
   .marquee__arrow-container {
     position: absolute;
     top: 20%;

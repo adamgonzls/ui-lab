@@ -24,8 +24,9 @@
     bottom: 25%;
     left: 50%;
     transform: translateX(-50%);
-    color: white;
+    color: var(--white);
     font-family: var(--header-font);
+    line-height: 1;
   }
   .marquee__arrow-container {
     position: absolute;

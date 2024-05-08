@@ -1,4 +1,6 @@
 <script>
+  import "$lib/assets/fonts/12-ecommerce-shop/stylesheet.css"
+  import "../../styles.css"
   import fabricChair from "$lib/assets/images/fabric-armchair-610w.png"
   import armchair from "$lib/assets/images/modern-living-room-wooden-armchair-308w.png"
   import rockingChair from "$lib/assets/images/rocking-chair-315w.png"
@@ -9,9 +11,9 @@
   import shoppingBag from "$lib/assets/images/purse-wallet.svg"
 </script>
 
-<div class="content-container">
-  <img class="img--rotate" src={fabricChair} alt="Cantilever chair">
-  <img class="img--rotate-2" src={armchair} alt="Cantilever chair">
+<main class="content-container">
+  <img class="img--rotate" src={fabricChair} alt="Cantilever chair" />
+  <img class="img--rotate-2" src={armchair} alt="Cantilever chair" />
   <div class="info-container">
     <div>
       <nav class="page-navigation">
@@ -20,33 +22,49 @@
         <a href="#">Trends</a>
         <a href="#">Blog</a>
         <a href="#">Contact</a>
-        <a class="cart" href="#"><img class="cart__image" src={shoppingBag} alt=""></a>
+        <a class="cart" href="#"
+          ><img class="cart__image" src={shoppingBag} alt="" /></a
+        >
       </nav>
       <div class="product__container">
         <div class="product__info">
           <h1>Relax Seat</h1>
-          <h2>Feel the essence of comfort</h2>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta optio, quibusdam adipisci laboriosam, temporibus in voluptates esse sequi debitis ad ipsum! Sit molestias autem quidem labore doloribus necessitatibus debitis numquam?</p>
-          <span>390$</span>
-          <button>Add to cart</button>
+          <h2 class="product__tagline">Feel the essence of comfort</h2>
+          <p class="product__extended-description">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta
+            optio, quibusdam adipisci laboriosam, temporibus in voluptates esse
+            sequi debitis ad ipsum! Sit molestias autem quidem labore doloribus
+            necessitatibus debitis numquam?
+          </p>
+          <span class="product__price">390$</span><br />
+          <button class="product__add-to-cart">Add to cart</button>
         </div>
         <div>color</div>
         <div class="product__image">
-          <img src={fabricChair} alt="">
+          <img src={fabricChair} alt="" />
         </div>
       </div>
       <div class="related-products">
-        <img class="related-image" src={rockingChair} alt="">
-        <img class="related-image" src={roundTable} alt="">
-        <img class="related-image" src={concreteBench} alt="">
-        <img class="related-image" src={redThrone} alt="">
-        <img class="related-image" src={peachCouch} alt="">
+        <img class="related-image" src={rockingChair} alt="" />
+        <img class="related-image" src={roundTable} alt="" />
+        <img class="related-image" src={concreteBench} alt="" />
+        <img class="related-image" src={redThrone} alt="" />
+        <img class="related-image" src={peachCouch} alt="" />
       </div>
     </div>
   </div>
-</div>
+</main>
 
 <style>
+  * {
+    --body-font: "Poppins", sans-serif;
+    --ryder: #ecad27;
+    --rain-cloud: #adadad;
+    --overcast: #ebebeb;
+  }
+  main {
+    font-family: var(--body-font);
+  }
   a {
     color: #111;
     text-decoration: none;
@@ -64,7 +82,7 @@
   .content-container {
     position: relative;
     height: 100vh;
-    background-color: #e1e1e1;
+    background-color: var(--overcast);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,6 +104,24 @@
   .product__info,
   .product__image {
     flex: 1;
+  }
+  .product__tagline {
+    color: var(--rain-cloud);
+    font-size: 1.2rem;
+  }
+  .product__extended-description {
+    margin-top: 2rem;
+    color: var(--rain-cloud);
+  }
+  .product__price {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--ryder);
+    font-weight: bold;
+  }
+  .product__add-to-cart {
+    display: inline-block;
+    margin-top: 2rem;
   }
   .related-products {
     position: absolute;

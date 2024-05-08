@@ -20,12 +20,15 @@ export const projects = [
     name: "Landing Page",
     description:
       "A brand landing page featuring a scrolling marquee, css animations, and video played behind a clip path.",
+    mockup:
+      "https://dribbble.com/shots/21675109-AR-Social-Network-Landing-Page",
   },
   {
     imageSrc: UserProfilePageAvatar,
     link: "/06-user-profile",
     name: "User Profile",
-    description: "GitHub User Profile",
+    description:
+      "GitHub user search page utilizes stores, local storage, GitHub API and more.",
     mockup: "https://dribbble.com/shots/16979679-User-Profiles",
   },
   {
@@ -40,7 +43,9 @@ export const projects = [
     imageSrc: jacket,
     link: "/12-ecommerce-shop",
     name: "Ecommerce Shop",
-    description: "An ecommerce shop with state",
+    description: "An ecommerce shop product page",
+    mockup:
+      "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
   {
     imageSrc: shoes,

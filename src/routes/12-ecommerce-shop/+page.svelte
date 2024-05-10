@@ -48,7 +48,6 @@
           <button class="product__add-to-cart">Add to cart</button>
           <Arrow fillColor="#ecad27" rotation="270deg" />
         </div>
-        <div>color</div>
         <div class="product__image">
           <div
             style="--borderRadius: {borderRadius}"
@@ -104,6 +103,7 @@
   }
   .info-container {
     margin: 60px;
+    border-radius: 15px;
     padding: 20px;
     background-color: #fff;
     z-index: 10;
@@ -164,6 +164,7 @@
     transform: scale(1.25);
   }
   .img--rotate {
+    z-index: 2;
     transform: rotate(-30deg);
     position: absolute;
     top: -25%;

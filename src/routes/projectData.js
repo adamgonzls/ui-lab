@@ -1,6 +1,7 @@
 import woman from "$lib/assets/images/woman-500w.jpg"
 import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-avatar.jpg"
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
+import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
 import purse from "$lib/assets/images/purse-640w.jpg"
 import jacket from "$lib/assets/images/jacket-640w.jpg"
@@ -19,13 +20,16 @@ export const projects = [
     link: "/03-landing-page",
     name: "Landing Page",
     description:
-      "A brand landing page featuring a scrolling marquee, css animations, and video played behind a clip path.",
+      "A brand landing page featuring a scrolling marquee made with HTML and CSS only, CSS animations, and video within a clip path.",
+    mockup:
+      "https://dribbble.com/shots/21675109-AR-Social-Network-Landing-Page",
   },
   {
     imageSrc: UserProfilePageAvatar,
     link: "/06-user-profile",
     name: "User Profile",
-    description: "GitHub User Profile",
+    description:
+      "GitHub user search page utilizes stores, local storage, GitHub API and more.",
     mockup: "https://dribbble.com/shots/16979679-User-Profiles",
   },
   {
@@ -37,10 +41,12 @@ export const projects = [
       "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
   {
-    imageSrc: jacket,
+    imageSrc: EcommerceShopAvatar,
     link: "/12-ecommerce-shop",
     name: "Ecommerce Shop",
-    description: "An ecommerce shop with state",
+    description: "An ecommerce shop product page featuring CSS blobs",
+    mockup:
+      "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
   {
     imageSrc: shoes,

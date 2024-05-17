@@ -33,6 +33,14 @@ export const projects = [
     mockup: "https://dribbble.com/shots/16979679-User-Profiles",
   },
   {
+    imageSrc: dogBeanie,
+    link: "/08-404-page",
+    name: "404 Page",
+    description: "404 page with CSS animations",
+    mockup:
+      "https://www.behance.net/gallery/196522715/My-Daily-UI-008-Error-404-Page?tracking_source=search_projects|404+page+web+design&l=20",
+  },
+  {
     imageSrc: purse,
     link: "",
     name: "Credit Card Checkout",

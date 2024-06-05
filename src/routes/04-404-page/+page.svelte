@@ -1,3 +1,9 @@
+<script>
+  import Moon from "../../components/04-404-page/Moon.svelte"
+  import Astronaut from "../../components/04-404-page/Astronaut.svelte"
+  import FallingStar from "../../components/04-404-page/FallingStar.svelte"
+</script>
+
 <div>
   <nav class="navigation__container">
     <span>Company logo</span>
@@ -19,11 +25,13 @@
     </div>
     <div>
       <div class="error">
-        <span>4</span>
-        <img src="" alt="The moon" />
-        <span>4</span>
+        <span class="letter">4</span>
+        <Moon additionalClasses="rotate" />
+        <span class="letter">4</span>
       </div>
-      <div class="astronaut"></div>
+      <Astronaut additionalClasses="floating" />
+      <Moon additionalClasses="rotate" />
+      <!-- <FallingStar /> -->
     </div>
   </main>
 </div>
@@ -46,8 +54,13 @@
   }
   .content-container {
     display: flex;
+    justify-content: center;
   }
   .error {
     display: flex;
+  }
+  .letter {
+    font-size: 3rem;
+    font-weight: bold;
   }
 </style>

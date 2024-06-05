@@ -34,7 +34,7 @@ export const projects = [
   },
   {
     imageSrc: dogBeanie,
-    link: "/08-404-page",
+    link: "/04-404-page",
     name: "404 Page",
     description: "404 page with CSS animations",
     mockup:

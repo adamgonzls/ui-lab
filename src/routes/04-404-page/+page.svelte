@@ -2,6 +2,14 @@
   import Moon from "../../components/04-404-page/Moon.svelte"
   import Astronaut from "../../components/04-404-page/Astronaut.svelte"
   import FallingStar from "../../components/04-404-page/FallingStar.svelte"
+  function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min
+  }
+  function getBorderRadius() {
+    // const random = Math.random()
+    return `0 ${getRandomArbitrary(38, 88)}% ${getRandomArbitrary(58, 95)}% 0 / 0 ${getRandomArbitrary(28, 65)}% ${getRandomArbitrary(38, 95)}% 0`
+  }
+  const randomBorderRadius = getBorderRadius()
 </script>
 
 <div>
@@ -16,7 +24,10 @@
     </ul>
   </nav>
   <main class="content-container">
-    <div class="background-blob"></div>
+    <div
+      class="background-blob"
+      style="border-radius: {randomBorderRadius}"
+    ></div>
     <div class="message">
       <div>
         <h1>Oops!</h1>
@@ -31,7 +42,9 @@
         <Moon additionalClasses="moon rotate" />
         <span class="letter">4</span>
       </div>
-      <Astronaut additionalClasses="astronaut floating" />
+      <div>
+        <Astronaut additionalClasses="astronaut floating" />
+      </div>
       <!-- <FallingStar /> -->
     </div>
   </main>
@@ -41,6 +54,16 @@
   :root {
     --status-code-size: 7rem;
     --body-font: "Open Sans", sans-serif;
+  }
+  @media (min-width: 750px) {
+    :root {
+      --status-code-size: 10rem;
+    }
+  }
+  @media (min-width: 1200px) {
+    :root {
+      --status-code-size: 15rem;
+    }
   }
   .navigation__container {
     display: flex;
@@ -52,10 +75,9 @@
   .background-blob {
     position: absolute;
     background-color: #f0f0f0;
-    border-radius: 50%;
     left: 0;
     height: 100%;
-    width: 200px;
+    width: 50%;
     z-index: -1;
   }
   .content-container {
@@ -67,31 +89,25 @@
     color: #465a64;
     font-family: var(--body-font);
   }
+  .message {
+    text-align: center;
+  }
   @media (min-width: 600px) {
     .content-container {
       flex-direction: row;
     }
     .message {
       flex: 1;
-      padding-left: 2rem;
+      padding-left: 4rem;
+      text-align: unset;
     }
     .graphic {
       flex: 1;
     }
   }
-  .message {
-    /* flex: 1; */
-    /* padding-left: 2rem; */
-  }
-  .graphic {
-    /* flex: 1; */
-  }
   .error {
     display: flex;
     align-items: center;
-  }
-  .error > * {
-    /* flex: 1; */
   }
   .letter {
     font-size: var(--status-code-size);

@@ -81,6 +81,8 @@
 <style>
   .astronaut {
     height: var(--status-code-size);
+    margin-right: auto;
+    margin-left: auto;
   }
   .floating {
     animation: floating 3s ease-in-out infinite;

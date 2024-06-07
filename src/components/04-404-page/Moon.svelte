@@ -75,8 +75,12 @@
 </svg>
 
 <style>
+  .moon {
+    height: var(--status-code-size);
+  }
   .rotate {
-    animation: rotate 90s ease infinite;
+    flex-shrink: 0;
+    animation: rotate 90s linear infinite;
   }
   @keyframes rotate {
     0% {

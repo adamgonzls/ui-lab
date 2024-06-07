@@ -79,6 +79,9 @@
 </svg>
 
 <style>
+  .astronaut {
+    height: var(--status-code-size);
+  }
   .floating {
     animation: floating 3s ease-in-out infinite;
   }

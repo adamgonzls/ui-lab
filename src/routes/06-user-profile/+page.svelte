@@ -8,6 +8,7 @@
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
   import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
 
+  let timeout: number = 0
   let usernameQuery = ""
   let hasSubmitted = false
   let userList_value = []
@@ -63,6 +64,25 @@
   })
 
   function handleInputChange() {
+    clearTimeout(timeout)
+    // https://api.github.com/search/users?q={query}{&page,per_page,sort,order}
+
+    async function getUsers() {
+      const instantSearchURL = `https://api.github.com/search/users?q=${usernameQuery}&per_page=10`
+      const response = await fetch(instantSearchURL)
+      if (response.ok) {
+        const data = await response.json()
+        console.log(data)
+      } else {
+        console.error("Error:", response.status, response.statusText)
+      }
+    }
+
+    timeout = setTimeout(function () {
+      console.log("get the users")
+      getUsers()
+    }, 1000)
+
     hasSubmitted = false
   }
 

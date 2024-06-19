@@ -10,6 +10,8 @@
 
   let timeout: number = 0
   let usernameQuery = ""
+  let foundUsers = []
+
   let hasSubmitted = false
   let userList_value = []
   let clickedProfile = []
@@ -68,11 +70,12 @@
     // https://api.github.com/search/users?q={query}{&page,per_page,sort,order}
 
     async function getUsers() {
-      const instantSearchURL = `https://api.github.com/search/users?q=${usernameQuery}&per_page=10`
+      const instantSearchURL = `https://api.github.com/search/users?q=${usernameQuery}&per_page=5`
       const response = await fetch(instantSearchURL)
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
+        foundUsers = data.items
+        console.log(foundUsers)
       } else {
         console.error("Error:", response.status, response.statusText)
       }
@@ -191,7 +194,28 @@
         placeholder="Please enter a GitHub username"
       />
       <button class="form__submit">Submit</button>
+      {#if foundUsers.length > 0}
+        <ul class="foundUser__list">
+          {#each foundUsers as user}
+            <li class="foundUser__profile">
+              <img
+                class="foundUser__image"
+                src={user.avatar_url}
+                alt={`${user.login} avatar`}
+              />
+              <button on:click={setCurrentUser} id={user.login}
+                >{user.login}</button
+              >
+            </li>
+          {/each}
+        </ul>
+      {/if}
     </form>
+    {#if usernameQuery !== "" && currentUser === null && !hasSubmitted}
+      <p class="user--not-found">
+        Searching for {usernameQuery}...
+      </p>
+    {/if}
     {#if usernameQuery !== "" && currentUser === null && hasSubmitted}
       <p class="user--not-found">
         Sorry, no user was found for {usernameQuery}, please try again.
@@ -299,6 +323,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+    position: relative;
   }
   .form__label {
     font-size: 0.9rem;
@@ -312,6 +337,25 @@
   .form__submit {
     font-weight: bold;
     cursor: pointer;
+  }
+  .foundUser__list {
+    position: absolute;
+    background: rgba(172, 229, 219, 0.9);
+    border-radius: 5px;
+    list-style-type: none;
+    padding-left: 0;
+    top: 100%;
+    width: 100%;
+  }
+  .foundUser__profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .foundUser__image {
+    border-radius: 0.5rem;
+    width: 50px;
   }
   .content__container {
     margin-top: 1rem;

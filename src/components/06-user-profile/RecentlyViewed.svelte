@@ -37,7 +37,7 @@
     overflow: scroll;
   }
   .recently-viewed__item {
-    /* position: relative; */
+    position: relative;
   }
   .recently-viewed__item:hover .recently-viewed__delete {
     opacity: 1;

@@ -7,6 +7,7 @@
   import GithubIcon from "$lib/assets/images/github-icon.svelte"
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
   import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
+  import { get } from "svelte/store"
 
   let timeout: number = 0
   let usernameQuery = ""
@@ -65,25 +66,46 @@
     userList_value = value
   })
 
+  async function getUserData(username: string) {
+    const response = await fetch(`https://api.github.com/users/${username}`)
+    if (response.ok) {
+      const data = await response.json()
+      console.log(data)
+      foundUsers.find(
+        (user) => user.login === username && (user.matchMe = data)
+      )
+      console.log(foundUsers)
+      // getRepos(usernameQuery, data)
+    } else {
+      console.error("Error:", response.status, response.statusText)
+    }
+  }
+
   function handleInputChange() {
     clearTimeout(timeout)
     // https://api.github.com/search/users?q={query}{&page,per_page,sort,order}
 
-    async function getUsers() {
+    async function searchForUsers() {
       const instantSearchURL = `https://api.github.com/search/users?q=${usernameQuery}&per_page=5`
       const response = await fetch(instantSearchURL)
       if (response.ok) {
         const data = await response.json()
         foundUsers = data.items
-        console.log(foundUsers)
+        foundUsers.forEach((user: { login: string }) => {
+          getUserData(user.login)
+          // console.log(user)
+        })
+        // console.log(foundUsers)
       } else {
         console.error("Error:", response.status, response.statusText)
       }
     }
 
     timeout = setTimeout(function () {
-      console.log("get the users")
-      getUsers()
+      if (usernameQuery !== "") {
+        console.log("get the users")
+        searchForUsers()
+      }
     }, 1000)
 
     hasSubmitted = false
@@ -103,7 +125,7 @@
     if (response.ok) {
       const data = await response.json()
       getRepos(usernameQuery, data)
-      // hasSubmitted = true
+      // update the input field
     } else {
       currentUser = null
       // hasSubmitted = true
@@ -134,6 +156,13 @@
     repoData = await response.json()
     const combinedData = { ...data, repoData }
     userList.update((userList) => (userList = [combinedData, ...userList]))
+  }
+
+  function selectUser(event: Event) {
+    event.preventDefault()
+    foundUsers = []
+    usernameQuery = ""
+    console.log(event.target.id)
   }
 
   function setCurrentUser(usernameQuery: string) {
@@ -193,7 +222,7 @@
         on:input={handleInputChange}
         placeholder="Please enter a GitHub username"
       />
-      <button class="form__submit">Submit</button>
+      <!-- <button class="form__submit">Submit</button> -->
       {#if foundUsers.length > 0}
         <ul class="foundUser__list">
           {#each foundUsers as user}
@@ -203,8 +232,8 @@
                 src={user.avatar_url}
                 alt={`${user.login} avatar`}
               />
-              <button on:click={setCurrentUser} id={user.login}
-                >{user.login}</button
+              <span>{user.type}</span>
+              <button on:click={selectUser} id={user.login}>{user.login}</button
               >
             </li>
           {/each}
@@ -346,6 +375,7 @@
     padding-left: 0;
     top: 100%;
     width: 100%;
+    z-index: 1;
   }
   .foundUser__profile {
     display: flex;

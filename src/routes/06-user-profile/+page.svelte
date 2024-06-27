@@ -8,6 +8,7 @@
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
   import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
 
+  $: foundUsers = []
   let usernameQuery = ""
   let hasSubmitted = false
   let userList_value = []
@@ -62,8 +63,69 @@
     userList_value = value
   })
 
-  function handleInputChange() {
+  let timeout = null
+
+  async function getUserData(username: string) {
+    const res = await fetch(`https://api.github.com/users/${username}`)
+    const userData = await res.json()
+    // console.log(userData)
+    return userData
+  }
+
+  async function searchForUsers(searchQuery: string) {
+    const searchUrl = `https://api.github.com/search/users?q=${searchQuery}&page=1&per_page=5`
+    const res = await fetch(searchUrl)
+    const data = await res.json()
+    // maybe this needs to be in an async function
+    async function getAllUserDetails(data) {
+      // console.log(data)
+      data.items.forEach(
+        (user: {
+          login: string
+          extra_data?: { bio: string; blog: string }
+        }) => {
+          let userDetails
+          const username = user.login
+          async function loadUserData() {
+            userDetails = await getUserData(username)
+            user.extra_data = userDetails
+            user.hair = "brown"
+            console.log(user)
+          }
+          loadUserData()
+        }
+      )
+      console.log("two")
+      return data
+    }
+
+    const updatedData = await getAllUserDetails(data)
+    // console.log(data.items)
+    console.log(updatedData.items)
+    foundUsers = updatedData.items
+    console.log("three")
+    return foundUsers
+  }
+
+  async function handleInputChange(event: Event) {
+    // `https://api.github.com/search/users?q=${searchQuery}&page=${currentPage}&per_page=${usersPerPage}`
     hasSubmitted = false
+    const searchQuery = (event.target as HTMLInputElement).value
+    console.log(`value: ${searchQuery}`)
+    const userDetailsURL = `https://api.github.com/users/${searchQuery}`
+
+    clearTimeout(timeout)
+
+    // Make a new timeout set to go off in 1000ms (1 second)
+    timeout = setTimeout(function () {
+      console.log("Input Value:", searchQuery)
+      // fetch users that match query
+      // fetch each user's details from results of that query
+      // combine data from both fetches
+      // display all the data
+      console.log("one")
+      searchForUsers(searchQuery)
+    }, 1000)
   }
 
   async function handleSubmit() {
@@ -170,6 +232,29 @@
         on:input={handleInputChange}
         placeholder="Please enter a GitHub username"
       />
+      <!-- {#if foundUsers[0] !== undefined} -->
+      <!-- {#await foundUsers} -->
+      <p>Searching for users...</p>
+      {#if foundUsers.length > 0}
+        {foundUsers[0]["extra_data"]}
+        {#each foundUsers as user}
+          <button
+            class="form__submit"
+            on:click={setCurrentUser}
+            id={user.login}
+          >
+            <img class="user__avatar" src={user.avatar_url} alt={user.login} />
+            <span>{user.login}</span>
+            {#if user.login}
+              <span>{user.login}</span>
+            {/if}
+            {#if user.hair}
+              <span>{user.hair}</span>
+            {/if}
+          </button>
+        {/each}
+      {/if}
+      <!-- {/if} -->
       <button class="form__submit">Submit</button>
     </form>
     {#if usernameQuery !== "" && currentUser === null && hasSubmitted}

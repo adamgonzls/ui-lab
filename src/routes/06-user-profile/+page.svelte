@@ -110,6 +110,7 @@
       return
     }
 
+    // this might be duplicative
     const response = await fetch(`https://api.github.com/users/${login}`)
     if (response.ok) {
       const data = await response.json()
@@ -145,6 +146,7 @@
     repoData = await response.json()
     const combinedData = { ...data, repoData }
     userList.update((userList) => (userList = [combinedData, ...userList]))
+    usernameQuery = ""
   }
 
   function setCurrentUser(usernameQuery: string) {

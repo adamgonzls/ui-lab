@@ -8,8 +8,17 @@
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
   import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
 
-  let timeout = null
-  let foundUsers = []
+  interface User {
+    login: string
+    avatar_url: string
+    type: string
+    extra_data: {
+      bio?: string
+    }
+  }
+
+  let timeout: number | undefined = undefined
+  let foundUsers: User[] = []
   let usernameQuery = ""
   let hasSubmitted = false
   let userList_value = []
@@ -89,7 +98,7 @@
           .then(function (data) {
             // get the user data for each user
             return Promise.all(
-              data.items.map((item) => {
+              data.items.map((item: User) => {
                 return fetch(`${userDetailsURL}${item.login}`)
                   .then((res) => res.json())
                   .then((data) => {
@@ -123,8 +132,11 @@
     const foundUserObj = foundUsers.find(
       (foundUser) => foundUser.login === login
     )
-
-    getRepos(login, foundUserObj)
+    if (foundUserObj !== undefined) {
+      getRepos(login, foundUserObj)
+    } else {
+      console.log("found user object is undefined")
+    }
   }
 
   async function getRepos(
@@ -183,12 +195,18 @@
 
   function removeUser(event: Event) {
     event.stopPropagation()
-    const buttonId = event.target.id
-    const removeProfileIndex = buttonId.split("_")[0]
-    console.log(`remove user: ${removeProfileIndex}`)
-    deleteUser = true
-    $userList.splice(removeProfileIndex, 1)
-    $userList = $userList
+    if (event.target && event.target instanceof HTMLElement) {
+      const buttonId = event.target.id
+      const removeProfileIndex = parseInt(buttonId.split("_")[0])
+      if (!isNaN(removeProfileIndex)) {
+        console.log(`remove user: ${removeProfileIndex}`)
+        deleteUser = true
+        $userList.splice(removeProfileIndex, 1)
+        $userList = $userList
+      } else {
+        console.log("Failed to convert profile index to a number")
+      }
+    }
   }
 
   checkLocalStorage()

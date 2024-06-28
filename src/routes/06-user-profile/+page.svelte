@@ -8,7 +8,8 @@
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
   import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
 
-  $: foundUsers = []
+  let timeout = null
+  let foundUsers = []
   let usernameQuery = ""
   let hasSubmitted = false
   let userList_value = []
@@ -63,8 +64,6 @@
     userList_value = value
   })
 
-  let timeout = null
-
   async function handleInputChange(event: Event) {
     const searchQuery = (event.target as HTMLInputElement).value
     const searchUrl = `https://api.github.com/search/users?q=${searchQuery}&page=1&per_page=5`
@@ -100,20 +99,21 @@
     }, 1000)
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(login: string) {
+    console.log(login)
     hasSubmitted = true
-    if ($userList.some((user) => user.login === usernameQuery)) {
+    foundUsers = []
+
+    if ($userList.some((user) => user.login === login)) {
       console.log("User already exists in list")
-      setCurrentUser(usernameQuery)
+      setCurrentUser(login)
       return
     }
 
-    const response = await fetch(
-      `https://api.github.com/users/${usernameQuery}`
-    )
+    const response = await fetch(`https://api.github.com/users/${login}`)
     if (response.ok) {
       const data = await response.json()
-      getRepos(usernameQuery, data)
+      getRepos(login, data)
       // hasSubmitted = true
     } else {
       currentUser = null
@@ -123,7 +123,7 @@
   }
 
   async function getRepos(
-    usernameQuery: string,
+    login: string,
     data: {
       login: string
       avatar_url: string
@@ -140,7 +140,7 @@
       language: string
     }[] = []
     const response = await fetch(
-      `https://api.github.com/users/${usernameQuery}/repos?sort=updated&per_page=10`
+      `https://api.github.com/users/${login}/repos?sort=updated&per_page=10`
     )
     repoData = await response.json()
     const combinedData = { ...data, repoData }
@@ -190,7 +190,7 @@
 
 <div class="main-container">
   <main>
-    <form class="form" on:submit|preventDefault={handleSubmit}>
+    <form class="form" on:submit|preventDefault>
       <label class="form__label" for="username"
         >Enter a GitHub username to view user profile:</label
       >
@@ -211,7 +211,7 @@
           {#each foundUsers as user}
             <button
               class="form__submit"
-              on:click={setCurrentUser}
+              on:click={() => handleSubmit(user.login)}
               id={user.login}
             >
               <img

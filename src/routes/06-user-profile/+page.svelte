@@ -77,55 +77,53 @@
     timeout = setTimeout(function () {
       console.log("Input Value:", searchQuery)
       // fetch users that match query
-      fetch(searchUrl)
-        .then((res) => res.json())
-        .then(function (data) {
-          // get the user data for each user
-          return Promise.all(
-            data.items.map((item) => {
-              return fetch(`${userDetailsURL}${item.login}`)
-                .then((res) => res.json())
-                .then((data) => {
-                  item.extra_data = data
-                  return item
-                })
-            })
-          )
-        })
-        .then((data) => {
-          foundUsers = data
-          console.log(foundUsers)
-        })
+      if (usernameQuery !== "") {
+        fetch(searchUrl)
+          .then((res) => res.json())
+          .then(function (data) {
+            // get the user data for each user
+            return Promise.all(
+              data.items.map((item) => {
+                return fetch(`${userDetailsURL}${item.login}`)
+                  .then((res) => res.json())
+                  .then((data) => {
+                    item.extra_data = data
+                    return item
+                  })
+              })
+            )
+          })
+          .then((data) => {
+            foundUsers = data
+            console.log(foundUsers)
+          })
+      } else if (usernameQuery === "" && foundUsers.length > 0) {
+        foundUsers = []
+      }
     }, 1000)
   }
 
   async function handleSubmit(login: string) {
     console.log(login)
     hasSubmitted = true
-    foundUsers = []
 
     if ($userList.some((user) => user.login === login)) {
       console.log("User already exists in list")
       setCurrentUser(login)
+      foundUsers = []
       return
     }
 
-    // this might be duplicative
-    const response = await fetch(`https://api.github.com/users/${login}`)
-    if (response.ok) {
-      const data = await response.json()
-      getRepos(login, data)
-      // hasSubmitted = true
-    } else {
-      currentUser = null
-      // hasSubmitted = true
-      console.error("Error:", response.status, response.statusText)
-    }
+    const foundUserObj = foundUsers.find(
+      (foundUser) => foundUser.login === login
+    )
+
+    getRepos(login, foundUserObj)
   }
 
   async function getRepos(
     login: string,
-    data: {
+    foundUserObj: {
       login: string
       avatar_url: string
       name: string
@@ -134,19 +132,19 @@
       html_url: string
     }
   ) {
+    const repoSearchURL = `https://api.github.com/users/${login}/repos?sort=updated&per_page=10`
     let repoData: {
       name: string
       description: string
       html_url: string
       language: string
     }[] = []
-    const response = await fetch(
-      `https://api.github.com/users/${login}/repos?sort=updated&per_page=10`
-    )
+    const response = await fetch(repoSearchURL)
     repoData = await response.json()
-    const combinedData = { ...data, repoData }
+    const combinedData = { ...foundUserObj, repoData }
     userList.update((userList) => (userList = [combinedData, ...userList]))
     usernameQuery = ""
+    foundUsers = []
   }
 
   function setCurrentUser(usernameQuery: string) {
@@ -194,7 +192,7 @@
   <main>
     <form class="form" on:submit|preventDefault>
       <label class="form__label" for="username"
-        >Enter a GitHub username to view user profile:</label
+        >Search to view user profile:</label
       >
       <input
         required
@@ -359,6 +357,7 @@
     gap: 0.5rem;
     font-weight: bold;
     cursor: pointer;
+    border: 1px solid var(--submarine);
   }
   .found-user__results {
     position: absolute;

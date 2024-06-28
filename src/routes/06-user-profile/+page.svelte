@@ -14,6 +14,7 @@
   let hasSubmitted = false
   let userList_value = []
   let clickedProfile = []
+  let deleteUser = false
   let foundProfile = []
   let currentUser:
     | {
@@ -42,6 +43,7 @@
   }
 
   const unsubscribeUserList = userList.subscribe((value) => {
+    // userlist subscribe stuff
     if (usernameQuery !== "" && hasSubmitted) {
       console.log("usernameQuery is not empty and hasSubmitted is true")
       if (typeof localStorage !== "undefined") {
@@ -59,7 +61,11 @@
       )
       localStorage.setItem("userList", JSON.stringify(value))
     }
-    console.log("userlist subscribe stuff")
+    // update local storage when a user is removed
+    if (typeof localStorage !== "undefined" && deleteUser) {
+      localStorage.setItem("userList", JSON.stringify(value))
+      deleteUser = false
+    }
     currentUser = value[0]
     userList_value = value
   })
@@ -180,6 +186,7 @@
     const buttonId = event.target.id
     const removeProfileIndex = buttonId.split("_")[0]
     console.log(`remove user: ${removeProfileIndex}`)
+    deleteUser = true
     $userList.splice(removeProfileIndex, 1)
     $userList = $userList
   }

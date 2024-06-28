@@ -65,54 +65,12 @@
 
   let timeout = null
 
-  async function getUserData(username: string) {
-    const res = await fetch(`https://api.github.com/users/${username}`)
-    const userData = await res.json()
-    // console.log(userData)
-    return userData
-  }
-
-  async function searchForUsers(searchQuery: string) {
-    const searchUrl = `https://api.github.com/search/users?q=${searchQuery}&page=1&per_page=5`
-    const res = await fetch(searchUrl)
-    const data = await res.json()
-    // maybe this needs to be in an async function
-    async function getAllUserDetails(data) {
-      // console.log(data)
-      data.items.forEach(
-        (user: {
-          login: string
-          extra_data?: { bio: string; blog: string }
-        }) => {
-          let userDetails
-          const username = user.login
-          async function loadUserData() {
-            userDetails = await getUserData(username)
-            user.extra_data = userDetails
-            user.hair = "brown"
-            console.log(user)
-          }
-          loadUserData()
-        }
-      )
-      console.log("two")
-      return data
-    }
-
-    const updatedData = await getAllUserDetails(data)
-    // console.log(data.items)
-    console.log(updatedData.items)
-    foundUsers = updatedData.items
-    console.log("three")
-    return foundUsers
-  }
-
   async function handleInputChange(event: Event) {
-    // `https://api.github.com/search/users?q=${searchQuery}&page=${currentPage}&per_page=${usersPerPage}`
-    hasSubmitted = false
     const searchQuery = (event.target as HTMLInputElement).value
+    const searchUrl = `https://api.github.com/search/users?q=${searchQuery}&page=1&per_page=5`
+    const userDetailsURL = `https://api.github.com/users/`
+    hasSubmitted = false
     console.log(`value: ${searchQuery}`)
-    const userDetailsURL = `https://api.github.com/users/${searchQuery}`
 
     clearTimeout(timeout)
 
@@ -120,11 +78,25 @@
     timeout = setTimeout(function () {
       console.log("Input Value:", searchQuery)
       // fetch users that match query
-      // fetch each user's details from results of that query
-      // combine data from both fetches
-      // display all the data
-      console.log("one")
-      searchForUsers(searchQuery)
+      fetch(searchUrl)
+        .then((res) => res.json())
+        .then(function (data) {
+          // get the user data for each user
+          return Promise.all(
+            data.items.map((item) => {
+              return fetch(`${userDetailsURL}${item.login}`)
+                .then((res) => res.json())
+                .then((data) => {
+                  item.extra_data = data
+                  return item
+                })
+            })
+          )
+        })
+        .then((data) => {
+          foundUsers = data
+          console.log(foundUsers)
+        })
     }, 1000)
   }
 
@@ -232,30 +204,33 @@
         on:input={handleInputChange}
         placeholder="Please enter a GitHub username"
       />
-      <!-- {#if foundUsers[0] !== undefined} -->
       <!-- {#await foundUsers} -->
-      <p>Searching for users...</p>
+      <!-- <p>Searching for users...</p> -->
       {#if foundUsers.length > 0}
-        {foundUsers[0]["extra_data"]}
-        {#each foundUsers as user}
-          <button
-            class="form__submit"
-            on:click={setCurrentUser}
-            id={user.login}
-          >
-            <img class="user__avatar" src={user.avatar_url} alt={user.login} />
-            <span>{user.login}</span>
-            {#if user.login}
-              <span>{user.login}</span>
-            {/if}
-            {#if user.hair}
-              <span>{user.hair}</span>
-            {/if}
-          </button>
-        {/each}
+        <div class="found-user__results">
+          {#each foundUsers as user}
+            <button
+              class="form__submit"
+              on:click={setCurrentUser}
+              id={user.login}
+            >
+              <img
+                class="found-user__avatar"
+                src={user.avatar_url}
+                alt={user.login}
+              />
+              <div class="found-user__info">
+                <span class="found-user__type">{user.type}</span>
+                <span>{user.login}</span>
+              </div>
+              {#if user.extra_data.bio}
+                <p class="found-user__bio">{user.extra_data.bio}</p>
+              {/if}
+            </button>
+          {/each}
+        </div>
       {/if}
       <!-- {/if} -->
-      <button class="form__submit">Submit</button>
     </form>
     {#if usernameQuery !== "" && currentUser === null && hasSubmitted}
       <p class="user--not-found">
@@ -361,9 +336,9 @@
     background-color: #f1f4f4;
   }
   .form {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
   }
   .form__label {
     font-size: 0.9rem;
@@ -371,12 +346,27 @@
     grid-column: 1/-1;
   }
   .form__input--username {
-    grid-column: 1/3;
+    grid-column: 1/-1;
     border: 1px solid var(--submarine);
   }
   .form__submit {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr 4fr;
+    padding: 0.5rem;
+    gap: 0.5rem;
     font-weight: bold;
     cursor: pointer;
+  }
+  .found-user__results {
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    width: 100%;
+  }
+  .found-user__avatar {
+    border-radius: 50%;
+    width: 50px;
   }
   .content__container {
     margin-top: 1rem;
@@ -433,7 +423,16 @@
   .repo__link {
     font-size: 0.75rem;
   }
-  .repo__language {
+  .found-user__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .found-user__bio {
+    text-align: left;
+  }
+  .repo__language,
+  .found-user__type {
     border-radius: 5px;
     padding: 0.25em 0.75em;
     background-color: var(--sahara);

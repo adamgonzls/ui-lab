@@ -17,6 +17,7 @@
     }
   }
 
+  let isOverlayOpen = false
   let timeout: number | undefined = undefined
   let foundUsers: User[] = []
   let usernameQuery = ""
@@ -110,6 +111,7 @@
           })
           .then((data) => {
             foundUsers = data
+            isOverlayOpen = true
             console.log(foundUsers)
           })
       } else if (usernameQuery === "" && foundUsers.length > 0) {
@@ -126,6 +128,7 @@
       console.log("User already exists in list")
       setCurrentUser(login)
       foundUsers = []
+      isOverlayOpen = false
       return
     }
 
@@ -163,11 +166,11 @@
     userList.update((userList) => (userList = [combinedData, ...userList]))
     usernameQuery = ""
     foundUsers = []
+    isOverlayOpen = false
   }
 
   function setCurrentUser(usernameQuery: string) {
     if (usernameQuery) {
-      console.log(usernameQuery)
       const foundUserIndex = $userList.findIndex(
         (user) => user.login === usernameQuery
       )
@@ -214,6 +217,15 @@
 </script>
 
 <div class="main-container">
+  {#if isOverlayOpen}
+    <div
+      class="overlay"
+      tabindex="0"
+      role="button"
+      on:click={() => (isOverlayOpen = false)}
+      aria-label="Close overlay"
+    ></div>
+  {/if}
   <main>
     <form class="form" on:submit|preventDefault>
       <label class="form__label" for="username"
@@ -225,6 +237,7 @@
         name="username"
         id="username"
         class="form__input--username"
+        autocomplete="off"
         bind:value={usernameQuery}
         on:input={handleInputChange}
         placeholder="Please enter a GitHub username"
@@ -338,6 +351,15 @@
     padding-bottom: 2rem;
     background-color: #ace5db;
     min-height: 100vh;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
   }
   main {
     margin: 0 auto;

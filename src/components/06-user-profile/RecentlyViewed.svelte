@@ -1,6 +1,7 @@
 <script>
   export let userList
   export let removeUser
+  export let setCurrentUser
 </script>
 
 <div class="recently-viewed__container">
@@ -8,7 +9,11 @@
   <ul class="recently-viewed__list">
     {#each $userList as { login, avatar_url, name }, i}
       <li data-id={i} class="recently-viewed__item">
-        <button on:click class="recently-viewed__select" id={login}>
+        <button
+          on:click={() => setCurrentUser(login)}
+          class="recently-viewed__select"
+          id={login}
+        >
           <img class="recently-viewed__img" src={avatar_url} alt={name} />
           <span class="recently-viewed__login">{login}</span>
           <button

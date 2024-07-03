@@ -25,7 +25,6 @@
   let userList_value = []
   let clickedProfile = []
   let deleteUser = false
-  let foundProfile = []
   let currentUser:
     | {
         avatar_url?: string
@@ -142,6 +141,12 @@
     }
   }
 
+  function handleOverlayClick() {
+    isOverlayOpen = false
+    foundUsers = []
+    usernameQuery = ""
+  }
+
   async function getRepos(
     login: string,
     foundUserObj: {
@@ -175,9 +180,9 @@
         (user) => user.login === usernameQuery
       )
       if (foundUserIndex > 0) {
-        foundProfile = $userList.splice(foundUserIndex, 1)
-        console.log("this should be the found profile", foundProfile[0])
-        $userList = [foundProfile[0], ...$userList]
+        clickedProfile = $userList.splice(foundUserIndex, 1)
+        console.log("this should be the found profile", clickedProfile[0])
+        $userList = [clickedProfile[0], ...$userList]
       }
     }
 
@@ -222,7 +227,7 @@
       class="overlay"
       tabindex="0"
       role="button"
-      on:click={() => (isOverlayOpen = false)}
+      on:click={handleOverlayClick}
       aria-label="Close overlay"
     ></div>
   {/if}
@@ -276,7 +281,7 @@
       </p>
     {/if}
     {#if $userList.length > 0}
-      <RecentlyViewed on:click={setCurrentUser} {userList} {removeUser} />
+      <RecentlyViewed {setCurrentUser} {userList} {removeUser} />
     {/if}
     <div class="content__container">
       <div class="content">
@@ -317,7 +322,7 @@
               <ul class="repo__list">
                 {#each currentUser.repoData as { name, description, html_url, language }}
                   <li class="repo__details">
-                    <h3>{name}</h3>
+                    <h3 class="repo__name">{name}</h3>
                     {#if description}
                       <p class="repo__description">{description}</p>
                     {/if}
@@ -461,6 +466,9 @@
     padding: 1rem;
     margin-top: 1rem;
   }
+  .repo__name {
+    overflow-wrap: break-word;
+  }
   .repo__description {
     padding-top: 0.25rem;
     font-size: 0.75rem;
@@ -493,7 +501,7 @@
   @media screen and (min-width: 800px) {
     .repo__list {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1rem;
     }
     .repo__details {

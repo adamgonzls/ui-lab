@@ -5,9 +5,9 @@
 </script>
 
 <div class="recently-viewed__container">
-  <h2 class="recently-viewed__header">Searched users</h2>
+  <h2 class="recently-viewed__header">Recently viewed users</h2>
   <ul class="recently-viewed__list">
-    {#each $userList as { login, avatar_url, name }, i}
+    {#each $userList as { login, avatar_url, name, type }, i}
       <li data-id={i} class="recently-viewed__item">
         <button
           on:click={() => setCurrentUser(login)}
@@ -16,6 +16,7 @@
         >
           <img class="recently-viewed__img" src={avatar_url} alt={name} />
           <span class="recently-viewed__login">{login}</span>
+          <span class="recently-viewed__type">{type}</span>
           <button
             id={`${i}_${login}`}
             on:click={removeUser}
@@ -72,5 +73,12 @@
     background: none;
     border: none;
     transition: opacity 0.3s;
+  }
+  .recently-viewed__type {
+    border-radius: 5px;
+    padding: 0.2em 0.7em;
+    background-color: var(--sahara);
+    color: var(--white);
+    font-size: 0.7rem;
   }
 </style>

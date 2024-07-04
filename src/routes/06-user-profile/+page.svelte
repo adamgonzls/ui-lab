@@ -185,20 +185,6 @@
         $userList = [clickedProfile[0], ...$userList]
       }
     }
-
-    if (this !== undefined) {
-      if (this.id) {
-        console.log(`the id is: ${this.id}`)
-        const clickedUserIndex = $userList.findIndex(
-          (user) => user.login === this.id
-        )
-        if (clickedUserIndex > 0) {
-          clickedProfile = $userList.splice(clickedUserIndex, 1)
-          $userList = [clickedProfile[0], ...$userList]
-        }
-      }
-    }
-    console.log(currentUser)
   }
 
   function removeUser(event: Event) {

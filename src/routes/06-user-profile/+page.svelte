@@ -9,12 +9,27 @@
   import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
 
   interface User {
-    login: string
     avatar_url: string
+    html_url: string
+    login: string
     type: string
-    extra_data: {
-      bio?: string
+    extra_data?: {
+      name: string | ""
+      location: string | ""
+      bio: string | ""
     }
+    repoData: Repo[]
+    // added these properties to get rid of combinedData type error
+    name: string | ""
+    location: string | ""
+    bio: string | ""
+  }
+
+  interface Repo {
+    name: string
+    description: string
+    html_url: string
+    language: string
   }
 
   let isOverlayOpen = false
@@ -28,16 +43,15 @@
   let currentUser:
     | {
         avatar_url?: string
-        name?: string
-        location?: string
-        bio?: string
+        login?: string
         html_url?: string
-        repoData?: {
-          name?: string
-          description?: string
-          html_url?: string
-          language?: string
-        }[]
+        type?: string
+        extra_data?: {
+          name: string | ""
+          location: string | ""
+          bio: string | ""
+        }
+        repoData?: Repo[]
       }
     | undefined
     | null = {}
@@ -147,24 +161,9 @@
     usernameQuery = ""
   }
 
-  async function getRepos(
-    login: string,
-    foundUserObj: {
-      login: string
-      avatar_url: string
-      name: string
-      location: string
-      bio: string
-      html_url: string
-    }
-  ) {
+  async function getRepos(login: string, foundUserObj: User) {
     const repoSearchURL = `https://api.github.com/users/${login}/repos?sort=updated&per_page=10`
-    let repoData: {
-      name: string
-      description: string
-      html_url: string
-      language: string
-    }[] = []
+    let repoData: Repo[] = []
     const response = await fetch(repoSearchURL)
     repoData = await response.json()
     const combinedData = { ...foundUserObj, repoData }
@@ -209,13 +208,7 @@
 
 <div class="main-container">
   {#if isOverlayOpen}
-    <div
-      class="overlay"
-      tabindex="0"
-      role="button"
-      on:click={handleOverlayClick}
-      aria-label="Close overlay"
-    ></div>
+    <button class="overlay" on:click={handleOverlayClick}></button>
   {/if}
   <main>
     <form class="form" on:submit|preventDefault>
@@ -252,7 +245,7 @@
                 <span class="found-user__type">{user.type}</span>
                 <span>{user.login}</span>
               </div>
-              {#if user.extra_data.bio}
+              {#if user.extra_data?.bio}
                 <p class="found-user__bio">{user.extra_data.bio}</p>
               {/if}
             </button>
@@ -271,27 +264,36 @@
     {/if}
     <div class="content__container">
       <div class="content">
+        <!-- current user data -->
         {#if $userList.length !== 0 && currentUser && Object.values(currentUser).length !== 0}
           <img
             class="user__avatar"
             src={currentUser?.avatar_url}
-            alt={currentUser?.name}
+            alt={currentUser?.login}
           />
-          {#if currentUser?.name}
-            <h1 class="user__fullname">{currentUser.name}</h1>
+          {#if currentUser.extra_data?.name}
+            <h1 class="user__fullname">
+              {currentUser.extra_data.name}
+            </h1>
           {/if}
+          <span
+            ><a class="link--brand" href={currentUser.html_url}
+              >{currentUser.login}</a
+            ></span
+          >
           <ul class="user__demographics">
-            {#if currentUser?.location}
+            <li><span class="found-user__type">{currentUser.type}</span></li>
+            {#if currentUser.extra_data?.location}
               <li>
                 <span class="user__text-logo-row"
-                  ><Compass />{currentUser.location}</span
+                  ><Compass />{currentUser.extra_data.location}</span
                 >
               </li>
             {/if}
-            {#if currentUser?.bio}
+            {#if currentUser.extra_data?.bio}
               <li>
                 <p class="user__text-logo-row">
-                  <DocumentIcon />{currentUser.bio}
+                  <DocumentIcon />{currentUser.extra_data.bio}
                 </p>
               </li>
             {/if}
@@ -323,6 +325,8 @@
               </ul>
             </div>
           {/if}
+        {:else}
+          <p>Start typing to search for a user to view their profile</p>
         {/if}
       </div>
     </div>

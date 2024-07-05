@@ -25,14 +25,14 @@
   <div class="info-container">
     <div>
       <nav class="page-navigation">
-        <a href="#">Furniture</a>
-        <a href="#">Designers</a>
-        <a href="#">Trends</a>
-        <a href="#">Blog</a>
-        <a href="#">Contact</a>
-        <a class="cart" href="#"
-          ><img class="cart__image" src={shoppingBag} alt="" /></a
-        >
+        <span>Furniture</span>
+        <span>Designers</span>
+        <span>Trends</span>
+        <span>Blog</span>
+        <span>Contact</span>
+        <span class="cart">
+          <img class="cart__image" src={shoppingBag} alt="shopping bag" />
+        </span>
       </nav>
       <div class="product__container">
         <div class="product__info">
@@ -77,10 +77,6 @@
   }
   main {
     font-family: var(--body-font);
-  }
-  a {
-    color: #111;
-    text-decoration: none;
   }
   .page-navigation {
     display: flex;

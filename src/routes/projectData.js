@@ -1,5 +1,6 @@
 import woman from "$lib/assets/images/woman-500w.jpg"
 import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-avatar.jpg"
+import FourOhFourPageAvatar from "$lib/assets/images/page-avatars/04-404-page-avatar.jpg"
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
@@ -25,20 +26,20 @@ export const projects = [
       "https://dribbble.com/shots/21675109-AR-Social-Network-Landing-Page",
   },
   {
+    imageSrc: FourOhFourPageAvatar,
+    link: "/04-404-page",
+    name: "404 Page",
+    description: "404 page with CSS animations",
+    mockup:
+      "https://www.behance.net/gallery/196522715/My-Daily-UI-008-Error-404-Page?tracking_source=search_projects|404+page+web+design&l=20",
+  },
+  {
     imageSrc: UserProfilePageAvatar,
     link: "/06-user-profile",
     name: "User Profile",
     description:
       "GitHub user search page utilizes stores, local storage, GitHub API and more.",
     mockup: "https://dribbble.com/shots/16979679-User-Profiles",
-  },
-  {
-    imageSrc: dogBeanie,
-    link: "/04-404-page",
-    name: "404 Page",
-    description: "404 page with CSS animations",
-    mockup:
-      "https://www.behance.net/gallery/196522715/My-Daily-UI-008-Error-404-Page?tracking_source=search_projects|404+page+web+design&l=20",
   },
   {
     imageSrc: purse,

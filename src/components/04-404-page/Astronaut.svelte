@@ -85,14 +85,14 @@
     margin-left: auto;
   }
   .floating {
-    animation: floating 3s ease-in-out infinite;
+    animation: floating 6s ease-in-out infinite;
   }
   @keyframes floating {
     0% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-10px);
+      transform: translateY(-70%);
     }
     100% {
       transform: translateY(-0);

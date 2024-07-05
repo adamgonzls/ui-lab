@@ -66,11 +66,16 @@
     }
   }
   .navigation__container {
+    font-family: var(--body-font);
+    padding: 1rem;
     display: flex;
   }
   .navigation__links {
+    margin-left: auto;
     display: flex;
+    gap: 1rem;
     list-style-type: none;
+    color: #465a64;
   }
   .background-blob {
     position: absolute;

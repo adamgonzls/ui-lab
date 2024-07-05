@@ -5,7 +5,6 @@
   export let name: string
   export let description: string
   export let imageSrc: string
-  export let index: number
   const rotationOptions = ["0deg", "90deg", "180deg", "270deg"]
   const colorOptions = [
     "var(--ocean-green)",

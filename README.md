@@ -1,38 +1,32 @@
-# create-svelte
+# UI Lab
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+UI Lab: A collection of different projects, inspired by [Daily UI](https://www.dailyui.co/).
 
-## Creating a project
+Check it out: [UI Lab](https://uilab.netlify.app/)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## About this Project
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+**Technologies Used:**
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+- Svelte
+- JavaScript (ES6)
+- REST API
+- Stores
+- Local Storage
+- CSS
+- npm
 
-## Developing
+Deployed via [netlify](https://www.netlify.com/)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## 🧞 Commands
 
-```bash
-npm run dev
+All commands are run from the root of the project, from a terminal:
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+| Command       | Action                                      |
+| :------------ | :------------------------------------------ |
+| `npm install` | Installs dependencies                       |
+| `npm run dev` | Starts local dev server at `localhost:5173` |
 
-## Building
+## 🚀 Deployment
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Push changes to main, Netlify has been configured to automatically deploy when merges are made to main. |

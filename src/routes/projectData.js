@@ -21,17 +21,9 @@ export const projects = [
     link: "/03-landing-page",
     name: "Landing Page",
     description:
-      "A brand landing page featuring a scrolling marquee made with HTML and CSS only, CSS animations, and video within a clip path.",
+      "A brand landing page featuring a scrolling marquee made with HTML and CSS only, utilizes CSS animations, and CSS clip path.",
     mockup:
       "https://dribbble.com/shots/21675109-AR-Social-Network-Landing-Page",
-  },
-  {
-    imageSrc: FourOhFourPageAvatar,
-    link: "/04-404-page",
-    name: "404 Page",
-    description: "404 page with CSS animations",
-    mockup:
-      "https://www.behance.net/gallery/196522715/My-Daily-UI-008-Error-404-Page?tracking_source=search_projects|404+page+web+design&l=20",
   },
   {
     imageSrc: UserProfilePageAvatar,
@@ -40,6 +32,14 @@ export const projects = [
     description:
       "GitHub user search page utilizes stores, local storage, GitHub API and more.",
     mockup: "https://dribbble.com/shots/16979679-User-Profiles",
+  },
+  {
+    imageSrc: FourOhFourPageAvatar,
+    link: "/08-404-page",
+    name: "404 Page",
+    description: "404 page with CSS animations",
+    mockup:
+      "https://www.behance.net/gallery/196522715/My-Daily-UI-008-Error-404-Page?tracking_source=search_projects|404+page+web+design&l=20",
   },
   {
     imageSrc: purse,
@@ -59,9 +59,10 @@ export const projects = [
   },
   {
     imageSrc: shoes,
-    link: "",
-    name: "Calculator",
-    description: "This is a very complicated something or other",
+    link: "/24-boarding-pass",
+    name: "Boarding Pass",
+    description: "A boarding pass for a flight",
+    mockup: "https://dribbble.com/shots/23720030-Daily-UI-024-Boarding-Pass",
   },
   {
     imageSrc: dogBeanie,

@@ -7,7 +7,6 @@ import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
 import purse from "$lib/assets/images/purse-640w.jpg"
 import jacket from "$lib/assets/images/jacket-640w.jpg"
 import shoes from "$lib/assets/images/shoes-640w.jpg"
-console.log(dogBeanie)
 
 export const projects = [
   {

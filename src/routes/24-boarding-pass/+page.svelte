@@ -20,54 +20,82 @@
 </script>
 
 <div class="content-container">
-  <div class="pass__container">
+  <div class="pass__content-container">
     <div class="pass__title">
-      <h1>Boarding pass</h1>
-      <h2 class="font--normal">{detailsObj.airline}</h2>
+      <h1 class="font--normal">Boarding pass</h1>
+      <h2>{detailsObj.airline}</h2>
     </div>
     <div class="pass__main">
-      <div class="pass__name grid--full">Name of Passenger:</div>
-      <div class="pass__name grid--full font--300">
-        {detailsObj.firstName}
-        {detailsObj.lastName}
+      <div class="grid--full">
+        <h3 class=" font--normal">Name of Passenger:</h3>
+        <span class=" font--300">
+          {detailsObj.firstName}
+          {detailsObj.lastName}
+        </span>
       </div>
-      <div class="grid--half">From:</div>
-      <div class="grid--half">To:</div>
-      <div class="grid--half font--300">{detailsObj.from}</div>
-      <div class="grid--half font--300">{detailsObj.to}</div>
-      <div>Flight:</div>
-      <div>Seat:</div>
-      <div>Class:</div>
-      <div>Baggage:</div>
-      <div class="font--300">{detailsObj.flight}</div>
-      <div class="font--300">{detailsObj.seat}</div>
-      <div class="font--300">{detailsObj.class}</div>
-      <div class="font--300">{detailsObj.baggage}</div>
-      <div class="grid--half">Date:</div>
-      <div class="grid--half">Flight Status:</div>
-      <div class="grid--half font--300">{detailsObj.date}</div>
-      <div class="grid--half font--300">{detailsObj.flightStatus}</div>
-      <div class="grid--half">Boarding Time:</div>
-      <div class="grid--half">Terminal:</div>
-      <div class="grid--half font--300">{detailsObj.boardingTime}</div>
-      <div class="grid--half font--300">{detailsObj.terminal}</div>
-      <div class="grid--half">Departure:</div>
-      <div class="grid--half">Gate:</div>
-      <div class="grid--half font--300">{detailsObj.departureTime}</div>
-      <div class="grid--half font--300">{detailsObj.gate}</div>
+      <div class="grid--half">
+        <h3 class="font--normal">From:</h3>
+        <span class="font--300">{detailsObj.from}</span>
+      </div>
+      <div class="grid--half">
+        <h3 class="font--normal">To:</h3>
+        <span class="font--300">{detailsObj.to}</span>
+      </div>
+      <div>
+        <h3 class="font--normal">Flight:</h3>
+        <span class="font--300">{detailsObj.flight}</span>
+      </div>
+      <div>
+        <h3 class="font--normal">Seat:</h3>
+        <span class="font--300">{detailsObj.seat}</span>
+      </div>
+      <div>
+        <h3 class="font--normal">Class:</h3>
+        <span class="font--300">{detailsObj.class}</span>
+      </div>
+      <div>
+        <h3 class="font--normal">Baggage:</h3>
+        <span class="font--300">{detailsObj.baggage}</span>
+      </div>
+      <div class="grid--half">
+        <h3 class="font--normal">Date:</h3>
+        <div class="font--300">{detailsObj.date}</div>
+      </div>
+      <div class="grid--half">
+        <h3 class="font--normal">Flight Status:</h3>
+        <div class="font--300">{detailsObj.flightStatus}</div>
+      </div>
+      <div class="grid--half">
+        <div class="font--normal">Boarding Time:</div>
+        <div class="font--300">{detailsObj.boardingTime}</div>
+      </div>
+      <div class="grid--half">
+        <h3 class="font--normal">Terminal:</h3>
+        <span class="font--300">{detailsObj.terminal}</span>
+      </div>
+      <div class="grid--half">
+        <h3 class="font--normal">Departure:</h3>
+        <span class="font--300">{detailsObj.departureTime}</span>
+      </div>
+      <div class="grid--half">
+        <h3 class="font--normal">Gate:</h3>
+        <span class="font--300">{detailsObj.gate}</span>
+      </div>
     </div>
     <div class="pass__outline">
-      <div>
-        Boarding pass
-        <div class="pass__name">
+      <div class="summary__details">
+        <h2 class="font--normal">Boarding pass</h2>
+        <div>
           {detailsObj.firstName}
           {detailsObj.lastName}
         </div>
-        <div>{detailsObj.from}</div>
-        <div>{detailsObj.to}</div>
-        <div>{detailsObj.seat}</div>
+        <div>
+          <div>{detailsObj.from}</div>
+          <div>{detailsObj.to}</div>
+        </div>
+        <div class="summary__seat">{detailsObj.seat}</div>
       </div>
-      <h2>{detailsObj.airline}</h2>
+      <h2 class="summary__title">{detailsObj.airline}</h2>
     </div>
   </div>
 </div>
@@ -85,42 +113,70 @@
     justify-content: center;
     align-items: center;
   }
-  .pass__container {
-    /* border: 1px solid black; */
+  .pass__content-container {
     display: flex;
+    flex-direction: column;
     border-radius: 1rem;
     background: white;
     box-shadow:
       0 10px 15px -3px rgb(0 0 0 / 0.1),
       0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
+  @media (min-width: 550px) {
+    .pass__content-container {
+      flex-direction: row;
+    }
+  }
   .pass__title {
-    padding: 1rem 0.625rem;
+    padding: 1.25rem 1rem;
     color: white;
     background: linear-gradient(180deg, #5852fa, #4d9fed);
     border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    /* display: flex;
-    rotate: 270deg; */
+    border-top-right-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  @media (min-width: 550px) {
+    .pass__title {
+      flex-direction: column-reverse;
+      border-bottom-left-radius: 1rem;
+      border-top-right-radius: unset;
+    }
+    .pass__title > * {
+      transform: rotate(180deg);
+      writing-mode: vertical-lr;
+    }
   }
   .pass__main {
-    padding: 1rem 0.625rem;
+    padding: 1.25rem 1rem;
     display: grid;
-    gap: 0.25rem;
-    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 350px) {
+    .pass__main {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
   .pass__outline {
+    padding: 1.25rem 1rem;
     color: white;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     border-radius: 1rem;
-    padding: 1rem 0.625rem;
     background: #4d9fed;
   }
-  .pass__name {
-    grid-column: 1 / 3;
-    /* text-align: center; */
+  .summary__details {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+  .summary__seat {
+    font-size: 2rem;
+  }
+  .summary__title {
+    margin-bottom: 2rem;
   }
   /* utility */
   .grid--half {

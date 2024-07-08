@@ -1,4 +1,4 @@
-<h1><a href="#">CircleUp</a></h1>
+<h1><span>CircleUp</span></h1>
 
 <style>
   h1 {
@@ -7,7 +7,7 @@
     font-family: var(--header-font);
     background-color: var(--slimer);
   }
-  a {
+  span {
     text-decoration: none;
     color: var(--blue-zodiac);
   }

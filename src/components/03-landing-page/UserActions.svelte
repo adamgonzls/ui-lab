@@ -1,6 +1,6 @@
 <div class="nav__actions">
-  <a href="#">Log in</a>
-  <a class="nav__signup" href="#">Sign up</a>
+  <span>Log in</span>
+  <span class="nav__signup">Sign up</span>
 </div>
 
 <style>
@@ -12,7 +12,7 @@
     padding: 0.25rem 1rem;
     background-color: var(--white);
   }
-  a {
+  span {
     text-decoration: none;
     color: var(--blue-zodiac);
   }

@@ -11,8 +11,8 @@
     <Triangle color="var(--ocean-green)" rotation="90deg" verticalAlign="end" />
     <div class="content-container">
       <div class="projects">
-        {#each data.summaries as { imageSrc, link, name, description }, index}
-          <ProjectTile {imageSrc} {link} {name} {description} {index} />
+        {#each data.summaries as { imageSrc, link, name, description }}
+          <ProjectTile {imageSrc} {link} {name} {description} />
         {/each}
       </div>
       <h1>UI Lab</h1>

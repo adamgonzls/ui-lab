@@ -1,16 +1,24 @@
+<script>
+  import { projects } from "../routes/projectData.js"
+</script>
+
 <nav>
-  <a href="/">Home</a>
-  <a href="/01-sign-up">Sign Up</a>
-  <a href="/03-landing-page">Landing Page</a>
-  <a href="/06-user-profile">User Profile</a>
-  <a href="/04-404-page">404 Page</a>
-  <a href="/12-ecommerce-shop">Ecommerce Shop</a>
+  <ul class="nav__link">
+    <li><a href="/">Home</a></li>
+    {#each projects as { name, link }}
+      {#if link !== ""}
+        <li><a href={link}>{name}</a></li>
+      {/if}
+    {/each}
+  </ul>
 </nav>
 
 <style>
-  nav {
-    color: var(--black);
+  .nav__link {
+    padding-left: 0;
     display: flex;
+    list-style-type: none;
+    color: var(--black);
     gap: 0.5em;
     font-size: 0.75rem;
     flex-wrap: wrap;

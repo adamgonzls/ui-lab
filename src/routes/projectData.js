@@ -3,6 +3,7 @@ import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-a
 import FourOhFourPageAvatar from "$lib/assets/images/page-avatars/04-404-page-avatar.jpg"
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
+import BoardingPassAvatar from "$lib/assets/images/page-avatars/24-boarding-pass-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
 import purse from "$lib/assets/images/purse-640w.jpg"
 import jacket from "$lib/assets/images/jacket-640w.jpg"
@@ -57,7 +58,7 @@ export const projects = [
       "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
   {
-    imageSrc: shoes,
+    imageSrc: BoardingPassAvatar,
     link: "/24-boarding-pass",
     name: "Boarding Pass",
     description: "A boarding pass for a flight",

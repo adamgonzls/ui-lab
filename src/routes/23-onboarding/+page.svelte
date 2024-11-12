@@ -2,29 +2,68 @@
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "$lib/assets/fonts/23-onboarding/stylesheet.css"
-  const firstName = "Adam"
+  const resortName = "Mystic Cliffs Resort"
+  let firstName = "Adam"
   import CabinImage from "$lib/assets/images/23-onboarding/mystic-cabin.jpg"
-  let step = 1
+  function nextButton() {
+    console.log("Next button clicked")
+    // currentStep += 1
+  }
+  let currentStep = 1
+  const processSteps = [
+    {
+      title: "Let's Get Started!",
+      description:
+        "We're so glad you've chosen to spend your time with us. To make your stay extra special, let's start by getting to know you a little better.",
+    },
+    {
+      title: `Hi ${firstName}!`,
+      description: `At ${resortName}, we take pride in personalizing every aspect of your experience. From amenities to special services, everything is designed with you in mind, ${firstName}`,
+    },
+    {
+      title: "What's Your Email?",
+      description:
+        "We'll need your email to send you important updates and information about your stay.",
+    },
+  ]
 </script>
 
 <div class="content-container">
   <main>
-    <h1>Mystic Cliffs Resort</h1>
+    <h1>{resortName}</h1>
     <div class="step">
       <div class="hero__image"></div>
-      <!-- <img src={CabinImage} alt="" /> -->
       <h2 class="step__title">Let's Get Started!</h2>
       <p class="step__description">
         We're so glad you've chosen to spend your time with us. To make your
         stay extra special, let's start by getting to know you a little better.
       </p>
+      <div class="step__form">
+        <label class="step__label" for="firstName"
+          >Please enter your first name:</label
+        >
+        <input
+          class="step__input"
+          id="firstName"
+          type="text"
+          bind:value={firstName}
+        />
+      </div>
+      The name you entered is {firstName}
+      <button class="step__continue" disabled={!firstName} on:click={nextButton}
+        >Continue</button
+      >
       <div class="pagination">
-        <div class="pagination-step"></div>
-        <div class="pagination-step active"></div>
-        <div class="pagination-step"></div>
+        {#each processSteps as step, index}
+          <div
+            class="pagination-step"
+            class:active={index === currentStep - 1}
+          ></div>
+        {/each}
       </div>
     </div>
-
+    <!-- <input bind:value={firstName} type="text" />
+    <p>Hello {firstName}</p> -->
     <!-- <div>
       <h2>Hi {firstName}!</h2>
       <p>
@@ -66,6 +105,8 @@
   }
   .step__title {
     margin-top: 1rem;
+    font-family: var(--header-font);
+    letter-spacing: -0.1rem;
   }
   .step__description {
     margin-top: 1rem;
@@ -79,8 +120,33 @@
     background-size: cover;
     background-position: center;
   }
-  .pagination {
+  .step__form {
     margin-top: 1rem;
+  }
+  .step__label {
+    font-weight: bold;
+  }
+  .step__input {
+    border: none;
+    padding: 0.5rem 1rem;
+    width: 100%;
+  }
+  .step__continue {
+    display: flex;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: none;
+    padding: 0.5rem 1rem;
+    background-color: #cb5a8a;
+    color: white;
+    font-size: 1.25rem;
+    font-family: var(--header-font);
+    cursor: pointer;
+  }
+  .pagination {
+    margin-top: 2rem;
     text-align: center;
   }
 
@@ -89,10 +155,10 @@
     height: 16px;
     background: linear-gradient(
       135deg,
-      #ff9ecb,
-      #d1c1ff,
-      #89d8e2
-    ); /* Soft pink, lavender, and teal */
+      #ff7eb3,
+      #ffb6d5,
+      #e1a3ff
+    ); /* Deep pink, soft pink, and lavender */
     border-radius: 50%;
     margin: 0 5px;
     display: inline-block;
@@ -105,12 +171,12 @@
   .pagination-step.active {
     background: linear-gradient(
       135deg,
-      #ffb3da,
-      #e5d4ff,
-      #a6e1e9
-    ); /* Brighter aurora-inspired hues for active state */
+      #ff4f8b,
+      #ff8fbf,
+      #d48fff
+    ); /* Richer pinks and purples for active state */
     opacity: 1;
     transform: scale(1.1); /* Slightly enlarge to indicate progress */
-    box-shadow: 0 0 10px rgba(255, 179, 218, 0.6); /* Add a soft pink glow */
+    box-shadow: 0 0 12px rgba(255, 79, 139, 0.6); /* Add a deep pink glow */
   }
 </style>

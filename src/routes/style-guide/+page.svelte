@@ -5,37 +5,39 @@
   import "$lib/assets/fonts/24-boarding-pass/stylesheet.css"
 </script>
 
-<h1>Style Guide</h1>
-<div class="block playfair-display">
-  <h2 class="block__title">Playfair Display</h2>
-  <p>
-    The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
-  </p>
-</div>
-<div class="block oleo-script">
-  <h2 class="block__title">Oleo Script</h2>
-  <p>
-    The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
-  </p>
-</div>
-<div class="block open-sans">
-  <h2 class="block__title">Open Sans</h2>
-  <p>
-    The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
-  </p>
-</div>
-<div class="block poppins">
-  <h2 class="block__title">Poppins</h2>
-  <p>
-    The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
-  </p>
-</div>
-<div class="block oswald">
-  <h2 class="block__title">Oswald</h2>
-  <p>
-    The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
-  </p>
-</div>
+<main>
+  <h1>Style Guide</h1>
+  <div class="block playfair-display">
+    <h2 class="block__title">Playfair Display</h2>
+    <p>
+      The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
+    </p>
+  </div>
+  <div class="block oleo-script">
+    <h2 class="block__title">Oleo Script</h2>
+    <p>
+      The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
+    </p>
+  </div>
+  <div class="block open-sans">
+    <h2 class="block__title">Open Sans</h2>
+    <p>
+      The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
+    </p>
+  </div>
+  <div class="block poppins">
+    <h2 class="block__title">Poppins</h2>
+    <p>
+      The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
+    </p>
+  </div>
+  <div class="block oswald">
+    <h2 class="block__title">Oswald</h2>
+    <p>
+      The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
+    </p>
+  </div>
+</main>
 
 <style>
   :root {
@@ -44,6 +46,12 @@
     --open-sans-font: "Open Sans", sans-serif;
     --poppins-font: "Poppins", sans-serif;
     --oswald-font: "Oswald", sans-serif;
+  }
+  main {
+    padding: 1rem;
+  }
+  .block:first-of-type {
+    margin-top: 0;
   }
   .block {
     margin-top: 2rem;

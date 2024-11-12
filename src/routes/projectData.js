@@ -3,6 +3,7 @@ import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-a
 import FourOhFourPageAvatar from "$lib/assets/images/page-avatars/04-404-page-avatar.jpg"
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
+import OnboardingAvatar from "$lib/assets/images/page-avatars/23-onboarding-avatar.jpg"
 import BoardingPassAvatar from "$lib/assets/images/page-avatars/24-boarding-pass-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
 import purse from "$lib/assets/images/purse-640w.jpg"
@@ -56,6 +57,13 @@ export const projects = [
     description: "An ecommerce shop product page featuring CSS blobs",
     mockup:
       "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
+  },
+  {
+    imageSrc: OnboardingAvatar,
+    link: "/23-onboarding",
+    name: "Onboarding",
+    description: "An onboarding process for a resort",
+    mockup: "https://dribbble.com/shots/23720030-Daily-UI-024-Boarding-Pass",
   },
   {
     imageSrc: BoardingPassAvatar,

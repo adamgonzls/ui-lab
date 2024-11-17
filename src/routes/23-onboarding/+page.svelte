@@ -5,6 +5,8 @@
   const resortName = "Mystic Cliffs Resort"
   let firstName = "Friend"
   import CabinImage from "$lib/assets/images/23-onboarding/mystic-cabin.jpg"
+  import DockImage from "$lib/assets/images/23-onboarding/lakeside-cabin.jpg"
+  import RoadImage from "$lib/assets/images/23-onboarding/mystic-road.jpg"
   function nextButton() {
     console.log("Next button clicked")
     currentStep += 1
@@ -15,15 +17,18 @@
   let currentStep = 1
   $: processSteps = [
     {
+      backgroundImage: RoadImage,
       title: "Let's Get Started!",
       description:
         "We're so glad you've chosen to spend your time with us. To make your stay extra special, let's start by getting to know you a little better.",
     },
     {
+      backgroundImage: DockImage,
       title: `Hi ${firstName}!`,
       description: `At ${resortName}, we take pride in personalizing every aspect of your experience. From amenities to special services, everything is designed with you in mind, ${firstName}.`,
     },
     {
+      backgroundImage: CabinImage,
       title: "What's Your Email?",
       description:
         "We'll need your email to send you important updates and information about your stay.",
@@ -37,7 +42,10 @@
     {#each processSteps as step, i}
       {#if currentStep === i + 1}
         <div class="step">
-          <div class="hero__image"></div>
+          <div
+            class="hero__image"
+            style={`background-image: url('${step.backgroundImage}');`}
+          ></div>
           <h2 class="step__title">{step.title}</h2>
           <p class="step__description">
             {step.description}
@@ -57,13 +65,20 @@
             The name you entered is {firstName}
           {/if}
           <div class="step__buttons">
-            <button class="step__button step__continue" on:click={prevButton}
-              >Previous</button
+            <button
+              class="step__button step__continue {currentStep === 1
+                ? 'step__button--disabled'
+                : ''}"
+              disabled={currentStep === 1}
+              on:click={prevButton}>Previous</button
             >
             <button
               class="step__button step__continue"
               disabled={!firstName}
-              on:click={nextButton}>Continue</button
+              on:click={nextButton}
+              >{processSteps.length === currentStep
+                ? "Finish"
+                : "Continue"}</button
             >
           </div>
           <div class="pagination">
@@ -94,14 +109,16 @@
   :root {
     --header-font: "Oleo Script", serif;
     --body-font: "Open Sans", sans-serif;
+    --accent-color: #cb5a8a;
   }
   h1 {
     font-family: var(--header-font);
     font-size: 2rem;
     letter-spacing: -0.1rem;
+    color: var(--accent-color);
   }
   .content-container {
-    background-color: red;
+    background-color: #fff;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -109,20 +126,38 @@
     font-family: var(--body-font);
   }
   main {
-    max-width: 65%;
-    margin: 1rem;
+    max-width: 100%;
+    /* margin: 1rem; */
     padding: 1rem;
     /* display: flex; */
     /* justify-content: center; */
     /* align-items: center; */
     /* height: 90vh; */
-    background-color: #f5f5f5;
+    background-color: #c0d6ed;
+    /* border: 2px solid #190202; */
     border-radius: 10px;
+  }
+  @media screen and (min-width: 480px) {
+    main {
+      margin: 1rem;
+      max-width: 90%;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    main {
+      max-width: 80%;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    main {
+      max-width: 65%;
+    }
   }
   .step__title {
     margin-top: 1rem;
     font-family: var(--header-font);
     letter-spacing: -0.1rem;
+    color: var(--accent-color);
   }
   .step__description {
     margin-top: 1rem;
@@ -144,6 +179,7 @@
   }
   .step__input {
     border: none;
+    border-radius: 10px;
     padding: 0.5rem 1rem;
     width: 100%;
   }
@@ -162,6 +198,10 @@
     font-size: 1.25rem;
     font-family: var(--header-font);
     cursor: pointer;
+  }
+  .step__button--disabled {
+    background-color: #c2849e;
+    cursor: not-allowed;
   }
   .pagination {
     margin-top: 2rem;
@@ -196,5 +236,9 @@
     opacity: 1;
     transform: scale(1.1); /* Slightly enlarge to indicate progress */
     box-shadow: 0 0 12px rgba(255, 79, 139, 0.6); /* Add a deep pink glow */
+  }
+  .accent--text {
+    font-family: var(--header-font);
+    color: var(--accent-color);
   }
 </style>

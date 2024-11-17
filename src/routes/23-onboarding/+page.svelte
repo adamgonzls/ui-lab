@@ -3,14 +3,17 @@
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "$lib/assets/fonts/23-onboarding/stylesheet.css"
   const resortName = "Mystic Cliffs Resort"
-  let firstName = "Adam"
+  let firstName = "Friend"
   import CabinImage from "$lib/assets/images/23-onboarding/mystic-cabin.jpg"
   function nextButton() {
     console.log("Next button clicked")
-    // currentStep += 1
+    currentStep += 1
+  }
+  function prevButton() {
+    currentStep -= 1
   }
   let currentStep = 1
-  const processSteps = [
+  $: processSteps = [
     {
       title: "Let's Get Started!",
       description:
@@ -18,7 +21,7 @@
     },
     {
       title: `Hi ${firstName}!`,
-      description: `At ${resortName}, we take pride in personalizing every aspect of your experience. From amenities to special services, everything is designed with you in mind, ${firstName}`,
+      description: `At ${resortName}, we take pride in personalizing every aspect of your experience. From amenities to special services, everything is designed with you in mind, ${firstName}.`,
     },
     {
       title: "What's Your Email?",
@@ -31,37 +34,50 @@
 <div class="content-container">
   <main>
     <h1>{resortName}</h1>
-    <div class="step">
-      <div class="hero__image"></div>
-      <h2 class="step__title">Let's Get Started!</h2>
-      <p class="step__description">
-        We're so glad you've chosen to spend your time with us. To make your
-        stay extra special, let's start by getting to know you a little better.
-      </p>
-      <div class="step__form">
-        <label class="step__label" for="firstName"
-          >Please enter your first name:</label
-        >
-        <input
-          class="step__input"
-          id="firstName"
-          type="text"
-          bind:value={firstName}
-        />
-      </div>
-      The name you entered is {firstName}
-      <button class="step__continue" disabled={!firstName} on:click={nextButton}
-        >Continue</button
-      >
-      <div class="pagination">
-        {#each processSteps as step, index}
-          <div
-            class="pagination-step"
-            class:active={index === currentStep - 1}
-          ></div>
-        {/each}
-      </div>
-    </div>
+    {#each processSteps as step, i}
+      {#if currentStep === i + 1}
+        <div class="step">
+          <div class="hero__image"></div>
+          <h2 class="step__title">{step.title}</h2>
+          <p class="step__description">
+            {step.description}
+          </p>
+          {#if currentStep === 1}
+            <div class="step__form">
+              <label class="step__label" for="firstName"
+                >Please enter your first name:</label
+              >
+              <input
+                class="step__input"
+                id="firstNameInput"
+                type="text"
+                bind:value={firstName}
+              />
+            </div>
+            The name you entered is {firstName}
+          {/if}
+          <div class="step__buttons">
+            <button class="step__button step__continue" on:click={prevButton}
+              >Previous</button
+            >
+            <button
+              class="step__button step__continue"
+              disabled={!firstName}
+              on:click={nextButton}>Continue</button
+            >
+          </div>
+          <div class="pagination">
+            {#each processSteps as step, index}
+              <div
+                class="pagination-step"
+                class:active={index === currentStep - 1}
+              ></div>
+            {/each}
+          </div>
+        </div>
+      {/if}
+    {/each}
+
     <!-- <input bind:value={firstName} type="text" />
     <p>Hello {firstName}</p> -->
     <!-- <div>
@@ -131,15 +147,17 @@
     padding: 0.5rem 1rem;
     width: 100%;
   }
-  .step__continue {
+  .step__buttons {
     display: flex;
     margin-top: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 10px;
-    border: none;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .step__button {
     padding: 0.5rem 1rem;
     background-color: #cb5a8a;
+    border-radius: 10px;
+    border: none;
     color: white;
     font-size: 1.25rem;
     font-family: var(--header-font);

@@ -3,8 +3,8 @@
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "$lib/assets/fonts/23-onboarding/stylesheet.css"
   const resortName = "Mystic Cliffs Resort"
-  let firstName = "Friend"
-  let emailAddress = "somebody@domain.com"
+  let firstName = ""
+  let emailAddress = ""
   import CabinImage from "$lib/assets/images/23-onboarding/mystic-cabin.jpg"
   import DockImage from "$lib/assets/images/23-onboarding/lakeside-cabin.jpg"
   import RoadImage from "$lib/assets/images/23-onboarding/mystic-road.jpg"
@@ -64,7 +64,6 @@
                   bind:value={firstName}
                 />
               </div>
-              The name you entered is {firstName}
             {/if}
             {#if currentStep === processSteps.length}
               <div class="step__form">
@@ -78,7 +77,6 @@
                   bind:value={emailAddress}
                 />
               </div>
-              The name you entered is {firstName}
             {/if}
             <div class="step__buttons">
               <button
@@ -90,7 +88,8 @@
               >
               <button
                 class="step__button"
-                disabled={!firstName}
+                disabled={!firstName ||
+                  (currentStep === processSteps.length && !emailAddress)}
                 on:click={nextButton}
                 >{processSteps.length === currentStep
                   ? "Finish"
@@ -204,7 +203,7 @@
   }
   .step__input {
     border: none;
-    border-radius: 10px;
+    border-bottom: 2px solid #9eb3df;
     padding: 0.5rem 1rem;
     width: 100%;
   }

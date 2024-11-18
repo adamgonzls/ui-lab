@@ -4,6 +4,7 @@
   import "$lib/assets/fonts/23-onboarding/stylesheet.css"
   const resortName = "Mystic Cliffs Resort"
   let firstName = "Friend"
+  let emailAddress = "somebody@domain.com"
   import CabinImage from "$lib/assets/images/23-onboarding/mystic-cabin.jpg"
   import DockImage from "$lib/assets/images/23-onboarding/lakeside-cabin.jpg"
   import RoadImage from "$lib/assets/images/23-onboarding/mystic-road.jpg"
@@ -39,69 +40,95 @@
 <div class="content-container">
   <main>
     <h1>{resortName}</h1>
-    {#each processSteps as step, i}
-      {#if currentStep === i + 1}
-        <div class="step">
-          <div
-            class="hero__image"
-            style={`background-image: url('${step.backgroundImage}');`}
-          ></div>
-          <h2 class="step__title">{step.title}</h2>
-          <p class="step__description">
-            {step.description}
-          </p>
-          {#if currentStep === 1}
-            <div class="step__form">
-              <label class="step__label" for="firstName"
-                >Please enter your first name:</label
+    {#if currentStep <= processSteps.length}
+      {#each processSteps as step, i}
+        {#if currentStep === i + 1}
+          <div class="step">
+            <div
+              class="hero__image"
+              style={`background-image: url('${step.backgroundImage}');`}
+            ></div>
+            <h2 class="step__title">{step.title}</h2>
+            <p class="step__description">
+              {step.description}
+            </p>
+            {#if currentStep === 1}
+              <div class="step__form">
+                <label class="step__label" for="firstName"
+                  >Please enter your first name:</label
+                >
+                <input
+                  class="step__input"
+                  id="firstNameInput"
+                  type="text"
+                  bind:value={firstName}
+                />
+              </div>
+              The name you entered is {firstName}
+            {/if}
+            {#if currentStep === processSteps.length}
+              <div class="step__form">
+                <label class="step__label" for="firstName"
+                  >Please enter your email address:</label
+                >
+                <input
+                  class="step__input"
+                  id="emailInput"
+                  type="text"
+                  bind:value={emailAddress}
+                />
+              </div>
+              The name you entered is {firstName}
+            {/if}
+            <div class="step__buttons">
+              <button
+                class="step__button {currentStep === 1
+                  ? 'step__button--disabled'
+                  : ''}"
+                disabled={currentStep === 1}
+                on:click={prevButton}>Previous</button
               >
-              <input
-                class="step__input"
-                id="firstNameInput"
-                type="text"
-                bind:value={firstName}
-              />
+              <button
+                class="step__button"
+                disabled={!firstName}
+                on:click={nextButton}
+                >{processSteps.length === currentStep
+                  ? "Finish"
+                  : "Continue"}</button
+              >
             </div>
-            The name you entered is {firstName}
-          {/if}
-          <div class="step__buttons">
-            <button
-              class="step__button step__continue {currentStep === 1
-                ? 'step__button--disabled'
-                : ''}"
-              disabled={currentStep === 1}
-              on:click={prevButton}>Previous</button
-            >
-            <button
-              class="step__button step__continue"
-              disabled={!firstName}
-              on:click={nextButton}
-              >{processSteps.length === currentStep
-                ? "Finish"
-                : "Continue"}</button
-            >
+            <div class="pagination">
+              {#each processSteps as step, index}
+                <div
+                  class="pagination-step"
+                  class:active={index === currentStep - 1}
+                ></div>
+              {/each}
+            </div>
           </div>
-          <div class="pagination">
-            {#each processSteps as step, index}
-              <div
-                class="pagination-step"
-                class:active={index === currentStep - 1}
-              ></div>
-            {/each}
-          </div>
+        {/if}
+      {/each}
+    {:else}
+      <div class="greeting-page">
+        <h2 class="greeting-page__title step__title">
+          That's it! You're Registered, {firstName}!
+        </h2>
+        <p class="step__description">
+          Welcome to {resortName}, where unforgettable memories are made.
+        </p>
+        <p class="step__description">
+          We've sent a confirmation to <strong>{emailAddress}</strong>. Check
+          your inbox for important updates about your stay.
+        </p>
+        <p class="step__description">
+          We're thrilled to have you with us and can't wait to make your stay
+          special!
+        </p>
+        <div class="step__buttons">
+          <button class="step__button" on:click={prevButton}>Back</button>
         </div>
-      {/if}
-    {/each}
-
-    <!-- <input bind:value={firstName} type="text" />
-    <p>Hello {firstName}</p> -->
-    <!-- <div>
-      <h2>Hi {firstName}!</h2>
-      <p>
-        Welcome! We're excited to have you here. To personalize your experience,
-        let's start with your name.
-      </p>
-    </div> -->
+      </div>
+    {/if}
   </main>
 </div>
 
@@ -118,7 +145,7 @@
     color: var(--accent-color);
   }
   .content-container {
-    background-color: #fff;
+    background-color: #9eb3df;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -127,14 +154,12 @@
   }
   main {
     max-width: 100%;
-    /* margin: 1rem; */
     padding: 1rem;
     /* display: flex; */
     /* justify-content: center; */
     /* align-items: center; */
     /* height: 90vh; */
-    background-color: #c0d6ed;
-    /* border: 2px solid #190202; */
+    background-color: #fff;
     border-radius: 10px;
   }
   @media screen and (min-width: 480px) {
@@ -198,6 +223,9 @@
     font-size: 1.25rem;
     font-family: var(--header-font);
     cursor: pointer;
+  }
+  .step__button:hover:not(.step__button--disabled) {
+    background-color: #b6376d;
   }
   .step__button--disabled {
     background-color: #c2849e;

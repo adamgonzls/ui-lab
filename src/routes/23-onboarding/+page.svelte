@@ -154,10 +154,6 @@
   main {
     max-width: 100%;
     padding: 1rem;
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* height: 90vh; */
     background-color: #fff;
     border-radius: 10px;
   }

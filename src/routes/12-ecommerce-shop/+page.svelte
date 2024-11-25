@@ -121,7 +121,7 @@
 
 <main class="content-container">
   <img class="img--rotate" src={fabricChair} alt="Cantilever chair" />
-  <img class="img--rotate-2" src={armchair} alt="Cantilever chair" />
+  <img class="decorative-chair__image" src={armchair} alt="Cantilever chair" />
   <div class="background-blob" style="--borderRadius: {borderRadius}"></div>
   <div class="info-container">
     <div>
@@ -161,10 +161,12 @@
             />
           </div>
           {#if currentProduct.dimensions}
-            <div>
+            <div class="product__dimensions">
               <h3 class="product__dimensions-title">Dimensions:</h3>
               {#each Object.entries(currentProduct.dimensions) as [key, value]}
-                <p>{key.charAt(0).toUpperCase() + key.slice(1)}: {value}</p>
+                <p class="product__dimensions-measurement">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}: {value}
+                </p>
               {/each}
             </div>
           {/if}
@@ -177,10 +179,18 @@
             on:click={() => setCurrentProduct(product.id)}
           >
             <img
-              class="related__image"
+              class="related__image {product.id === currentProduct.id
+                ? 'product__selected--large'
+                : ''}"
               src={product.image}
               alt={product.name}
             />
+            {#if product.id === currentProduct.id}
+              <div
+                style="--borderRadius: {borderRadius}"
+                class="product__selected"
+              ></div>
+            {/if}
           </button>
         {/each}
       </div>
@@ -252,6 +262,7 @@
   }
   .info-container {
     margin: 2em;
+    margin-bottom: 5em;
     border-radius: 15px;
     padding: 20px;
     background-color: #fff;
@@ -282,8 +293,14 @@
     margin-left: auto;
     margin-right: auto;
   }
+  .product__dimensions {
+    margin-top: 1em;
+  }
   .product__dimensions-title {
     font-size: 1rem;
+  }
+  .product__dimensions-measurement {
+    font-size: 0.75rem;
   }
   .product__name {
     font-size: 2.5rem;
@@ -301,7 +318,7 @@
   .product__price {
     display: inline-block;
     margin-top: 2rem;
-    font-size: 5rem;
+    font-size: 4rem;
     color: var(--ryder);
     font-weight: bold;
     line-height: 100%;
@@ -332,10 +349,25 @@
     }
   }
   .related__button {
+    position: relative;
     border: none;
     background-color: transparent;
     cursor: pointer;
     padding: 0;
+  }
+  .product__selected {
+    border-radius: var(--borderRadius);
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: var(--deep-lagoon);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+  .product__selected--large {
+    transform: scale(1.25);
   }
   .related__image {
     width: 80px;
@@ -352,15 +384,16 @@
     top: -25%;
     left: -25%;
   }
-  .img--rotate-2 {
+  .decorative-chair__image {
     display: none;
   }
   @media (min-width: 600px) {
-    .img--rotate-2 {
+    .decorative-chair__image {
+      width: 190px;
       display: block;
       position: absolute;
-      bottom: -5%;
-      right: -8%;
+      bottom: -3%;
+      right: -5%;
       z-index: 11;
     }
   }

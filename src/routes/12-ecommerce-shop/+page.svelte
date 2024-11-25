@@ -16,6 +16,89 @@
   const rangeLow = 17
   const rangeHigh = 95
   export let borderRadius = `${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% / ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}%`
+  let products = [
+    {
+      name: "Relax Seat",
+      tagline: "Feel the essence of comfort",
+      description:
+        "A cozy fabric chair designed to help you relax after a long day. With soft cushioning and a timeless design, it's perfect for any room in your home.",
+      price: "390$",
+      image: fabricChair,
+      dimensions: {
+        width: "28 in (71.1 cm)",
+        height: "34 in (86.4 cm)",
+        depth: "30 in (76.2 cm)",
+      },
+    },
+    {
+      name: "Rocking Chair",
+      tagline: "Rock your world",
+      description:
+        "A modern take on the classic rocking chair. Perfect for quiet evenings or reading a good book, this chair combines style and function effortlessly.",
+      price: "290$",
+      image: rockingChair,
+      dimensions: {
+        width: "26 in (66 cm)",
+        height: "36 in (91.4 cm)",
+        depth: "32 in (81.3 cm)",
+      },
+    },
+    {
+      name: "The Circle",
+      tagline: "Gather around",
+      description:
+        "A sleek and stylish round table, ideal for dining rooms or living spaces. Its minimalist design makes it a versatile addition to your home.",
+      price: "190$",
+      image: roundTable,
+      dimensions: {
+        width: "42 in (106.7 cm)",
+        height: "30 in (76.2 cm)",
+        depth: "42 in (106.7 cm)",
+      },
+    },
+    {
+      name: "Red Throne",
+      tagline: "Claim your kingdom in style.",
+      description:
+        "An elegant and bold throne-style chair, crafted for comfort and style. Its vibrant red upholstery adds a regal touch to any room.",
+      price: "490$",
+      image: redThrone,
+      dimensions: {
+        width: "30 in (76.2 cm)",
+        height: "48 in (121.9 cm)",
+        depth: "32 in (81.3 cm)",
+      },
+    },
+    {
+      name: "The Urban Perch",
+      tagline: "Urban living, elevated seating.",
+      description:
+        "A sturdy and stylish concrete bench that combines industrial charm with practicality. Ideal for outdoor or modern indoor spaces.",
+      price: "290$",
+      image: concreteBench,
+      dimensions: {
+        width: "48 in (121.9 cm)",
+        height: "18 in (45.7 cm)",
+        depth: "14 in (35.6 cm)",
+      },
+    },
+    {
+      name: "Peach Couch",
+      tagline: "Peachy keen",
+      description:
+        "A vibrant peach-colored couch that adds a pop of color to your living space. Its comfortable design makes it perfect for lounging or entertaining.",
+      price: "390$",
+      image: peachCouch,
+      dimensions: {
+        width: "72 in (182.9 cm)",
+        height: "34 in (86.4 cm)",
+        depth: "30 in (76.2 cm)",
+      },
+    },
+  ]
+
+  let currentProduct = products[Math.floor(Math.random() * products.length)]
+  console.log(currentProduct)
 </script>
 
 <main class="content-container">
@@ -24,7 +107,10 @@
   <div class="background-blob" style="--borderRadius: {borderRadius}"></div>
   <div class="info-container">
     <div>
-      <nav class="page-navigation">
+      <h1 class="store__name">
+        Haven &amp; <span class="store__accent">Hue</span>
+      </h1>
+      <nav class="store__navigation">
         <span>Furniture</span>
         <span>Designers</span>
         <span>Trends</span>
@@ -36,24 +122,29 @@
       </nav>
       <div class="product__container">
         <div class="product__info">
-          <h1>Relax Seat</h1>
-          <h2 class="product__tagline">Feel the essence of comfort</h2>
+          <h2 class="product__name">{currentProduct.name}</h2>
+          <h3 class="product__tagline">{currentProduct.tagline}</h3>
           <p class="product__extended-description">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta
-            optio, quibusdam adipisci laboriosam, temporibus in voluptates esse
-            sequi debitis ad ipsum! Sit molestias autem quidem labore doloribus
-            necessitatibus debitis numquam?
+            {currentProduct.description}
           </p>
-          <span class="product__price">390$</span><br />
+          <span class="product__price">{currentProduct.price}</span><br />
           <button class="product__add-to-cart">Add to cart</button>
           <Arrow fillColor="#ecad27" rotation="270deg" />
         </div>
-        <div class="product__image">
+        <div class="product__image-container">
           <div
             style="--borderRadius: {borderRadius}"
             class="product__background-blob"
           >
-            <img src={fabricChair} alt="" />
+            <img class="product__image" src={currentProduct.image} alt="" />
+            {#if currentProduct.dimensions}
+              <div>
+                <h3>Dimensions:</h3>
+                {#each Object.entries(currentProduct.dimensions) as [key, value]}
+                  <p>{key.charAt(0).toUpperCase() + key.slice(1)}: {value}</p>
+                {/each}
+              </div>
+            {/if}
           </div>
         </div>
       </div>
@@ -71,24 +162,48 @@
 <style>
   * {
     --body-font: "Poppins", sans-serif;
-    --ryder: #ecad27;
-    --rain-cloud: #adadad;
-    --overcast: #ebebeb;
+    --ryder: #ecad27; /* Vibrant Yellow */
+    --rain-cloud: #adadad; /* Neutral Gray */
+    --overcast: #ebebeb; /* Light Neutral */
+    --stormy-night: #2b2b2b; /* Dark Charcoal Gray */
+    --terracotta: #d37b4a; /* Warm Terracotta */
+    --deep-lagoon: #377d87; /* Muted Teal */
+    --honeydew: #f4f7e4; /* Pale Yellow-Green */
+    --oxblood: #5a2b2f; /* Dark Red/Wine */
   }
   main {
     font-family: var(--body-font);
   }
-  .page-navigation {
+  .store__name {
+    font-size: 5rem;
+    line-height: 100%;
+  }
+  .store__accent {
+    color: var(--deep-lagoon);
+  }
+  .store__navigation {
+    margin-top: 1.25rem;
     display: flex;
     flex-wrap: wrap;
     gap: 1.25rem;
   }
   @media (min-width: 900px) {
-    .page-navigation {
-      gap: 80px;
+    .store__navigation {
+      gap: 2rem;
     }
   }
-
+  .store__navigation span {
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    border-bottom: 3px solid transparent;
+    transition:
+      border-color 0.3s ease,
+      color 0.3s ease;
+  }
+  .store__navigation span:hover {
+    color: var(--stormy-night);
+    border-bottom: 3px solid var(--deep-lagoon);
+  }
   @media (min-width: 600px) {
     .cart {
       margin-left: auto;
@@ -115,7 +230,7 @@
     position: relative;
   }
   .product__container {
-    margin-top: 40px;
+    margin-top: 1.25em;
   }
   @media (min-width: 600px) {
     .product__container {
@@ -125,22 +240,38 @@
     }
   }
   .product__info,
-  .product__image {
+  .product__image-container {
     flex: 1;
   }
+  .product__image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .product__image {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .product__name {
+    font-size: 2.5rem;
+  }
   .product__tagline {
-    color: var(--rain-cloud);
-    font-size: 1.2rem;
+    text-transform: capitalize;
+    color: var(--stormy-night);
+    font-size: 1.75rem;
+    letter-spacing: -0.75px;
   }
   .product__extended-description {
-    margin-top: 2rem;
-    color: var(--rain-cloud);
+    margin-top: 1.25em;
+    color: var(--stormy-night);
   }
   .product__price {
     display: inline-block;
     margin-top: 2rem;
+    font-size: 5rem;
     color: var(--ryder);
     font-weight: bold;
+    line-height: 100%;
   }
   .product__add-to-cart {
     display: inline-block;

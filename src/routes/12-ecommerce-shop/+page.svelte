@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte"
   import "$lib/assets/fonts/12-ecommerce-shop/stylesheet.css"
   import "../../styles.css"
   import fabricChair from "$lib/assets/images/fabric-armchair-610w.png"
@@ -10,6 +11,13 @@
   import peachCouch from "$lib/assets/images/peach-couch-301w.png"
   import shoppingBag from "$lib/assets/images/purse-wallet.svg"
   import Arrow from "../../components/12-ecommerce-shop/Arrow.svelte"
+  function setCurrentProduct(id: number) {
+    products.find((product) => {
+      if (product.id === id) {
+        currentProduct = product
+      }
+    })
+  }
   function randomIntRange(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
@@ -18,6 +26,7 @@
   export let borderRadius = `${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% / ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}% ${randomIntRange(rangeLow, rangeHigh)}%`
   let products = [
     {
+      id: 1,
       name: "Relax Seat",
       tagline: "Feel the essence of comfort",
       description:
@@ -31,6 +40,7 @@
       },
     },
     {
+      id: 2,
       name: "Rocking Chair",
       tagline: "Rock your world",
       description:
@@ -44,6 +54,7 @@
       },
     },
     {
+      id: 3,
       name: "The Circle",
       tagline: "Gather around",
       description:
@@ -57,6 +68,7 @@
       },
     },
     {
+      id: 4,
       name: "Red Throne",
       tagline: "Claim your kingdom in style.",
       description:
@@ -70,6 +82,7 @@
       },
     },
     {
+      id: 5,
       name: "The Urban Perch",
       tagline: "Urban living, elevated seating.",
       description:
@@ -83,6 +96,7 @@
       },
     },
     {
+      id: 6,
       name: "Peach Couch",
       tagline: "Peachy keen",
       description:
@@ -96,9 +110,13 @@
       },
     },
   ]
-
-  let currentProduct = products[Math.floor(Math.random() * products.length)]
-  console.log(currentProduct)
+  let currentProduct = {}
+  function getRandomProduct() {
+    return products[Math.floor(Math.random() * products.length)]
+  }
+  onMount(() => {
+    currentProduct = getRandomProduct()
+  })
 </script>
 
 <main class="content-container">
@@ -136,24 +154,35 @@
             style="--borderRadius: {borderRadius}"
             class="product__background-blob"
           >
-            <img class="product__image" src={currentProduct.image} alt="" />
-            {#if currentProduct.dimensions}
-              <div>
-                <h3>Dimensions:</h3>
-                {#each Object.entries(currentProduct.dimensions) as [key, value]}
-                  <p>{key.charAt(0).toUpperCase() + key.slice(1)}: {value}</p>
-                {/each}
-              </div>
-            {/if}
+            <img
+              class="product__image"
+              src={currentProduct.image}
+              alt={currentProduct.name}
+            />
           </div>
+          {#if currentProduct.dimensions}
+            <div>
+              <h3 class="product__dimensions-title">Dimensions:</h3>
+              {#each Object.entries(currentProduct.dimensions) as [key, value]}
+                <p>{key.charAt(0).toUpperCase() + key.slice(1)}: {value}</p>
+              {/each}
+            </div>
+          {/if}
         </div>
       </div>
-      <div class="related-products">
-        <img class="related-image" src={rockingChair} alt="" />
-        <img class="related-image" src={roundTable} alt="" />
-        <img class="related-image" src={concreteBench} alt="" />
-        <img class="related-image" src={redThrone} alt="" />
-        <img class="related-image" src={peachCouch} alt="" />
+      <div class="related__products">
+        {#each products as product}
+          <button
+            class="related__button"
+            on:click={() => setCurrentProduct(product.id)}
+          >
+            <img
+              class="related__image"
+              src={product.image}
+              alt={product.name}
+            />
+          </button>
+        {/each}
       </div>
     </div>
   </div>
@@ -222,7 +251,7 @@
     overflow: hidden;
   }
   .info-container {
-    margin: 60px;
+    margin: 2em;
     border-radius: 15px;
     padding: 20px;
     background-color: #fff;
@@ -249,8 +278,12 @@
     justify-content: center;
   }
   .product__image {
+    max-height: 300px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .product__dimensions-title {
+    font-size: 1rem;
   }
   .product__name {
     font-size: 2.5rem;
@@ -282,16 +315,14 @@
     font-weight: 600;
   }
   .product__background-blob {
-    /* background: red; */
-    /* border-radius: borderRadius; */
     background-color: var(--ryder);
     border-radius: var(--borderRadius);
   }
-  .related-products {
+  .related__products {
     display: none;
   }
   @media (min-width: 600px) {
-    .related-products {
+    .related__products {
       position: absolute;
       left: 0;
       bottom: -10%;
@@ -300,12 +331,18 @@
       justify-content: space-around;
     }
   }
-  .related-image {
+  .related__button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+  .related__image {
     width: 80px;
     transition: transform 0.2s;
     object-fit: contain;
   }
-  .related-image:hover {
+  .related__image:hover {
     transform: scale(1.25);
   }
   .img--rotate {

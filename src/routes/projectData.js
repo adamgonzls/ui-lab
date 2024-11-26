@@ -74,9 +74,9 @@ export const projects = [
   },
   {
     imageSrc: dogBeanie,
-    link: "",
-    name: "App Icon",
-    description: "A sign up page for a website",
+    link: "/37-weather",
+    name: "Weather",
+    description: "A weather app",
   },
   {
     imageSrc: purse,

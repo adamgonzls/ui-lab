@@ -122,6 +122,8 @@
   .weather__summary-title {
     margin-top: 0.5em;
     margin-right: auto;
+    font-weight: bold;
+    font-size: 1rem;
   }
   .weather__summary {
     margin-right: auto;
@@ -129,6 +131,8 @@
   .weather__forecast-title {
     margin-top: 1em;
     margin-right: auto;
+    font-weight: bold;
+    font-size: 1rem;
   }
   .weather__weekly-forecast {
     width: 100%;

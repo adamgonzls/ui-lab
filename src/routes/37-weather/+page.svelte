@@ -1,6 +1,7 @@
 <script>
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
+  import "$lib/assets/fonts/37-weather/stylesheet.css"
   let fahrenheit = 72
   let celsius = ((fahrenheit - 32) * 5) / 9
 </script>
@@ -49,6 +50,8 @@
 <style>
   :root {
     --midnight-black: #0b0b0b;
+    --header-font: "Ledger", serif;
+    --body-font: "Roboto", sans-serif;
   }
   .page {
     height: 100vh;
@@ -58,15 +61,36 @@
     align-items: center;
   }
   .weather {
+    font-family: var(--body-font);
     margin-left: auto;
     margin-right: auto;
-    width: 45%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     padding: 1.25rem;
     border-radius: 0.5rem;
     background-color: white;
     align-items: center;
+  }
+  @media (min-width: 475px) {
+    .weather {
+      width: 80%;
+    }
+  }
+  @media (min-width: 600px) {
+    .weather {
+      width: 70%;
+    }
+  }
+  @media (min-width: 730px) {
+    .weather {
+      width: 60%;
+    }
+  }
+  @media (min-width: 850px) {
+    .weather {
+      width: 50%;
+    }
   }
   .weather__city {
     font-size: 1.25rem;

@@ -1,23 +1,80 @@
 <script>
   import { PUBLIC_OPENWEATHER_API_KEY } from "$env/static/public"
+  import { iso31661 } from "iso-3166"
+  import { iso31662 } from "iso-3166"
+  console.log(iso31661)
+  // console.log(iso31662)
   import { onMount } from "svelte"
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
+  import { get } from "svelte/store"
   let fahrenheit = 72
   let celsius = ((fahrenheit - 32) * 5) / 9
   let cityName = ""
-  let countryName = ""
-  // const stateCode = "FR"
-  // const countryCode = "FR"
-  const geocodingApi = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=3&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+  let countryCode = ""
+  let stateCode = ""
+  const mostUsedCountryCodes = [
+    "US",
+    "CA",
+    "AU",
+    "GB",
+    "DE",
+    "FR",
+    "BR",
+    "IT",
+    "ES",
+    "NL",
+  ]
+
+  $: sortedCountries = iso31661.sort((a, b) => {
+    // Check if 'a' or 'b' is in the topCountries list
+    const aIsTop = mostUsedCountryCodes.includes(a.alpha2)
+    const bIsTop = mostUsedCountryCodes.includes(b.alpha2)
+
+    // Move top countries to the top of the list
+    if (aIsTop && bIsTop) {
+      return (
+        mostUsedCountryCodes.indexOf(a.alpha2) -
+        mostUsedCountryCodes.indexOf(b.alpha2)
+      ) // Respect topCountries order
+    }
+    if (aIsTop) return -1 // 'a' is a top country, so it comes first
+    if (bIsTop) return 1 // 'b' is a top country, so it comes first
+
+    // Alphabetical sort for the rest
+    return a.alpha2.localeCompare(b.alpha2)
+  })
+
+  $: geocodingApi = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}${stateCode ? `,${stateCode}` : ""},${countryCode}&limit=3&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+  $: weatherDataApi = `https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+  $: filteredStates = iso31662.filter((state) => state.parent === countryCode)
 
   function getLocationLatLong() {
-    console.log(cityName)
+    // console.log(cityName)
+    // console.log(countryCode)
+    // console.log(geocodingApi)
     fetch(geocodingApi)
       .then((response) => response.json())
       .then((data) => {
         console.log("inside getLocationLatLong")
+        // console.log(data)
+        // get the weather data from the first element in the array
+        console.log(data[0])
+        const selectedCity = data[0]
+        const { lat, lon } = selectedCity
+        getWeatherData(lat, lon)
+      })
+  }
+
+  function getWeatherData(lat, lon) {
+    console.log("Getting weather data")
+    //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+    https: weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+    fetch(weatherDataApi)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("inside getWeatherData")
         console.log(data)
       })
   }
@@ -39,7 +96,18 @@
 <div class="page">
   <main class="weather">
     <input id="cityNameInput" bind:value={cityName} type="text" />
-    <input id="countryNameInput" bind:value={countryName} type="text" />
+    <select id="countryCodeInput" bind:value={countryCode}>
+      {#each sortedCountries as country}
+        <option value={country.alpha2}>{country.name}</option>
+      {/each}
+    </select>
+    {#if countryCode}
+      <select id="stateCodeInput" bind:value={stateCode}>
+        {#each filteredStates as state}
+          <option value={state.code}>{state.name}</option>
+        {/each}
+      </select>
+    {/if}
     <div>
       <button on:click={getData}>Get Data</button>
     </div>

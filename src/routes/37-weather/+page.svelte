@@ -1,13 +1,48 @@
 <script>
+  import { PUBLIC_OPENWEATHER_API_KEY } from "$env/static/public"
+  import { onMount } from "svelte"
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
   let fahrenheit = 72
   let celsius = ((fahrenheit - 32) * 5) / 9
+  let cityName = ""
+  let countryName = ""
+  // const stateCode = "FR"
+  // const countryCode = "FR"
+  const geocodingApi = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=3&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+
+  function getLocationLatLong() {
+    console.log(cityName)
+    fetch(geocodingApi)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("inside getLocationLatLong")
+        console.log(data)
+      })
+  }
+
+  onMount(async () => {
+    const response = await fetch(
+      `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+    )
+    const data = await response.json()
+    console.log(data)
+  })
+
+  async function getData() {
+    console.log("Getting data")
+    getLocationLatLong()
+  }
 </script>
 
 <div class="page">
   <main class="weather">
+    <input id="cityNameInput" bind:value={cityName} type="text" />
+    <input id="countryNameInput" bind:value={countryName} type="text" />
+    <div>
+      <button on:click={getData}>Get Data</button>
+    </div>
     <span class="weather__city">Paris</span>
     <span class="weather__date">Friday, 20 January</span>
     <span class="weather__description">Sunny</span>

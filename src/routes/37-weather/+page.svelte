@@ -4,12 +4,10 @@
   import { iso31662 } from "iso-3166"
   console.log(iso31661)
   // console.log(iso31662)
-  import { onMount } from "svelte"
+  // import { onMount } from "svelte"
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
-  let fahrenheit = 72
-  let celsius = ((fahrenheit - 32) * 5) / 9
   let cityName = ""
   let countryCode = ""
   let stateCode = ""
@@ -86,13 +84,24 @@
       })
   }
 
-  onMount(async () => {
-    const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${PUBLIC_OPENWEATHER_API_KEY}`
-    )
-    const data = await response.json()
-    console.log(data)
-  })
+  // onMount(async () => {
+  //   const response = await fetch(
+  //     `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+  //   )
+  //   const data = await response.json()
+  //   console.log(data)
+  // })
+
+  function convertToCelsius(temp: number) {
+    console.log("Converting to celsius")
+    const celsius = Math.round(((temp - 32) * 5) / 9)
+    return celsius
+  }
+
+  function convertMetersToMiles(meters: number) {
+    const miles = Math.round(meters * 0.000621371)
+    return miles
+  }
 
   async function getData() {
     console.log("Getting data")
@@ -131,7 +140,7 @@
             : "Loading..."}</span
         >
         <span class="weather__celsius"
-          >{Math.round(((cityWeatherData.main.temp - 32) * 5) / 9)}°C</span
+          >{convertToCelsius(cityWeatherData.main.temp)}°C</span
         >
         <h2 class="weather__summary-title">Daily Summary</h2>
         <p class="weather__summary">
@@ -148,7 +157,7 @@
           </div>
           <div class="weather__condition">
             <span
-              >{Math.round(cityWeatherData?.visibility * 0.000621371)} miles</span
+              >{convertMetersToMiles(cityWeatherData?.visibility)} miles</span
             >
             <h3>Visibility</h3>
           </div>

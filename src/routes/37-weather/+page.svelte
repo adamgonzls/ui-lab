@@ -3,15 +3,41 @@
   import { iso31661 } from "iso-3166"
   import { iso31662 } from "iso-3166"
   console.log(iso31661)
-  // console.log(iso31662)
-  // import { onMount } from "svelte"
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
+
+  interface City {
+    name: string // City name
+    country: string // Country code (ISO 3166)
+    state?: string // State (optional, only present for some cities)
+    lat: number // Latitude
+    lon: number // Longitude
+  }
+
+  interface CityWeatherData {
+    name: string
+    dt: number
+    weather: { description: string }[]
+    main: { temp: number; feels_like: number; humidity: number }
+    wind: { speed: number }
+    visibility: number
+  }
+
+  let debounceTimeout: number
   let cityName = ""
+  let foundCities: City[] = []
   let countryCode = ""
   let stateCode = ""
-  let cityWeatherData = {}
+
+  let cityWeatherData: CityWeatherData = {
+    name: "",
+    dt: 0,
+    weather: [{ description: "" }],
+    main: { temp: 0, feels_like: 0, humidity: 0 },
+    wind: { speed: 0 },
+    visibility: 0,
+  }
   let currentDate = ""
   const mostUsedCountryCodes = [
     "US",
@@ -66,34 +92,45 @@
       })
   }
 
-  function getWeatherData(lat: number, lon: number) {
-    console.log("Getting weather data")
-    weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${PUBLIC_OPENWEATHER_API_KEY}&units=imperial`
-    fetch(weatherDataApi)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("inside getWeatherData")
-        console.log(data)
-        cityWeatherData = data
-        const date = new Date(cityWeatherData.dt * 1000)
-        currentDate = new Intl.DateTimeFormat("en-US", {
-          weekday: "long", // Full name of the day (e.g., "Friday")
-          day: "numeric", // Day of the month (e.g., "20")
-          month: "long", // Full name of the month (e.g., "January")
-        }).format(date)
-      })
+  // function getWeatherData(lat: number, lon: number) {
+  //   console.log("Getting weather data")
+  //   weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${PUBLIC_OPENWEATHER_API_KEY}&units=imperial`
+  //   fetch(weatherDataApi)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("inside getWeatherData")
+  //       console.log(data)
+  //       cityWeatherData = data
+  //       const date = new Date(cityWeatherData.dt * 1000)
+  //       currentDate = new Intl.DateTimeFormat("en-US", {
+  //         weekday: "long", // Full name of the day (e.g., "Friday")
+  //         day: "numeric", // Day of the month (e.g., "20")
+  //         month: "long", // Full name of the month (e.g., "January")
+  //       }).format(date)
+  //     })
+  // }
+
+  // function getCities() {
+  //   console.log("Getting cities")
+  //   fetch(geocodingApi)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("inside getCities")
+  //       console.log(data)
+  //     })
+  // }
+
+  function formatDataCalculationDate(dt: number) {
+    const date = new Date(dt * 1000)
+    currentDate = new Intl.DateTimeFormat("en-US", {
+      weekday: "long", // Full name of the day (e.g., "Friday")
+      day: "numeric", // Day of the month (e.g., "20")
+      month: "long", // Full name of the month (e.g., "January")
+    }).format(date)
+    return currentDate
   }
 
-  // onMount(async () => {
-  //   const response = await fetch(
-  //     `http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=${PUBLIC_OPENWEATHER_API_KEY}`
-  //   )
-  //   const data = await response.json()
-  //   console.log(data)
-  // })
-
   function convertToCelsius(temp: number) {
-    console.log("Converting to celsius")
     const celsius = Math.round(((temp - 32) * 5) / 9)
     return celsius
   }
@@ -101,6 +138,40 @@
   function convertMetersToMiles(meters: number) {
     const miles = Math.round(meters * 0.000621371)
     return miles
+  }
+
+  async function getCities() {
+    console.log(cityName)
+    clearTimeout(debounceTimeout)
+
+    debounceTimeout = setTimeout(async () => {
+      // Make your API call here using searchTerm
+      console.log("Making API call with:", cityName)
+      try {
+        const response = await fetch(
+          `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+        )
+        const data = await response.json()
+        foundCities = data as City[]
+        console.log(foundCities)
+      } catch (error) {
+        console.log(error)
+      }
+    }, 1000) // Adjust the delay as needed
+  }
+
+  async function fetchWeather(city) {
+    console.log("Fetching weather for", city)
+    const { lat, lon } = city
+    const weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${PUBLIC_OPENWEATHER_API_KEY}&units=imperial`
+    try {
+      const response = await fetch(weatherDataApi)
+      const data = await response.json()
+      cityWeatherData = data
+      formatDataCalculationDate(cityWeatherData.dt)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function getData() {
@@ -111,7 +182,27 @@
 
 <div class="page">
   <main class="weather">
-    <input id="cityNameInput" bind:value={cityName} type="text" />
+    <input
+      id="cityNameInput"
+      bind:value={cityName}
+      on:input={getCities}
+      type="text"
+    />
+    {#if foundCities.length > 0}
+      <ul class="results">
+        {#each foundCities as foundCity}
+          <li class="results__item">
+            <button
+              class="results__button"
+              on:click={() => fetchWeather(foundCity)}
+            >
+              {foundCity.name},{foundCity.state ? ` ${foundCity.state},` : ""}
+              {foundCity.country}
+            </button>
+          </li>
+        {/each}
+      </ul>
+    {/if}
     <select id="countryCodeInput" bind:value={countryCode}>
       {#each sortedCountries as country}
         <option value={country.alpha2}>{country.name}</option>
@@ -127,7 +218,7 @@
     <div>
       <button on:click={getData}>Get Data</button>
     </div>
-    {#if Object.keys(cityWeatherData).length !== 0}
+    {#if cityWeatherData.name !== ""}
       <div class="weather-data">
         <span class="weather__city">{cityWeatherData.name}</span>
         <span class="weather__date">{currentDate}</span>
@@ -194,6 +285,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .results {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    background-color: white;
+    padding-left: 0;
+    font-family: var(--body-font);
+    gap: 0.5em;
+  }
+  .results__item {
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    font-size: 0.8rem;
+    background-color: var(--midnight-black);
+    color: white;
+    border-radius: 9999px;
+  }
+  .results__button {
+    border: none;
+    background-color: transparent;
+    color: white;
   }
   .weather-data {
     font-family: var(--body-font);

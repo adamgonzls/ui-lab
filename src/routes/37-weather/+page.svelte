@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { PUBLIC_OPENWEATHER_API_KEY } from "$env/static/public"
   import { iso31661 } from "iso-3166"
   import { iso31662 } from "iso-3166"
@@ -8,12 +8,13 @@
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
-  import { get } from "svelte/store"
   let fahrenheit = 72
   let celsius = ((fahrenheit - 32) * 5) / 9
   let cityName = ""
   let countryCode = ""
   let stateCode = ""
+  let cityWeatherData = {}
+  let currentDate = ""
   const mostUsedCountryCodes = [
     "US",
     "CA",
@@ -67,15 +68,21 @@
       })
   }
 
-  function getWeatherData(lat, lon) {
+  function getWeatherData(lat: number, lon: number) {
     console.log("Getting weather data")
-    //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-    https: weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+    weatherDataApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${PUBLIC_OPENWEATHER_API_KEY}&units=imperial`
     fetch(weatherDataApi)
       .then((response) => response.json())
       .then((data) => {
         console.log("inside getWeatherData")
         console.log(data)
+        cityWeatherData = data
+        const date = new Date(cityWeatherData.dt * 1000)
+        currentDate = new Intl.DateTimeFormat("en-US", {
+          weekday: "long", // Full name of the day (e.g., "Friday")
+          day: "numeric", // Day of the month (e.g., "20")
+          month: "long", // Full name of the month (e.g., "January")
+        }).format(date)
       })
   }
 
@@ -111,42 +118,58 @@
     <div>
       <button on:click={getData}>Get Data</button>
     </div>
-    <span class="weather__city">Paris</span>
-    <span class="weather__date">Friday, 20 January</span>
-    <span class="weather__description">Sunny</span>
-    <span class="weather__fahrenheit">{fahrenheit}°F</span>
-    <span class="weather__celsius">{celsius.toFixed(1)}°C</span>
-    <h2 class="weather__summary-title">Daily Summary</h2>
-    <p class="weather__summary">Feels like 35 due to direct sun</p>
-    <div class="weather__conditions">
-      <div class="weather__condition">
-        <span>5 mph</span>
-        <h3>Wind</h3>
+    {#if Object.keys(cityWeatherData).length !== 0}
+      <div class="weather-data">
+        <span class="weather__city">{cityWeatherData.name}</span>
+        <span class="weather__date">{currentDate}</span>
+        <span class="weather__description"
+          >{cityWeatherData.weather[0].description}</span
+        >
+        <span class="weather__fahrenheit"
+          >{cityWeatherData?.main?.temp
+            ? `${Math.round(cityWeatherData.main.temp)}°F`
+            : "Loading..."}</span
+        >
+        <span class="weather__celsius"
+          >{Math.round(((cityWeatherData.main.temp - 32) * 5) / 9)}°C</span
+        >
+        <h2 class="weather__summary-title">Daily Summary</h2>
+        <p class="weather__summary">
+          Feels like {Math.round(cityWeatherData?.main.feels_like)}°F
+        </p>
+        <div class="weather__conditions">
+          <div class="weather__condition">
+            <span>{Math.round(cityWeatherData?.wind?.speed)} mph</span>
+            <h3>Wind</h3>
+          </div>
+          <div class="weather__condition">
+            <span>{cityWeatherData?.main.humidity}%</span>
+            <h3>Humidity</h3>
+          </div>
+          <div class="weather__condition">
+            <span
+              >{Math.round(cityWeatherData?.visibility * 0.000621371)} miles</span
+            >
+            <h3>Visibility</h3>
+          </div>
+        </div>
+        <h2 class="weather__forecast-title">Weekly forecast</h2>
+        <div class="weather__weekly-forecast">
+          <div class="weather__forecast-day">
+            26&deg; <h3>21 Jan</h3>
+          </div>
+          <div class="weather__forecast-day">
+            25&deg; <h3>22 Jan</h3>
+          </div>
+          <div class="weather__forecast-day">
+            27&deg; <h3>23 Jan</h3>
+          </div>
+          <div class="weather__forecast-day">
+            26&deg; <h3>24 Jan</h3>
+          </div>
+        </div>
       </div>
-      <div class="weather__condition">
-        <span>20%</span>
-        <h3>Humidity</h3>
-      </div>
-      <div class="weather__condition">
-        <span>10 miles</span>
-        <h3>Visibility</h3>
-      </div>
-    </div>
-    <h2 class="weather__forecast-title">Weekly forecast</h2>
-    <div class="weather__weekly-forecast">
-      <div class="weather__forecast-day">
-        26&deg; <h3>21 Jan</h3>
-      </div>
-      <div class="weather__forecast-day">
-        25&deg; <h3>22 Jan</h3>
-      </div>
-      <div class="weather__forecast-day">
-        27&deg; <h3>23 Jan</h3>
-      </div>
-      <div class="weather__forecast-day">
-        26&deg; <h3>24 Jan</h3>
-      </div>
-    </div>
+    {/if}
   </main>
 </div>
 
@@ -163,7 +186,7 @@
     justify-content: center;
     align-items: center;
   }
-  .weather {
+  .weather-data {
     font-family: var(--body-font);
     margin-left: auto;
     margin-right: auto;
@@ -213,6 +236,7 @@
   .weather__description {
     margin-top: 0.5em;
     font-size: 1rem;
+    text-transform: capitalize;
   }
   .weather__fahrenheit {
     font-size: 8rem;

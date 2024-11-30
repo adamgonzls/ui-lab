@@ -130,8 +130,6 @@
         const forecastData = await forecastResponse.json()
         // 5-day forecast data for selectedCity
         forecastData.list.forEach((entry: ForecastEntry) => {
-          console.log("entry below:")
-          console.log(entry)
           const date = entry.dt_txt.split(" ")[0] // Extract date (YYYY-MM-DD)
           const temp = entry.main.temp
 

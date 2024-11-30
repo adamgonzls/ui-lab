@@ -24,12 +24,36 @@
     forecast?: any
   }
 
-  let debounceTimeout: number
-  let cityName = ""
-  let foundCities: City[] = []
-  let dailyForecastData = {}
-  let currentDate = ""
+  interface ForecastEntry {
+    dt_txt: string
+    main: {
+      temp: number
+      feels_like: number
+      temp_min: number
+      temp_max: number
+      pressure: number
+      humidity: number
+    }
+    weather: {
+      description: string
+      icon: string
+    }[]
+    wind: {
+      speed: number
+      deg: number
+    }
+  }
 
+  interface DailyForecast {
+    date?: string
+    high: number
+    low: number
+  }
+
+  let debounceTimeout: number
+  let cityNameQuery = ""
+  let foundCities: City[] = []
+  let currentDate = ""
   let cityWeatherData: CityWeatherData = {
     name: "",
     searchedCity: "",
@@ -40,6 +64,7 @@
     visibility: 0,
     coord: { lat: 0, lon: 0 },
   }
+  let dailyForecastData: { [date: string]: DailyForecast } = {}
 
   function formatDataCalculationDate(dt: number) {
     const date = new Date(dt * 1000)
@@ -62,26 +87,27 @@
   }
 
   function formatDateToShort(dateString: string) {
-    console.log(dateString)
     const date = new Date(dateString) // Convert the string to a Date object
-    const options = { day: "numeric", month: "short" } // Specify day and short month
+    const options: Intl.DateTimeFormatOptions = {
+      day: "numeric",
+      month: "short",
+    } // Specify day and short month
     return new Intl.DateTimeFormat("en-GB", options).format(date) // Format the date
   }
 
   async function getCities() {
-    console.log(cityName)
     clearTimeout(debounceTimeout)
 
+    // Allow the user to stop typing before making the API call
     debounceTimeout = setTimeout(async () => {
-      // Make your API call here using searchTerm
-      console.log("Making API call with:", cityName)
+      // Make API call here cityNameQuery
       try {
         const response = await fetch(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+          `http://api.openweathermap.org/geo/1.0/direct?q=${cityNameQuery}&limit=5&appid=${PUBLIC_OPENWEATHER_API_KEY}`
         )
         const data = await response.json()
+        // the different cities that match the query
         foundCities = data as City[]
-        console.log(foundCities)
       } catch (error) {
         console.log(error)
       }
@@ -94,7 +120,6 @@
     try {
       const response = await fetch(weatherDataApi)
       const data = await response.json()
-      console.log(`You searched for ${selectedCity.name}`)
       cityWeatherData = data
       cityWeatherData.searchedCity = selectedCity.name
       if (cityWeatherData.coord) {
@@ -103,8 +128,10 @@
           cityWeatherData.coord.lon
         )
         const forecastData = await forecastResponse.json()
-        console.log(forecastData)
-        forecastData.list.forEach((entry) => {
+        // 5-day forecast data for selectedCity
+        forecastData.list.forEach((entry: ForecastEntry) => {
+          console.log("entry below:")
+          console.log(entry)
           const date = entry.dt_txt.split(" ")[0] // Extract date (YYYY-MM-DD)
           const temp = entry.main.temp
 
@@ -136,7 +163,7 @@
         // return result
         cityWeatherData.forecast = result
       }
-      console.log(cityWeatherData)
+      // console.log(cityWeatherData)
       formatDataCalculationDate(cityWeatherData.dt)
       foundCities = []
     } catch (error) {
@@ -157,7 +184,7 @@
     <input
       id="cityNameInput"
       class="input__city-name"
-      bind:value={cityName}
+      bind:value={cityNameQuery}
       on:input={getCities}
       type="text"
       placeholder="Enter a city name"

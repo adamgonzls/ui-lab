@@ -27,6 +27,7 @@
   let debounceTimeout: number
   let cityName = ""
   let foundCities: City[] = []
+  let dailyForecastData = {}
 
   let cityWeatherData: CityWeatherData = {
     name: "",
@@ -58,6 +59,12 @@
   function convertMetersToMiles(meters: number) {
     const miles = Math.round(meters * 0.000621371)
     return miles
+  }
+
+  function formatDateToShort(dateString) {
+    const date = new Date(dateString) // Convert the string to a Date object
+    const options = { day: "numeric", month: "short" } // Specify day and short month
+    return new Intl.DateTimeFormat("en-GB", options).format(date) // Format the date
   }
 
   async function getCities() {
@@ -95,7 +102,38 @@
           cityWeatherData.coord.lon
         )
         const forecastData = await forecastResponse.json()
-        cityWeatherData.forecast = forecastData
+        console.log(forecastData)
+        forecastData.list.forEach((entry) => {
+          const date = entry.dt_txt.split(" ")[0] // Extract date (YYYY-MM-DD)
+          const temp = entry.main.temp
+
+          // Initialize the date if not present
+          if (!dailyForecastData[date]) {
+            dailyForecastData[date] = { high: temp, low: temp }
+          } else {
+            // Update high and low for the day
+            dailyForecastData[date].high = Math.max(
+              dailyForecastData[date].high,
+              temp
+            )
+            dailyForecastData[date].low = Math.min(
+              dailyForecastData[date].low,
+              temp
+            )
+          }
+        })
+
+        // Format the result as an array
+        const result = Object.entries(dailyForecastData).map(
+          ([date, { high, low }]) => ({
+            date,
+            high,
+            low,
+          })
+        )
+
+        // return result
+        cityWeatherData.forecast = result
       }
       console.log(cityWeatherData)
       formatDataCalculationDate(cityWeatherData.dt)
@@ -174,7 +212,18 @@
         </div>
         <h2 class="weather__forecast-title">Weekly forecast</h2>
         <div class="weather__weekly-forecast">
-          <div class="weather__forecast-day">
+          {#if cityWeatherData.forecast}
+            {#each cityWeatherData.forecast as forecast}
+              <div class="weather__forecast-day">
+                <span>{Math.round(forecast.high)}&deg;</span><br />
+                <span class="weather__forecast-low"
+                  >{Math.round(forecast.low)}&deg;</span
+                >
+                <h3>{formatDateToShort(forecast.date)}</h3>
+              </div>
+            {/each}
+          {/if}
+          <!-- <div class="weather__forecast-day">
             26&deg; <h3>21 Jan</h3>
           </div>
           <div class="weather__forecast-day">
@@ -185,7 +234,7 @@
           </div>
           <div class="weather__forecast-day">
             26&deg; <h3>24 Jan</h3>
-          </div>
+          </div> -->
         </div>
       </div>
     {/if}
@@ -347,6 +396,9 @@
     flex: 1;
   }
   .weather__forecast-day h3 {
+    font-size: 0.75rem;
+  }
+  .weather__forecast-low {
     font-size: 0.75rem;
   }
 </style>

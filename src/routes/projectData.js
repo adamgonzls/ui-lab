@@ -5,6 +5,7 @@ import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profi
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
 import OnboardingAvatar from "$lib/assets/images/page-avatars/23-onboarding-avatar.jpg"
 import BoardingPassAvatar from "$lib/assets/images/page-avatars/24-boarding-pass-avatar.jpg"
+import WeatherAvatar from "$lib/assets/images/page-avatars/37-weather-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"
 import purse from "$lib/assets/images/purse-640w.jpg"
 import jacket from "$lib/assets/images/jacket-640w.jpg"
@@ -73,10 +74,11 @@ export const projects = [
     mockup: "https://dribbble.com/shots/23720030-Daily-UI-024-Boarding-Pass",
   },
   {
-    imageSrc: dogBeanie,
+    imageSrc: WeatherAvatar,
     link: "/37-weather",
     name: "Weather",
     description: "A weather app",
+    mockup: "https://dribbble.com/shots/20675054-Mobile-Weather-app",
   },
   {
     imageSrc: purse,

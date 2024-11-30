@@ -3,12 +3,13 @@
   import "$lib/assets/fonts/03-landing-page/stylesheet.css"
   import "$lib/assets/fonts/12-ecommerce-shop/stylesheet.css"
   import "$lib/assets/fonts/24-boarding-pass/stylesheet.css"
+  import "$lib/assets/fonts/37-weather/stylesheet.css"
 </script>
 
 <main>
   <h1>Style Guide</h1>
-  <div class="block playfair-display">
-    <h2 class="block__title">Playfair Display</h2>
+  <div class="block ledger">
+    <h2 class="block__title">Ledger</h2>
     <p>
       The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
     </p>
@@ -25,14 +26,26 @@
       The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
     </p>
   </div>
+  <div class="block oswald">
+    <h2 class="block__title">Oswald</h2>
+    <p>
+      The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
+    </p>
+  </div>
+  <div class="block playfair-display">
+    <h2 class="block__title">Playfair Display</h2>
+    <p>
+      The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
+    </p>
+  </div>
   <div class="block poppins">
     <h2 class="block__title">Poppins</h2>
     <p>
       The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
     </p>
   </div>
-  <div class="block oswald">
-    <h2 class="block__title">Oswald</h2>
+  <div class="block roboto">
+    <h2 class="block__title">Roboto</h2>
     <p>
       The quick brown fox jumps over a lazy dog! Why vex bright jumpy quizzes?
     </p>
@@ -46,6 +59,8 @@
     --open-sans-font: "Open Sans", sans-serif;
     --poppins-font: "Poppins", sans-serif;
     --oswald-font: "Oswald", sans-serif;
+    --ledger-font: "Ledger", serif;
+    --roboto-font: "Roboto", sans-serif;
   }
   main {
     padding: 1rem;
@@ -61,6 +76,10 @@
   }
   .block__title {
     font-size: 3rem;
+  }
+  .ledger {
+    font-family: var(--ledger-font);
+    font-size: 2rem;
   }
   .playfair-display {
     font-family: var(--playfair-display-font);
@@ -80,6 +99,10 @@
   }
   .oswald {
     font-family: var(--oswald-font);
+    font-size: 2rem;
+  }
+  .roboto {
+    font-family: var(--roboto-font);
     font-size: 2rem;
   }
 </style>

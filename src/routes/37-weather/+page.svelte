@@ -103,7 +103,7 @@
       // Make API call here cityNameQuery
       try {
         const response = await fetch(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${cityNameQuery}&limit=5&appid=${PUBLIC_OPENWEATHER_API_KEY}`
+          `https://api.openweathermap.org/geo/1.0/direct?q=${cityNameQuery}&limit=5&appid=${PUBLIC_OPENWEATHER_API_KEY}`
         )
         const data = await response.json()
         // the different cities that match the query

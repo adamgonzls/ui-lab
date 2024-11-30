@@ -28,6 +28,7 @@
   let cityName = ""
   let foundCities: City[] = []
   let dailyForecastData = {}
+  let currentDate = ""
 
   let cityWeatherData: CityWeatherData = {
     name: "",
@@ -39,7 +40,6 @@
     visibility: 0,
     coord: { lat: 0, lon: 0 },
   }
-  let currentDate = ""
 
   function formatDataCalculationDate(dt: number) {
     const date = new Date(dt * 1000)
@@ -61,7 +61,8 @@
     return miles
   }
 
-  function formatDateToShort(dateString) {
+  function formatDateToShort(dateString: string) {
+    console.log(dateString)
     const date = new Date(dateString) // Convert the string to a Date object
     const options = { day: "numeric", month: "short" } // Specify day and short month
     return new Intl.DateTimeFormat("en-GB", options).format(date) // Format the date
@@ -137,6 +138,7 @@
       }
       console.log(cityWeatherData)
       formatDataCalculationDate(cityWeatherData.dt)
+      foundCities = []
     } catch (error) {
       console.log(error)
     }
@@ -151,6 +153,7 @@
 <div class="page">
   <main class="page__content">
     <h1>WeatherVane</h1>
+    <label class="label__city-name" for="cityNameInput">City Name:</label>
     <input
       id="cityNameInput"
       class="input__city-name"
@@ -280,6 +283,10 @@
       width: 50%;
     }
   }
+  .label__city-name {
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
   .input__city-name {
     width: 100%;
   }
@@ -308,6 +315,7 @@
     color: white;
   }
   .weather-data {
+    margin-top: 1.25em;
     margin-left: auto;
     margin-right: auto;
     width: 100%;

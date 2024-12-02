@@ -11,6 +11,21 @@
   import peachCouch from "$lib/assets/images/peach-couch-301w.png"
   import shoppingBag from "$lib/assets/images/purse-wallet.svg"
   import Arrow from "../../components/12-ecommerce-shop/Arrow.svelte"
+
+  interface Product {
+    id: number
+    name: string
+    tagline: string
+    description: string
+    price: string
+    image: string
+    dimensions: {
+      width: string
+      height: string
+      depth: string
+    }
+  }
+
   function setCurrentProduct(id: number) {
     products.find((product) => {
       if (product.id === id) {
@@ -110,7 +125,19 @@
       },
     },
   ]
-  let currentProduct = {}
+  let currentProduct: Product = {
+    id: 0,
+    name: "",
+    tagline: "",
+    description: "",
+    price: "",
+    image: "",
+    dimensions: {
+      width: "",
+      height: "",
+      depth: "",
+    },
+  }
   function getRandomProduct() {
     return products[Math.floor(Math.random() * products.length)]
   }

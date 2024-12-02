@@ -2,20 +2,24 @@
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "$lib/assets/fonts/23-onboarding/stylesheet.css"
-  const resortName = "Mystic Cliffs Resort"
-  let firstName = ""
-  let emailAddress = ""
   import CabinImage from "$lib/assets/images/23-onboarding/mystic-cabin.jpg"
   import DockImage from "$lib/assets/images/23-onboarding/lakeside-cabin.jpg"
   import RoadImage from "$lib/assets/images/23-onboarding/mystic-road.jpg"
+
+  const resortName = "Mystic Cliffs Resort"
+  let firstName = ""
+  let emailAddress = ""
+  let currentStep = 1
+
   function nextButton() {
     console.log("Next button clicked")
     currentStep += 1
   }
+
   function prevButton() {
     currentStep -= 1
   }
-  let currentStep = 1
+
   $: processSteps = [
     {
       backgroundImage: RoadImage,

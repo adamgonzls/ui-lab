@@ -23,7 +23,7 @@ export const projects = [
     link: "/03-landing-page",
     name: "Landing Page",
     description:
-      "A brand landing page featuring a scrolling marquee made with HTML and CSS only, utilizes CSS animations, and CSS clip path.",
+      "A visually engaging brand landing page showcasing a scrolling marquee created with HTML and CSS. The page uses CSS animations and the clip-path property to craft dynamic motion effects, delivering an eye-catching user experience.",
     mockup:
       "https://dribbble.com/shots/21675109-AR-Social-Network-Landing-Page",
   },
@@ -32,7 +32,7 @@ export const projects = [
     link: "/06-user-profile",
     name: "User Profile",
     description:
-      "GitHub user search page utilizes stores, local storage, GitHub API and more.",
+      "A GitHub user search app built with TypeScript, utilizing the GitHub Search and User APIs. This project implements Svelte stores and local storage to provide a responsive and persistent user experience, allowing users to search and explore detailed GitHub profiles with ease.",
     mockup: "https://dribbble.com/shots/16979679-User-Profiles",
   },
   {
@@ -55,7 +55,8 @@ export const projects = [
     imageSrc: EcommerceShopAvatar,
     link: "/12-ecommerce-shop",
     name: "Ecommerce Shop",
-    description: "An ecommerce shop product page featuring CSS blobs",
+    description:
+      "An interactive product page featuring funky CSS blobs for unique visual accents. This project leverages state management to dynamically display the selected furniture item and utilizes TypeScript.",
     mockup:
       "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
@@ -63,7 +64,8 @@ export const projects = [
     imageSrc: OnboardingAvatar,
     link: "/23-onboarding",
     name: "Onboarding",
-    description: "An onboarding process for a resort",
+    description:
+      "An interactive onboarding process designed for a resort, featuring state management for progress tracking and handling user input. This project also incorporates AI-generated imagery to enhance the visual experience.",
     mockup: "https://dribbble.com/shots/23720030-Daily-UI-024-Boarding-Pass",
   },
   {
@@ -77,7 +79,8 @@ export const projects = [
     imageSrc: WeatherAvatar,
     link: "/37-weather",
     name: "Weather",
-    description: "A weather app",
+    description:
+      "A weather app that uses TypeScript, the OpenWeather API, and the Geocoding API to provide accurate and detailed weather information. Users can search for a city, view location matches, and select a city to display its current weather and 5-day forecast. The app demonstrates seamless API integration and an intuitive user experience.",
     mockup: "https://dribbble.com/shots/20675054-Mobile-Weather-app",
   },
   {

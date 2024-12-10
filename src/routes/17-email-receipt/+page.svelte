@@ -2,6 +2,7 @@
   import "$lib/assets/fonts/17-email-receipt/stylesheet.css"
   import blueBird from "$lib/assets/images/17-email-receipt/bluebird.png"
   import money from "$lib/assets/images/17-email-receipt/money-400w.png"
+  import Heart from "../../components/17-email-receipt/heart.svelte"
   const date = new Date()
   const formattedDate = date
     .toLocaleString("en-US", {
@@ -41,6 +42,7 @@
   <img class="money" src={money} alt="" />
   <main>
     <img class="bird" src={blueBird} alt="" />
+    <Heart classes="heart--50 heart fade-out" />
     <div class="receipt">
       <h1>Luxe & Lineage Design Co.</h1>
       <span>{formattedDate}</span>

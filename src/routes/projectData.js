@@ -3,6 +3,7 @@ import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-a
 import FourOhFourPageAvatar from "$lib/assets/images/page-avatars/04-404-page-avatar.jpg"
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
+import EmailReceiptAvatar from "$lib/assets/images/page-avatars/17-email-receipt-avatar-400w.jpg"
 import OnboardingAvatar from "$lib/assets/images/page-avatars/23-onboarding-avatar.jpg"
 import BoardingPassAvatar from "$lib/assets/images/page-avatars/24-boarding-pass-avatar.jpg"
 import WeatherAvatar from "$lib/assets/images/page-avatars/37-weather-avatar.jpg"
@@ -61,7 +62,7 @@ export const projects = [
       "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
   {
-    imageSrc: EcommerceShopAvatar,
+    imageSrc: EmailReceiptAvatar,
     link: "/17-email-receipt",
     name: "Email Receipt",
     description:

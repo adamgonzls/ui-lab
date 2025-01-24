@@ -16,7 +16,7 @@
     name: string
     searchedCity?: string
     dt: number
-    weather: { description: string }[]
+    weather: { description: string; icon: string }[]
     main: { temp: number; feels_like: number; humidity: number }
     wind: { speed: number }
     visibility: number
@@ -58,7 +58,7 @@
     name: "",
     searchedCity: "",
     dt: 0,
-    weather: [{ description: "" }],
+    weather: [{ description: "", icon: "" }],
     main: { temp: 0, feels_like: 0, humidity: 0 },
     wind: { speed: 0 },
     visibility: 0,
@@ -83,6 +83,7 @@
 
   function convertMetersToMiles(meters: number) {
     const miles = Math.round(meters * 0.000621371)
+    console.log(miles)
     return miles
   }
 
@@ -161,7 +162,7 @@
         // return result
         cityWeatherData.forecast = result
       }
-      // console.log(cityWeatherData)
+      console.log(cityWeatherData)
       formatDataCalculationDate(cityWeatherData.dt)
       foundCities = []
     } catch (error) {
@@ -207,6 +208,11 @@
         <span class="weather__city">{cityWeatherData.searchedCity}</span>
         <span class="weather__source">{cityWeatherData.name}</span>
         <span class="weather__date">{currentDate}</span>
+        <img
+          class="weather__icon"
+          src={`https://openweathermap.org/img/wn/${cityWeatherData.weather[0].icon}@2x.png`}
+          alt=""
+        />
         <span class="weather__description"
           >{cityWeatherData.weather[0].description}</span
         >
@@ -304,6 +310,7 @@
     width: 100%;
   }
   .results {
+    margin-top: 0.5em;
     display: flex;
     flex-wrap: wrap;
     list-style-type: none;
@@ -326,6 +333,7 @@
     border: none;
     background-color: transparent;
     color: white;
+    cursor: pointer;
   }
   .weather-data {
     margin-top: 1.25em;
@@ -355,6 +363,9 @@
     background-color: var(--midnight-black);
     color: white;
     border-radius: 9999px;
+  }
+  .weather__icon {
+    width: 50px;
   }
   .weather__description {
     margin-top: 0.5em;

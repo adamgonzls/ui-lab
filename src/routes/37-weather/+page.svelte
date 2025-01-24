@@ -212,14 +212,16 @@
         <span class="weather__city">{cityWeatherData.searchedCity}</span>
         <span class="weather__source">{cityWeatherData.name}</span>
         <span class="weather__date">{currentDate}</span>
-        <img
-          class="weather__icon"
-          src={`https://openweathermap.org/img/wn/${cityWeatherData.weather[0].icon}@2x.png`}
-          alt=""
-        />
-        <span class="weather__description"
-          >{cityWeatherData.weather[0].description}</span
-        >
+        <div class="weather__icon-description">
+          <img
+            class="weather__icon"
+            src={`https://openweathermap.org/img/wn/${cityWeatherData.weather[0].icon}@2x.png`}
+            alt=""
+          />
+          <span class="weather__description"
+            >{cityWeatherData.weather[0].description}</span
+          >
+        </div>
         <span class="weather__fahrenheit"
           >{cityWeatherData?.main?.temp
             ? `${Math.round(cityWeatherData.main.temp)}°F`
@@ -375,12 +377,16 @@
     color: white;
     border-radius: 9999px;
   }
-  .weather__icon {
+  .weather__icon-description {
     margin-top: 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .weather__icon {
     width: 50px;
   }
   .weather__description {
-    margin-top: 0.5em;
     font-size: 1rem;
     text-transform: capitalize;
   }

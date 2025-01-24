@@ -3,6 +3,7 @@
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
+  import WeatherVane from "$components/37-weather/WeatherVane.svelte"
 
   interface City {
     name: string // City name
@@ -178,7 +179,10 @@
 
 <div class="page">
   <main class="page__content">
-    <h1>WeatherVane</h1>
+    <div class="page__logo">
+      <WeatherVane classes="weatherVane--30" />
+      <h1>WeatherVane</h1>
+    </div>
     <label class="label__city-name" for="cityNameInput">City Name:</label>
     <input
       id="cityNameInput"
@@ -270,13 +274,15 @@
     --body-font: "Roboto", sans-serif;
   }
   .page {
-    height: 100vh;
+    min-height: 100vh;
     background-color: var(--midnight-black);
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .page__content {
+    margin-top: 1em;
+    margin-bottom: 1em;
     border-radius: 0.5rem;
     padding: 1.25rem;
     background-color: white;
@@ -301,6 +307,11 @@
     .page__content {
       width: 50%;
     }
+  }
+  .page__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
   }
   .label__city-name {
     font-size: 0.75rem;
@@ -365,6 +376,7 @@
     border-radius: 9999px;
   }
   .weather__icon {
+    margin-top: 0.5em;
     width: 50px;
   }
   .weather__description {

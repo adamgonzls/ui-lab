@@ -39,9 +39,9 @@
 </script>
 
 <div class="page">
-  <img class="money" src={money} alt="" />
+  <img class="money" src={money} alt="A fake dollar bill" />
   <main>
-    <img class="bird" src={blueBird} alt="" />
+    <img class="bird" src={blueBird} alt="A bluebird" />
     <Heart classes="heart--50 heart fade-out" />
     <div class="receipt">
       <h1>Luxe & Lineage Design Co.</h1>
@@ -145,17 +145,27 @@
     font-family: var(--robot-font);
   }
   .bird {
-    width: 200px;
+    z-index: 1;
     position: absolute;
     top: 0;
-    left: -100px;
+    left: -60px;
+    width: 100px;
     transform: scaleX(-1);
   }
   .money {
     z-index: 1;
-    width: 300px;
     position: absolute;
     bottom: 0;
     right: 0;
+    width: 150px;
+  }
+  @media (min-width: 800px) {
+    .bird {
+      left: -100px;
+      width: 200px;
+    }
+    .money {
+      width: 300px;
+    }
   }
 </style>

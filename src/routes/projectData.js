@@ -65,8 +65,7 @@ export const projects = [
     imageSrc: EmailReceiptAvatar,
     link: "/17-email-receipt",
     name: "Email Receipt",
-    description:
-      "An interactive product page featuring funky CSS blobs for unique visual accents. This project leverages state management to dynamically display the selected furniture item and utilizes TypeScript.",
+    description: "CSS Animations, AI-generated images",
     mockup:
       "https://www.behance.net/gallery/200966431/Checkout-Luv-Font?tracking_source=assets_search|email+receipt",
   },

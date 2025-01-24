@@ -3,6 +3,7 @@ import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-a
 import FourOhFourPageAvatar from "$lib/assets/images/page-avatars/04-404-page-avatar.jpg"
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
+import EmailReceiptAvatar from "$lib/assets/images/page-avatars/17-email-receipt-avatar-400w.jpg"
 import OnboardingAvatar from "$lib/assets/images/page-avatars/23-onboarding-avatar.jpg"
 import BoardingPassAvatar from "$lib/assets/images/page-avatars/24-boarding-pass-avatar.jpg"
 import WeatherAvatar from "$lib/assets/images/page-avatars/37-weather-avatar.jpg"
@@ -59,6 +60,14 @@ export const projects = [
       "An interactive product page featuring funky CSS blobs for unique visual accents. This project leverages state management to dynamically display the selected furniture item and utilizes TypeScript.",
     mockup:
       "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
+  },
+  {
+    imageSrc: EmailReceiptAvatar,
+    link: "/17-email-receipt",
+    name: "Email Receipt",
+    description: "CSS Animations, AI-generated images",
+    mockup:
+      "https://www.behance.net/gallery/200966431/Checkout-Luv-Font?tracking_source=assets_search|email+receipt",
   },
   {
     imageSrc: OnboardingAvatar,

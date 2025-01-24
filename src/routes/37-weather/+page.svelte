@@ -251,18 +251,6 @@
               </div>
             {/each}
           {/if}
-          <!-- <div class="weather__forecast-day">
-            26&deg; <h3>21 Jan</h3>
-          </div>
-          <div class="weather__forecast-day">
-            25&deg; <h3>22 Jan</h3>
-          </div>
-          <div class="weather__forecast-day">
-            27&deg; <h3>23 Jan</h3>
-          </div>
-          <div class="weather__forecast-day">
-            26&deg; <h3>24 Jan</h3>
-          </div> -->
         </div>
       </div>
     {/if}

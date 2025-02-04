@@ -3,6 +3,7 @@
   import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
+  import WeatherVane from "$components/37-weather/WeatherVane.svelte"
 
   interface City {
     name: string // City name
@@ -16,7 +17,7 @@
     name: string
     searchedCity?: string
     dt: number
-    weather: { description: string }[]
+    weather: { description: string; icon: string }[]
     main: { temp: number; feels_like: number; humidity: number }
     wind: { speed: number }
     visibility: number
@@ -58,7 +59,7 @@
     name: "",
     searchedCity: "",
     dt: 0,
-    weather: [{ description: "" }],
+    weather: [{ description: "", icon: "" }],
     main: { temp: 0, feels_like: 0, humidity: 0 },
     wind: { speed: 0 },
     visibility: 0,
@@ -83,6 +84,7 @@
 
   function convertMetersToMiles(meters: number) {
     const miles = Math.round(meters * 0.000621371)
+    console.log(miles)
     return miles
   }
 
@@ -161,7 +163,7 @@
         // return result
         cityWeatherData.forecast = result
       }
-      // console.log(cityWeatherData)
+      console.log(cityWeatherData)
       formatDataCalculationDate(cityWeatherData.dt)
       foundCities = []
     } catch (error) {
@@ -177,7 +179,10 @@
 
 <div class="page">
   <main class="page__content">
-    <h1>WeatherVane</h1>
+    <div class="page__logo">
+      <WeatherVane classes="weatherVane--30" />
+      <h1>WeatherVane</h1>
+    </div>
     <label class="label__city-name" for="cityNameInput">City Name:</label>
     <input
       id="cityNameInput"
@@ -207,9 +212,16 @@
         <span class="weather__city">{cityWeatherData.searchedCity}</span>
         <span class="weather__source">{cityWeatherData.name}</span>
         <span class="weather__date">{currentDate}</span>
-        <span class="weather__description"
-          >{cityWeatherData.weather[0].description}</span
-        >
+        <div class="weather__icon-description">
+          <img
+            class="weather__icon"
+            src={`https://openweathermap.org/img/wn/${cityWeatherData.weather[0].icon}@2x.png`}
+            alt=""
+          />
+          <span class="weather__description"
+            >{cityWeatherData.weather[0].description}</span
+          >
+        </div>
         <span class="weather__fahrenheit"
           >{cityWeatherData?.main?.temp
             ? `${Math.round(cityWeatherData.main.temp)}°F`
@@ -264,13 +276,15 @@
     --body-font: "Roboto", sans-serif;
   }
   .page {
-    height: 100vh;
+    min-height: 100vh;
     background-color: var(--midnight-black);
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .page__content {
+    margin-top: 1em;
+    margin-bottom: 1em;
     border-radius: 0.5rem;
     padding: 1.25rem;
     background-color: white;
@@ -296,6 +310,11 @@
       width: 50%;
     }
   }
+  .page__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
   .label__city-name {
     font-size: 0.75rem;
     font-weight: bold;
@@ -304,6 +323,7 @@
     width: 100%;
   }
   .results {
+    margin-top: 0.5em;
     display: flex;
     flex-wrap: wrap;
     list-style-type: none;
@@ -326,6 +346,7 @@
     border: none;
     background-color: transparent;
     color: white;
+    cursor: pointer;
   }
   .weather-data {
     margin-top: 1.25em;
@@ -356,8 +377,16 @@
     color: white;
     border-radius: 9999px;
   }
-  .weather__description {
+  .weather__icon-description {
     margin-top: 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .weather__icon {
+    width: 50px;
+  }
+  .weather__description {
     font-size: 1rem;
     text-transform: capitalize;
   }

@@ -10,7 +10,7 @@
   import concreteBench from "$lib/assets/images/12-ecommerce-shop/concrete-wood-bench-327w.png"
   import peachCouch from "$lib/assets/images/12-ecommerce-shop/peach-couch-301w.png"
   import shoppingBag from "$lib/assets/images/12-ecommerce-shop/purse-wallet.svg"
-  import Arrow from "../../components/12-ecommerce-shop/Arrow.svelte"
+  import Arrow from "$components/12-ecommerce-shop/Arrow.svelte"
 
   interface Product {
     id: number

@@ -1,7 +1,7 @@
 <script>
-  import Moon from "../../components/04-404-page/Moon.svelte"
-  import Astronaut from "../../components/04-404-page/Astronaut.svelte"
-  import FallingStar from "../../components/04-404-page/FallingStar.svelte"
+  import Moon from "$components/04-404-page/Moon.svelte"
+  import Astronaut from "$components/04-404-page/Astronaut.svelte"
+  import FallingStar from "$components/04-404-page/FallingStar.svelte"
   function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min
   }

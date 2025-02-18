@@ -1,6 +1,9 @@
 <script>
   import "$lib/assets/fonts/05-app-icon/stylesheet.css"
   import AloeVera from "$components/05-app-icon/AloeVera.svelte"
+  import AloeVeraAlt from "$components/05-app-icon/AloeVeraAlt.svelte"
+  import AloeVeraEmptyLight from "$components/05-app-icon/AloeVeraEmptyLight.svelte"
+  import AloeVeraEmptyDark from "$components/05-app-icon/AloeVeraEmptyDark.svelte"
   const brandColors = [
     {
       color: "#297373",
@@ -25,11 +28,61 @@
 
 <main class="page">
   <h1 class="page__title">Herbarium House</h1>
-  <AloeVera classes="aloe-400" />
-  <h2 class="logo__text">Herbarium House</h2>
-  {#each brandColors as item}
-    <div class="tile"></div>
-  {/each}
+  <p>
+    Herbarium House is a micro resort and botanical garden, offering a tranquil
+    escape where desert beauty meets refined comfort. The Aloe Vera emblem was
+    selected as a symbol of renewal and serenity.
+  </p>
+  <div class="identity">
+    <h2>Identity Logo:</h2>
+    <AloeVera classes="aloe-400" />
+    <h2 class="logo__text">Herbarium House</h2>
+  </div>
+  <div class="palette">
+    <h2>Color Palette:</h2>
+    <div class="palette__tiles">
+      {#each brandColors as { color }}
+        <div style="background-color:{color}" class="palette__color">
+          {color}
+        </div>
+      {/each}
+    </div>
+  </div>
+  <div class="logo">
+    <h2>Logos:</h2>
+    <h3>Primary Logo:</h3>
+    <div class="logo__tiles">
+      {#each brandColors as { color }}
+        <div style="background-color:{color}" class="logo__color">
+          <AloeVera classes="aloe-150" />
+        </div>
+      {/each}
+    </div>
+    <h3 class="logo__title--alt">Alternate Logo (Light):</h3>
+    <div class="logo__tiles">
+      {#each brandColors as { color }}
+        <div style="background-color:{color}" class="logo__color">
+          <AloeVeraAlt classes="aloe-150" />
+        </div>
+      {/each}
+    </div>
+    <h3 class="logo__title--alt">Alternate Logo (Empty Light):</h3>
+    <div class="logo__tiles">
+      {#each brandColors as { color }}
+        <div style="background-color:{color}" class="logo__color">
+          <AloeVeraEmptyLight classes="aloe-150" />
+        </div>
+      {/each}
+    </div>
+    <h3 class="logo__title--alt">Alternate Logo (Empty Dark):</h3>
+    <div class="logo__tiles">
+      {#each brandColors as { color }}
+        <div style="background-color:{color}" class="logo__color">
+          <AloeVeraEmptyDark classes="aloe-150" />
+        </div>
+      {/each}
+    </div>
+  </div>
 </main>
 
 <style>
@@ -40,6 +93,8 @@
     max-width: 1024px;
     margin-left: auto;
     margin-right: auto;
+    font-family: var(--eg-garamond-font);
+    font-weight: 500;
   }
   @media (min-width: 300px) {
     .page {
@@ -64,12 +119,12 @@
   h1,
   h2 {
     font-family: var(--eg-garamond-font);
-    font-weight: 500;
+    font-weight: 600;
     margin-top: 0;
     margin-bottom: 0;
   }
   .page__title {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
   .logo__text {
     font-size: 3.5rem;
@@ -77,5 +132,34 @@
     font-weight: 600;
     letter-spacing: 2px;
     color: #2b2b2b;
+  }
+  .logo__title--alt {
+    margin-top: 2rem;
+  }
+  .identity {
+    margin-top: 2rem;
+  }
+  .palette {
+    margin-top: 6rem;
+  }
+  .palette__tiles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .palette__color {
+    height: 100px;
+    border-radius: 10px;
+    padding: 0.25rem;
+    font-weight: 600;
+  }
+  .logo {
+    margin-top: 6rem;
+  }
+  .logo__tiles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .logo__color {
+    padding: 2rem;
   }
 </style>

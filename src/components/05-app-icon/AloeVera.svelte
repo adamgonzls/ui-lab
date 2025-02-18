@@ -221,7 +221,7 @@
 
 <style>
   .aloe-400 {
-    margin-top: 1rem;
+    margin-top: 6rem;
     margin-right: auto;
     margin-left: auto;
     width: 400px;

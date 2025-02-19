@@ -226,4 +226,12 @@
     margin-left: auto;
     width: 400px;
   }
+  .aloe-150 {
+    margin-right: auto;
+    margin-left: auto;
+    width: 150px;
+  }
+  .aloe-50 {
+    width: 50px;
+  }
 </style>

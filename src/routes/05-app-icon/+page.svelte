@@ -38,6 +38,11 @@
     <AloeVera classes="aloe-400" />
     <h2 class="logo__text">Herbarium House</h2>
   </div>
+  <div class="font">
+    <h2>Primary Font:</h2>
+    <p class="font__name">EB Garamond</p>
+    <p class="font__example">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+  </div>
   <div class="palette">
     <h2>Color Palette:</h2>
     <div class="palette__tiles">
@@ -139,6 +144,19 @@
   }
   .identity {
     margin-top: 2rem;
+  }
+  .font {
+    margin-top: 6rem;
+  }
+  .font__name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+  .font__example {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
   }
   .palette {
     margin-top: 6rem;

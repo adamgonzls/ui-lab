@@ -276,7 +276,6 @@
     margin-top: 2rem;
     text-align: center;
   }
-
   .pagination-step {
     width: 16px;
     height: 16px;
@@ -289,7 +288,6 @@
       opacity 0.3s ease,
       transform 0.3s ease;
   }
-
   .pagination-step.active {
     background: linear-gradient(135deg, #16abc5, #297373);
     opacity: 1;

@@ -165,6 +165,7 @@
     --button-hover: #1f5e5e;
     --button-disabled: #a0c4c4;
     --charcoal-black: #2b2b2b;
+    --pale-linen: #faf7f2;
   }
   h1,
   h2 {
@@ -190,7 +191,7 @@
   main {
     max-width: 100%;
     padding: 1rem;
-    background-color: #fff;
+    background-color: var(--pale-linen);
     border-radius: 10px;
   }
   @media screen and (min-width: 480px) {
@@ -244,6 +245,7 @@
     border-bottom: 2px solid var(--charcoal-black);
     padding: 0.5rem 1rem;
     width: 100%;
+    background-color: var(--pale-linen);
   }
   .step__buttons {
     display: flex;
@@ -256,7 +258,7 @@
     background-color: var(--accent-color);
     border-radius: 10px;
     border: none;
-    color: white;
+    color: var(--pale-linen);
     font-size: 1.15rem;
     font-family: var(--header-font);
     font-weight: 600;

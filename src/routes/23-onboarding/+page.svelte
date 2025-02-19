@@ -2,13 +2,37 @@
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
   import "$lib/assets/fonts/23-onboarding/stylesheet.css"
-  import CabinImage from "$lib/assets/images/23-onboarding/mystic-cabin.jpg"
-  import DockImage from "$lib/assets/images/23-onboarding/lakeside-cabin.jpg"
-  import RoadImage from "$lib/assets/images/23-onboarding/mystic-road.jpg"
+  import AloeVera from "$components/05-app-icon/AloeVera.svelte"
+  import DesertResortArch from "$lib/assets/images/23-onboarding/desert-resort-arch.jpg"
+  import DesertResort1 from "$lib/assets/images/23-onboarding/desert-resort-1.jpg"
+  import DesertResortPool from "$lib/assets/images/23-onboarding/desert-resort-pool.jpg"
+  import DesertResortHouseDeck from "$lib/assets/images/23-onboarding/desert-resort-house-deck.jpg"
+  const brandColors = [
+    {
+      color: "#297373",
+    },
+    {
+      color: "#F0AE8E",
+    },
+    {
+      color: "#C2D6C2",
+    },
+    {
+      color: "#C57045",
+    },
+    {
+      color: "#EAC787",
+    },
+    {
+      color: "#2B2B2B",
+    },
+  ]
 
-  const resortName = "Mystic Cliffs Resort"
-  let firstName = ""
-  let emailAddress = ""
+  const resortName = "Herbarium House"
+  let formData = {
+    firstName: "",
+    emailAddress: "",
+  }
   let currentStep = 1
 
   function nextButton() {
@@ -22,83 +46,101 @@
 
   $: processSteps = [
     {
-      backgroundImage: RoadImage,
+      backgroundImage: DesertResortArch,
       title: "Let's Get Started!",
       description:
         "We're so glad you've chosen to spend your time with us. To make your stay extra special, let's start by getting to know you a little better.",
+      labelText: "Please enter your first name:",
+      inputName: "firstNameInput",
+      inputType: "text",
+      variableKey: "firstName",
     },
     {
-      backgroundImage: DockImage,
-      title: `Hi ${firstName}!`,
-      description: `At ${resortName}, we take pride in personalizing every aspect of your experience. From amenities to special services, everything is designed with you in mind, ${firstName}.`,
+      backgroundImage: DesertResort1,
+      title: `Hi ${formData.firstName}!`,
+      description: `At ${resortName}, we take pride in personalizing every aspect of your experience. From amenities to special services, everything is designed with you in mind, ${formData.firstName}.`,
     },
     {
-      backgroundImage: CabinImage,
+      backgroundImage: DesertResortPool,
       title: "What's Your Email?",
       description:
         "We'll need your email to send you important updates and information about your stay.",
+      labelText: "Please enter your email address:",
+      inputName: "emailInput",
+      inputType: "email",
+      variableKey: "emailAddress",
+    },
+    {
+      backgroundImage: DesertResortHouseDeck,
+      title: `That's it! You're Registered, ${formData.firstName}`,
+      description: `
+        <p class="step__description--multiline">
+          Welcome to ${resortName}, where unforgettable memories are made.
+        </p>
+        <p class="step__description--multiline">
+          We've sent a confirmation to <strong>${formData.emailAddress}</strong>.
+          Check your inbox for important updates about your stay.
+        </p>
+        <p class="step__description--multiline">
+          We're thrilled to have you with us and can't wait to make your stay
+          special!
+        </p>
+        `,
     },
   ]
 </script>
 
 <div class="content-container">
   <main>
-    <h1>{resortName}</h1>
+    <div class="resort-header">
+      <AloeVera classes="aloe-50" />
+      <h1>{resortName}</h1>
+    </div>
     {#if currentStep <= processSteps.length}
-      {#each processSteps as step, i}
+      {#each processSteps as { backgroundImage, title, description, inputName, inputType, labelText, variableKey }, i}
         {#if currentStep === i + 1}
           <div class="step">
             <div
               class="hero__image"
-              style={`background-image: url('${step.backgroundImage}');`}
+              style={`background-image: url('${backgroundImage}');`}
             ></div>
-            <h2 class="step__title">{step.title}</h2>
-            <p class="step__description">
-              {step.description}
-            </p>
-            {#if currentStep === 1}
+            <h2 class="step__title">{title}</h2>
+            <div class="step__description">
+              {@html description}
+            </div>
+            {#if labelText}
               <div class="step__form">
-                <label class="step__label" for="firstName"
-                  >Please enter your first name:</label
-                >
+                <label class="step__label" for={inputName}>{labelText}</label>
                 <input
                   class="step__input"
-                  id="firstNameInput"
+                  id={inputName}
                   type="text"
-                  bind:value={firstName}
-                />
-              </div>
-            {/if}
-            {#if currentStep === processSteps.length}
-              <div class="step__form">
-                <label class="step__label" for="firstName"
-                  >Please enter your email address:</label
-                >
-                <input
-                  class="step__input"
-                  id="emailInput"
-                  type="text"
-                  bind:value={emailAddress}
+                  bind:value={formData[variableKey]}
                 />
               </div>
             {/if}
             <div class="step__buttons">
-              <button
-                class="step__button {currentStep === 1
-                  ? 'step__button--disabled'
-                  : ''}"
-                disabled={currentStep === 1}
-                on:click={prevButton}>Previous</button
-              >
-              <button
-                class="step__button"
-                disabled={!firstName ||
-                  (currentStep === processSteps.length && !emailAddress)}
-                on:click={nextButton}
-                >{processSteps.length === currentStep
-                  ? "Finish"
-                  : "Continue"}</button
-              >
+              {#if currentStep < processSteps.length}
+                <button
+                  class="step__button {currentStep === 1
+                    ? 'step__button--disabled'
+                    : ''}"
+                  disabled={currentStep === 1}
+                  on:click={prevButton}>Previous</button
+                >
+                <button
+                  class="step__button"
+                  disabled={!formData.firstName ||
+                    (currentStep === processSteps.length &&
+                      !formData.emailAddress)}
+                  on:click={nextButton}
+                  >{processSteps.length - 1 === currentStep
+                    ? "Finish"
+                    : "Continue"}</button
+                >
+              {:else}
+                <button class="step__button" on:click={prevButton}>Back</button>
+              {/if}
             </div>
             <div class="pagination">
               {#each processSteps as step, index}
@@ -111,45 +153,35 @@
           </div>
         {/if}
       {/each}
-    {:else}
-      <div class="greeting-page">
-        <h2 class="greeting-page__title step__title">
-          That's it! You're Registered, {firstName}!
-        </h2>
-        <p class="step__description">
-          Welcome to {resortName}, where unforgettable memories are made.
-        </p>
-        <p class="step__description">
-          We've sent a confirmation to <strong>{emailAddress}</strong>. Check
-          your inbox for important updates about your stay.
-        </p>
-        <p class="step__description">
-          We're thrilled to have you with us and can't wait to make your stay
-          special!
-        </p>
-        <div class="step__buttons">
-          <button class="step__button" on:click={prevButton}>Back</button>
-        </div>
-      </div>
     {/if}
   </main>
 </div>
 
 <style>
   :root {
-    --header-font: "Oleo Script", serif;
+    --header-font: "EB Garamond", serif;
     --body-font: "Open Sans", sans-serif;
-    --accent-color: #cb5a8a;
+    --accent-color: #297373;
+    --button-hover: #1f5e5e;
+    --button-disabled: #a0c4c4;
+    --charcoal-black: #2b2b2b;
+  }
+  h1,
+  h2 {
+    font-family: var(--header-font);
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #000000;
   }
   h1 {
-    font-family: var(--header-font);
     font-size: 2rem;
-    letter-spacing: -0.1rem;
-    color: var(--accent-color);
+  }
+  h2 {
+    font-size: 1.5rem;
   }
   .content-container {
-    background-color: #9eb3df;
-    height: 100vh;
+    background-color: #eac787;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,21 +209,27 @@
       max-width: 65%;
     }
   }
+  .resort-header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .step {
+    margin-top: 0.5rem;
+  }
   .step__title {
     margin-top: 1rem;
     font-family: var(--header-font);
-    letter-spacing: -0.1rem;
-    color: var(--accent-color);
   }
-  .step__description {
+  .step__description,
+  :global(.step__description--multiline) {
     margin-top: 1rem;
   }
   .hero__image {
     border-radius: 10px;
     width: 100%;
-    height: 300px;
+    height: 400px;
     object-fit: cover;
-    background-image: url($lib/assets/images/23-onboarding/mystic-cabin.jpg);
     background-size: cover;
     background-position: center;
   }
@@ -203,31 +241,35 @@
   }
   .step__input {
     border: none;
-    border-bottom: 2px solid #9eb3df;
+    border-bottom: 2px solid var(--charcoal-black);
     padding: 0.5rem 1rem;
     width: 100%;
   }
   .step__buttons {
     display: flex;
-    margin-top: 1rem;
+    margin-top: 3rem;
     justify-content: center;
     gap: 0.5rem;
   }
   .step__button {
     padding: 0.5rem 1rem;
-    background-color: #cb5a8a;
+    background-color: var(--accent-color);
     border-radius: 10px;
     border: none;
     color: white;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-family: var(--header-font);
+    font-weight: 600;
     cursor: pointer;
+    transition:
+      background-color 100ms ease-in-out,
+      opacity 200ms ease-in-out;
   }
   .step__button:hover:not(.step__button--disabled) {
-    background-color: #b6376d;
+    background-color: var(--button-hover);
   }
   .step__button--disabled {
-    background-color: #c2849e;
+    background-color: var(--button-disabled);
     cursor: not-allowed;
   }
   .pagination {
@@ -238,12 +280,7 @@
   .pagination-step {
     width: 16px;
     height: 16px;
-    background: linear-gradient(
-      135deg,
-      #ff7eb3,
-      #ffb6d5,
-      #e1a3ff
-    ); /* Deep pink, soft pink, and lavender */
+    background: linear-gradient(135deg, #16abc5, #297373);
     border-radius: 50%;
     margin: 0 5px;
     display: inline-block;
@@ -254,15 +291,10 @@
   }
 
   .pagination-step.active {
-    background: linear-gradient(
-      135deg,
-      #ff4f8b,
-      #ff8fbf,
-      #d48fff
-    ); /* Richer pinks and purples for active state */
+    background: linear-gradient(135deg, #16abc5, #297373);
     opacity: 1;
     transform: scale(1.1); /* Slightly enlarge to indicate progress */
-    box-shadow: 0 0 12px rgba(255, 79, 139, 0.6); /* Add a deep pink glow */
+    box-shadow: 0 0 12px rgba(22, 171, 197, 0.6);
   }
   .accent--text {
     font-family: var(--header-font);

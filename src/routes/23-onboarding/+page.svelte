@@ -182,10 +182,11 @@
     font-size: 1.5rem;
   }
   .content-container {
-    background-color: #eac787;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #eac787;
     font-family: var(--body-font);
   }
   main {

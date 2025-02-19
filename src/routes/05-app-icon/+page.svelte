@@ -93,6 +93,7 @@
     max-width: 1024px;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 6rem;
     font-family: var(--eg-garamond-font);
     font-weight: 500;
   }
@@ -148,7 +149,6 @@
   }
   .palette__color {
     height: 100px;
-    border-radius: 10px;
     padding: 0.25rem;
     font-weight: 600;
   }

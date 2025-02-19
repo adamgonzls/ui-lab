@@ -35,6 +35,9 @@ export const projects = [
     name: "App Icon",
     description:
       "A compass icon idea developed with AI, implemented with Affinity Designer",
+    metaTitle: "App Icon",
+    metaDescription:
+      "A compass icon idea developed with AI, implemented with Affinity Designer",
   },
   {
     imageSrc: UserProfilePageAvatar,

@@ -33,17 +33,17 @@
     escape where desert beauty meets refined comfort. The Aloe Vera emblem was
     selected as a symbol of renewal and serenity.
   </p>
-  <div class="identity">
+  <section class="identity">
     <h2>Identity Logo:</h2>
     <AloeVera classes="aloe-400" />
     <h2 class="logo__text">Herbarium House</h2>
-  </div>
-  <div class="font">
+  </section>
+  <section>
     <h2>Primary Font:</h2>
     <p class="font__name">EB Garamond</p>
     <p class="font__example">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-  </div>
-  <div class="palette">
+  </section>
+  <section>
     <h2>Color Palette:</h2>
     <div class="palette__tiles">
       {#each brandColors as { color }}
@@ -52,8 +52,8 @@
         </div>
       {/each}
     </div>
-  </div>
-  <div class="logo">
+  </section>
+  <section>
     <h2>Logos:</h2>
     <h3>Primary Logo:</h3>
     <div class="logo__tiles">
@@ -87,7 +87,7 @@
         </div>
       {/each}
     </div>
-  </div>
+  </section>
 </main>
 
 <style>
@@ -129,6 +129,9 @@
     margin-top: 0;
     margin-bottom: 0;
   }
+  section {
+    margin-top: 6rem;
+  }
   .page__title {
     margin-top: 1rem;
   }
@@ -140,13 +143,10 @@
     color: #2b2b2b;
   }
   .logo__title--alt {
-    margin-top: 2rem;
+    margin-top: 4rem;
   }
   .identity {
     margin-top: 2rem;
-  }
-  .font {
-    margin-top: 6rem;
   }
   .font__name {
     font-size: 1.5rem;
@@ -158,9 +158,6 @@
     font-weight: 600;
     letter-spacing: 2px;
   }
-  .palette {
-    margin-top: 6rem;
-  }
   .palette__tiles {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -169,9 +166,6 @@
     height: 100px;
     padding: 0.25rem;
     font-weight: 600;
-  }
-  .logo {
-    margin-top: 6rem;
   }
   .logo__tiles {
     display: grid;

@@ -51,7 +51,8 @@
       description:
         "We're so glad you've chosen to spend your time with us. To make your stay extra special, let's start by getting to know you a little better.",
       labelText: "Please enter your first name:",
-      inputName: "firstNameInput",
+      inputId: "firstNameInput",
+      inputName: "firstName",
       inputType: "text",
       variableKey: "firstName",
     },
@@ -66,7 +67,8 @@
       description:
         "We'll need your email to send you important updates and information about your stay.",
       labelText: "Please enter your email address:",
-      inputName: "emailInput",
+      inputId: "emailInput",
+      inputName: "emailAddress",
       inputType: "email",
       variableKey: "emailAddress",
     },
@@ -97,7 +99,7 @@
       <h1>{resortName}</h1>
     </div>
     {#if currentStep <= processSteps.length}
-      {#each processSteps as { backgroundImage, title, description, inputName, inputType, labelText, variableKey }, i}
+      {#each processSteps as { backgroundImage, title, description, inputId, inputName, inputType, labelText, variableKey }, i}
         {#if currentStep === i + 1}
           <div class="step">
             <div
@@ -110,10 +112,11 @@
             </div>
             {#if labelText}
               <div class="step__form">
-                <label class="step__label" for={inputName}>{labelText}</label>
+                <label class="step__label" for={inputId}>{labelText}</label>
                 <input
                   class="step__input"
-                  id={inputName}
+                  id={inputId}
+                  name={inputName}
                   type="text"
                   bind:value={formData[variableKey]}
                 />

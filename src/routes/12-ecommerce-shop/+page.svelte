@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte"
   import "$lib/assets/fonts/12-ecommerce-shop/stylesheet.css"
-  import "../../styles.css"
   import fabricChair from "$lib/assets/images/12-ecommerce-shop/fabric-armchair-610w.png"
   import armchair from "$lib/assets/images/12-ecommerce-shop/modern-living-room-wooden-armchair-308w.png"
   import rockingChair from "$lib/assets/images/12-ecommerce-shop/rocking-chair-315w.png"

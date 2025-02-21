@@ -1,10 +1,12 @@
 <script lang="ts">
-  import Triangle from "./Triangle.svelte"
-  import Circle from "./Circle.svelte"
+  import Triangle from "$components/home/Triangle.svelte"
+  import Circle from "$components/home/Circle.svelte"
+  import defaultImage from "$lib/assets/images/purse-640w.jpg"
   export let link: string
   export let name: string
   export let description: string
   export let imageSrc: string
+  imageSrc = imageSrc && imageSrc.trim() ? imageSrc : defaultImage
   const rotationOptions = ["0deg", "90deg", "180deg", "270deg"]
   const colorOptions = [
     "var(--ocean-green)",
@@ -116,6 +118,8 @@
   }
 
   .project__description {
+    margin-top: 0.75rem;
+    line-height: 175%;
     max-width: 100%;
   }
   @media (min-width: 410px) {

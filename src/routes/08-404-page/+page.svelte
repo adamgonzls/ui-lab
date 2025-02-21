@@ -1,12 +1,11 @@
-<script>
-  import Moon from "../../components/04-404-page/Moon.svelte"
-  import Astronaut from "../../components/04-404-page/Astronaut.svelte"
-  import FallingStar from "../../components/04-404-page/FallingStar.svelte"
-  function getRandomArbitrary(min, max) {
+<script lang="ts">
+  import Moon from "$components/04-404-page/Moon.svelte"
+  import Astronaut from "$components/04-404-page/Astronaut.svelte"
+  import FallingStar from "$components/04-404-page/FallingStar.svelte"
+  function getRandomArbitrary(min: number, max: number) {
     return Math.random() * (max - min) + min
   }
   function getBorderRadius() {
-    // const random = Math.random()
     return `0 ${getRandomArbitrary(38, 88)}% ${getRandomArbitrary(58, 95)}% 0 / 0 ${getRandomArbitrary(28, 65)}% ${getRandomArbitrary(38, 95)}% 0`
   }
   const randomBorderRadius = getBorderRadius()

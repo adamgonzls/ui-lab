@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte"
   import "$lib/assets/fonts/12-ecommerce-shop/stylesheet.css"
-  import "../../styles.css"
   import fabricChair from "$lib/assets/images/12-ecommerce-shop/fabric-armchair-610w.png"
   import armchair from "$lib/assets/images/12-ecommerce-shop/modern-living-room-wooden-armchair-308w.png"
   import rockingChair from "$lib/assets/images/12-ecommerce-shop/rocking-chair-315w.png"
@@ -10,7 +9,7 @@
   import concreteBench from "$lib/assets/images/12-ecommerce-shop/concrete-wood-bench-327w.png"
   import peachCouch from "$lib/assets/images/12-ecommerce-shop/peach-couch-301w.png"
   import shoppingBag from "$lib/assets/images/12-ecommerce-shop/purse-wallet.svg"
-  import Arrow from "../../components/12-ecommerce-shop/Arrow.svelte"
+  import Arrow from "$components/12-ecommerce-shop/Arrow.svelte"
 
   interface Product {
     id: number

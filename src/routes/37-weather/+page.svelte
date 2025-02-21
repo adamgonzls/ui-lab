@@ -1,6 +1,5 @@
 <script lang="ts">
   import { PUBLIC_OPENWEATHER_API_KEY } from "$env/static/public"
-  import "../../styles.css"
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
   import WeatherVane from "$components/37-weather/WeatherVane.svelte"

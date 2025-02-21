@@ -2,11 +2,10 @@
   import { onDestroy } from "svelte"
   import { userList } from "../../stores"
   import "$lib/assets/fonts/06-user-profile/stylesheet.css"
-  import "../../styles.css"
   import Compass from "$lib/assets/images/compass.svelte"
   import GithubIcon from "$lib/assets/images/github-icon.svelte"
   import DocumentIcon from "$lib/assets/images/document-icon.svelte"
-  import RecentlyViewed from "../../components/06-user-profile/RecentlyViewed.svelte"
+  import RecentlyViewed from "$components/06-user-profile/RecentlyViewed.svelte"
 
   interface User {
     avatar_url: string

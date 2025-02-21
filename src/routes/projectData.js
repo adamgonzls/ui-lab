@@ -1,6 +1,7 @@
 import woman from "$lib/assets/images/woman-500w.jpg"
 import LandingPageAvatar from "$lib/assets/images/page-avatars/03-landing-page-avatar.jpg"
 import FourOhFourPageAvatar from "$lib/assets/images/page-avatars/04-404-page-avatar.jpg"
+import AppIconAvatar from "$lib/assets/images/page-avatars/05-app-icon-avatar.jpg"
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
 import EmailReceiptAvatar from "$lib/assets/images/page-avatars/17-email-receipt-avatar-400w.jpg"
@@ -29,6 +30,16 @@ export const projects = [
       "https://dribbble.com/shots/21675109-AR-Social-Network-Landing-Page",
   },
   {
+    imageSrc: AppIconAvatar,
+    link: "/05-app-icon",
+    name: "App Icon",
+    description:
+      "An aloe vera idea developed with AI, implemented with Affinity Designer",
+    metaTitle: "App Icon",
+    metaDescription:
+      "A compass icon idea developed with AI, implemented with Affinity Designer",
+  },
+  {
     imageSrc: UserProfilePageAvatar,
     link: "/06-user-profile",
     name: "User Profile",
@@ -43,14 +54,6 @@ export const projects = [
     description: "404 page with CSS animations",
     mockup:
       "https://www.behance.net/gallery/196522715/My-Daily-UI-008-Error-404-Page?tracking_source=search_projects|404+page+web+design&l=20",
-  },
-  {
-    imageSrc: purse,
-    link: "",
-    name: "Credit Card Checkout",
-    description: "Some important words about this project",
-    mockup:
-      "https://dribbble.com/shots/4565117-Furniture-Ecommerce-Shop-Product-Card",
   },
   {
     imageSrc: EcommerceShopAvatar,

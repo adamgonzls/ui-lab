@@ -1,9 +1,9 @@
 <script>
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/03-landing-page/stylesheet.css"
-  import Header from "../../components/03-landing-page/Header.svelte"
-  import Hero from "../../components/03-landing-page/Hero.svelte"
-  import Marquee from "../../components/03-landing-page/Marquee.svelte"
+  import Header from "$components/03-landing-page/Header.svelte"
+  import Hero from "$components/03-landing-page/Hero.svelte"
+  import Marquee from "$components/03-landing-page/Marquee.svelte"
 </script>
 
 <div class="main-container">

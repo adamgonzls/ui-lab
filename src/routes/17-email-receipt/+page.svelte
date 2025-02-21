@@ -2,7 +2,7 @@
   import "$lib/assets/fonts/17-email-receipt/stylesheet.css"
   import blueBird from "$lib/assets/images/17-email-receipt/bluebird.png"
   import money from "$lib/assets/images/17-email-receipt/money-400w.png"
-  import Heart from "../../components/17-email-receipt/heart.svelte"
+  import Heart from "$components/17-email-receipt/heart.svelte"
   const date = new Date()
   const formattedDate = date
     .toLocaleString("en-US", {

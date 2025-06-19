@@ -3,6 +3,7 @@
   import "$lib/assets/fonts/stylesheet.css"
   import "$lib/assets/fonts/37-weather/stylesheet.css"
   import WeatherVane from "$components/37-weather/WeatherVane.svelte"
+  import Spinner from "$components/37-weather/Spinner.svelte"
 
   interface City {
     name: string // City name
@@ -50,9 +51,12 @@
     low: number
   }
 
+  let isLoading = false
+  let hasSearched = false
   let debounceTimeout: number
   let cityNameQuery = ""
   let foundCities: City[] = []
+  let selectedCities: CityWeatherData[] = []
   let currentDate = ""
   let cityWeatherData: CityWeatherData = {
     name: "",
@@ -83,7 +87,6 @@
 
   function convertMetersToMiles(meters: number) {
     const miles = Math.round(meters * 0.000621371)
-    console.log(miles)
     return miles
   }
 
@@ -99,8 +102,17 @@
   async function getCities() {
     clearTimeout(debounceTimeout)
 
+    if (cityNameQuery.trim() === "") {
+      foundCities = []
+      isLoading = false
+      hasSearched = false
+      return // 👈 Prevents API call if empty
+    }
+
     // Allow the user to stop typing before making the API call
     debounceTimeout = setTimeout(async () => {
+      isLoading = true
+      hasSearched = false
       // Make API call here cityNameQuery
       try {
         const response = await fetch(
@@ -111,6 +123,9 @@
         foundCities = data as City[]
       } catch (error) {
         console.log(error)
+      } finally {
+        isLoading = false
+        hasSearched = true
       }
     }, 1000) // Adjust the delay as needed
   }
@@ -158,13 +173,16 @@
             low,
           })
         )
-
+        hasSearched = false
         // return result
         cityWeatherData.forecast = result
       }
-      console.log(cityWeatherData)
+      // console.log(cityWeatherData)
       formatDataCalculationDate(cityWeatherData.dt)
       foundCities = []
+      selectedCities.push(cityWeatherData)
+      console.log(selectedCities)
+      cityNameQuery = ""
     } catch (error) {
       console.log(error)
     }
@@ -190,22 +208,33 @@
       on:input={getCities}
       type="text"
       placeholder="Enter a city name"
+      autocomplete="off"
     />
-    {#if foundCities.length > 0}
-      <ul class="results">
-        {#each foundCities as foundCity}
-          <li class="results__item">
-            <button
-              class="results__button"
-              on:click={() => getCurrentWeather(foundCity)}
-            >
-              {foundCity.name},{foundCity.state ? ` ${foundCity.state},` : ""}
-              {foundCity.country}
-            </button>
-          </li>
-        {/each}
-      </ul>
-    {/if}
+
+    <div>
+      {#if isLoading}
+        <Spinner />
+      {/if}
+      {#if foundCities.length > 0}
+        <ul class="results">
+          {#each foundCities as foundCity}
+            <li class="results__item">
+              <button
+                class="results__button"
+                on:click={() => getCurrentWeather(foundCity)}
+              >
+                {foundCity.name},{foundCity.state ? ` ${foundCity.state},` : ""}
+                {foundCity.country}
+              </button>
+            </li>
+          {/each}
+        </ul>
+      {:else if hasSearched && cityNameQuery !== "" && !isLoading}
+        <p>No cities were found with that name.</p>
+        <p class="hint">Keep typing or double-check your spelling</p>
+      {/if}
+    </div>
+
     {#if cityWeatherData.name !== ""}
       <div class="weather-data">
         <span class="weather__city">{cityWeatherData.searchedCity}</span>
@@ -215,7 +244,7 @@
           <img
             class="weather__icon"
             src={`https://openweathermap.org/img/wn/${cityWeatherData.weather[0].icon}@2x.png`}
-            alt=""
+            alt={cityWeatherData.weather[0].description}
           />
           <span class="weather__description"
             >{cityWeatherData.weather[0].description}</span
@@ -320,6 +349,10 @@
   }
   .input__city-name {
     width: 100%;
+  }
+  .hint {
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   .results {
     margin-top: 0.5em;

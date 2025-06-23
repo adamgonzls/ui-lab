@@ -5,7 +5,7 @@ import AppIconAvatar from "$lib/assets/images/page-avatars/05-app-icon-avatar.jp
 import UserProfilePageAvatar from "$lib/assets/images/page-avatars/06-user-profile-avatar.jpg"
 import EcommerceShopAvatar from "$lib/assets/images/page-avatars/12-ecommerce-shop-avatar.jpg"
 import EmailReceiptAvatar from "$lib/assets/images/page-avatars/17-email-receipt-avatar-400w.jpg"
-import OnboardingAvatar from "$lib/assets/images/page-avatars/23-onboarding-avatar.jpg"
+import OnboardingAvatar from "$lib/assets/images/page-avatars/23-onboarding-avatar-400w.png"
 import BoardingPassAvatar from "$lib/assets/images/page-avatars/24-boarding-pass-avatar.jpg"
 import WeatherAvatar from "$lib/assets/images/page-avatars/37-weather-avatar.jpg"
 import dogBeanie from "$lib/assets/images/dog-beanie-640w.jpg"

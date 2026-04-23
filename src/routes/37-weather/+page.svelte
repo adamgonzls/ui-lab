@@ -4,6 +4,7 @@
   import "$lib/assets/fonts/37-weather/stylesheet.css"
   import WeatherVane from "$components/37-weather/WeatherVane.svelte"
   import Spinner from "$components/37-weather/Spinner.svelte"
+    import { error } from "@sveltejs/kit";
 
   interface City {
     name: string // City name
@@ -54,6 +55,7 @@
   let isLoading = false
   let hasSearched = false
   let debounceTimeout: number
+  let errorMessage: string | null = null
   let cityNameQuery = ""
   let foundCities: City[] = []
   let selectedCities: CityWeatherData[] = []
@@ -102,32 +104,86 @@
   async function getCities() {
     clearTimeout(debounceTimeout)
 
-    if (cityNameQuery.trim() === "") {
+    const query = cityNameQuery.trim()
+
+    if (query === "") {
       foundCities = []
       isLoading = false
       hasSearched = false
+      errorMessage = null
       return // 👈 Prevents API call if empty
     }
 
     // Allow the user to stop typing before making the API call
     debounceTimeout = setTimeout(async () => {
+      const queryAtRequestTime = query
+      
+      if (!PUBLIC_OPENWEATHER_API_KEY) {
+        console.error("Missing API key")
+        errorMessage = "Search is temporarily unavailable. Please try again later."
+        foundCities = []
+        hasSearched = true
+        return
+      }
+
       isLoading = true
       hasSearched = false
+      errorMessage = null
       // Make API call here cityNameQuery
       try {
-        const response = await fetch(
-          `https://api.openweathermap.org/geo/1.0/direct?q=${cityNameQuery}&limit=5&appid=${PUBLIC_OPENWEATHER_API_KEY}`
-        )
+        const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(queryAtRequestTime)}&limit=5&appid=${PUBLIC_OPENWEATHER_API_KEY}` 
+        
+        const response = await fetch(url)
+
+        if (!response.ok) {
+          const body = await response.text()
+          console.error('OpenWeather API error', {
+            status: response.status,
+            statusText: response.statusText,
+            body,
+            query: queryAtRequestTime
+          })
+          errorMessage = 'We couldn’t fetch results right now. Please try again later.' 
+          throw new Error(`API error: ${response.status} ${response.statusText}`)
+        }
+
         const data = await response.json()
+        
+        if (!Array.isArray(data)) {
+          throw new Error('Unexpected API response format')
+        }
+
+        // Prevent stale overwrite
+        if (queryAtRequestTime !== cityNameQuery.trim()) return
+
         // the different cities that match the query
         foundCities = data as City[]
+
+        // Handle "no results" case
+        if (foundCities.length === 0) {
+          errorMessage = "No cities were found with that name. Try a different spelling or a more specific name."
+        }
+
       } catch (error) {
-        console.log(error)
+        console.error("City search failed", {
+          error,
+          query: queryAtRequestTime
+        })
+
+        // if (!navigator.onLine) {
+        //   errorMessage = 'Unable to connect. Check your internet connection and try again.'
+        // } else {
+        //   errorMessage = 'We couldn’t fetch results right now. Please try again in a moment.'
+        // }
+
+        foundCities = []
       } finally {
-        isLoading = false
-        hasSearched = true
+        if (queryAtRequestTime === cityNameQuery.trim()) {
+          isLoading = false
+          hasSearched = true
+        }
       }
-    }, 1000) // Adjust the delay as needed
+    }, 500) // Adjust the delay as needed
   }
 
   async function getCurrentWeather(selectedCity: City) {
@@ -177,11 +233,9 @@
         // return result
         cityWeatherData.forecast = result
       }
-      // console.log(cityWeatherData)
       formatDataCalculationDate(cityWeatherData.dt)
       foundCities = []
       selectedCities.push(cityWeatherData)
-      console.log(selectedCities)
       cityNameQuery = ""
     } catch (error) {
       console.log(error)
@@ -229,6 +283,8 @@
             </li>
           {/each}
         </ul>
+      {:else if errorMessage}
+        <p>{errorMessage}</p>
       {:else if hasSearched && cityNameQuery !== "" && !isLoading}
         <p>No cities were found with that name.</p>
         <p class="hint">Keep typing or double-check your spelling</p>
